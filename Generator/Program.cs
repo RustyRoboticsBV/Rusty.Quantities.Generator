@@ -1,4 +1,4 @@
-﻿using Quantities;
+﻿using Generator;
 
 FileGenerator.Generate("Time", "Represents a time quantity.");
 FileGenerator.Generate("Distance", "Represents a distance quantity.");

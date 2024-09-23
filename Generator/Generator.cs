@@ -1,6 +1,6 @@
 ﻿
 
-namespace Quantities
+namespace Generator
 {
     public static class Generator
     {
@@ -39,10 +39,10 @@ namespace Quantities
                 + "\n" + "        }"
                 + "\n"
                 + "\n" + "        /* Casting operators. */"
-                + "\n" + CastOperatorGenerator.GenerateAll(className)
+                + "\n" + CastOperatorGenerator.Generate(className)
                 + "\n"
                 + "\n" + "        /* Arithmetic operators. */"
-                + "\n" + MathOperatorGenerator.GenerateAll(className)
+                + "\n" + MathOperatorGenerator.Generate(className)
                 + "\n"
                 + "\n" + "        /* Public methods. */"
                 + "\n" + "        public readonly override string ToString() => value.ToString();"

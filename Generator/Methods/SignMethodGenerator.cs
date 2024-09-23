@@ -1,9 +1,13 @@
 ﻿
 
-namespace Quantities
+namespace Generator
 {
+    /// <summary>
+    /// A generator for sign methods.
+    /// </summary>
     public static class SignMethodGenerator
     {
+        /* Public methods. */
         public static string GenerateLocal(string className)
         {
             return MethodGenerator.GenerateSummary(GenerateDesc(className, false))
@@ -16,12 +20,7 @@ namespace Quantities
                 + "\n" + Generator.Indent + $"public static int Sign({className} value) => Mathd.Sign(value.value);";
         }
 
-        public static string GenerateBoth(string className)
-        {
-            return GenerateLocal(className)
-                + "\n" + GenerateStatic(className);
-        }
-
+        /* Private methods. */
         private static string GenerateDesc(string className, bool isStatic)
         {
             return $"Return the sign of {(isStatic ? "a" : "this")} {className.ToLower()} value; -1 if negative, 1 if positive and 0 if equal to 0.";

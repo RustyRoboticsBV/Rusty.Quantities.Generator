@@ -1,6 +1,6 @@
 ﻿
 
-namespace Quantities
+namespace Generator
 {
     public static class FileGenerator
     {
