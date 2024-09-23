@@ -10,7 +10,7 @@ namespace Generator
         /* Public methods. */
         public static string Generate(string className, string propertyName, string value)
         {
-            return Generator.Indent + $"public static {className} {propertyName} => new {className}({value});";
+            return ClassGenerator.Indent + $"public static {className} {propertyName} => new {className}({value});";
         }
     }
 }

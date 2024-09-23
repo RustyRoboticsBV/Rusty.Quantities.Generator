@@ -11,13 +11,13 @@ namespace Generator
         public static string GenerateLocal(string className)
         {
             return MethodGenerator.GenerateSummary(GetDesc(false, className))
-                + "\n" + Generator.Indent + $"public readonly {className} Clamp({className} min, {className} max) => new {className}(Mathd.Clamp(value, min.value, max.value));";
+                + "\n" + ClassGenerator.Indent + $"public readonly {className} Clamp({className} min, {className} max) => new {className}(Mathd.Clamp(value, min.value, max.value));";
         }
 
         public static string GenerateStatic(string className)
         {
             return MethodGenerator.GenerateSummary(GetDesc(true, className))
-                + "\n" + Generator.Indent + $"public static {className} Clamp({className} value, {className} min, {className} max) => new {className}(Mathd.Clamp(value.value, min.value, max.value));";
+                + "\n" + ClassGenerator.Indent + $"public static {className} Clamp({className} value, {className} min, {className} max) => new {className}(Mathd.Clamp(value.value, min.value, max.value));";
         }
 
         /* Private methods. */

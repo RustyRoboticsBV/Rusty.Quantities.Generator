@@ -25,12 +25,12 @@ namespace Generator
         /* Private methods. */
         private static string GenerateFromClassType(string className, string typeName, string plicit)
         {
-            return Generator.Indent + $"public static {plicit}plicit operator {typeName}({className} value) => {(typeName != "double" ? $"({typeName})" : "")}value.value;";
+            return ClassGenerator.Indent + $"public static {plicit}plicit operator {typeName}({className} value) => {(typeName != "double" ? $"({typeName})" : "")}value.value;";
         }
 
         private static string GenerateToClassType(string className, string typeName)
         {
-            return Generator.Indent + $"public static implicit operator {className}({typeName} value) => new {className}(value);";
+            return ClassGenerator.Indent + $"public static implicit operator {className}({typeName} value) => new {className}(value);";
         }
 
     }

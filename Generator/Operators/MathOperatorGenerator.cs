@@ -21,17 +21,17 @@ namespace Generator
         /* Private methods. */
         private static string GenerateCC(string className, char operatorSymbol)
         {
-            return Generator.Indent + $"public static {className} operator {operatorSymbol}({className} a, {className} b) => new {className}(a.value {operatorSymbol} b.value);";
+            return ClassGenerator.Indent + $"public static {className} operator {operatorSymbol}({className} a, {className} b) => new {className}(a.value {operatorSymbol} b.value);";
         }
 
         private static string GenerateTC(string typeName, char operatorName, string className)
         {
-            return Generator.Indent + $"public static {className} operator {operatorName}({typeName} a, {className} b) => new {className}(a {operatorName} b.value);";
+            return ClassGenerator.Indent + $"public static {className} operator {operatorName}({typeName} a, {className} b) => new {className}(a {operatorName} b.value);";
         }
 
         private static string GenerateCT(string className, char operatorSymbol, string typeName)
         {
-            return Generator.Indent + $"public static {className} operator {operatorSymbol}({className} a, {typeName} b) => new {className}(a.value {operatorSymbol} b);";
+            return ClassGenerator.Indent + $"public static {className} operator {operatorSymbol}({className} a, {typeName} b) => new {className}(a.value {operatorSymbol} b);";
         }
 
         private static string GenerateAll(string className, char operatorSymbol)
@@ -51,7 +51,7 @@ namespace Generator
 
         private static string GenerateUnaryMinus(string className)
         {
-            return Generator.Indent + $"public static {className} operator -({className} value) => new {className}(-value.value);";
+            return ClassGenerator.Indent + $"public static {className} operator -({className} value) => new {className}(-value.value);";
         }
     }
 }

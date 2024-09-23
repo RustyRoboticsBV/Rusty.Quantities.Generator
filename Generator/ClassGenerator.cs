@@ -2,22 +2,21 @@
 
 namespace Generator
 {
-    public static class Generator
+    /// <summary>
+    /// A generator for a quantity class.
+    /// </summary>
+    public static class ClassGenerator
     {
+        /* Public properties. */
+        public static string Namespace => "Modules.L0.Quantities";
         public static string Indent => new(' ', 8);
 
-        public static string GetAbsPath(string filePath)
-        {
-            if (filePath.StartsWith("."))
-                filePath = Path.GetFullPath(filePath);
-            return filePath;
-        }
-
+        /* Public methods. */
         public static string Generate(string className, string desc)
         {
             return "using System;"
                 + "\n"
-                + "\n" + "namespace Modules.L0.Quantities"
+                + "\n" + $"namespace {Namespace}"
                 + "\n" + "{"
                 + "\n" + "    /// <summary>"
                 + "\n" + "    /// " + desc

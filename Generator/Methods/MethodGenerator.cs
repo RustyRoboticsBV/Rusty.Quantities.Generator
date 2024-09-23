@@ -10,9 +10,9 @@ namespace Generator
         /* Public methods. */
         public static string GenerateSummary(string desc)
         {
-            return Generator.Indent + $"/// <summary>"
-                + "\n" + Generator.Indent + $"/// {desc}"
-                + "\n" + Generator.Indent + "/// </summary>";
+            return ClassGenerator.Indent + $"/// <summary>"
+                + "\n" + ClassGenerator.Indent + $"/// {desc}"
+                + "\n" + ClassGenerator.Indent + "/// </summary>";
         }
 
         public static string GenerateAll(string className)

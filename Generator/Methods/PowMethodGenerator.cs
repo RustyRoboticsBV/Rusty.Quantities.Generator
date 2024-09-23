@@ -11,13 +11,13 @@ namespace Generator
         public static string GenerateLocal(string className)
         {
             return MethodGenerator.GenerateSummary(GenerateDesc(className, false))
-                + "\n" + Generator.Indent + $"public readonly {className} Pow(double power) => new {className}(Mathd.Pow(value, power));";
+                + "\n" + ClassGenerator.Indent + $"public readonly {className} Pow(double power) => new {className}(Mathd.Pow(value, power));";
         }
 
         public static string GenerateStatic(string className)
         {
             return MethodGenerator.GenerateSummary(GenerateDesc(className, true))
-                + "\n" + Generator.Indent + $"public static {className} Pow({className} value, double power) => new {className}(Mathd.Pow(value.value, power));";
+                + "\n" + ClassGenerator.Indent + $"public static {className} Pow({className} value, double power) => new {className}(Mathd.Pow(value.value, power));";
         }
 
         /* Private methods. */
