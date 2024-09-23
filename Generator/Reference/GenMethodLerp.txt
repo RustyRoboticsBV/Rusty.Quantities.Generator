@@ -1,0 +1,4 @@
+        /// <summary>
+        /// __DESC_STATIC
+        /// </summary>
+        public static __RETURN __METHOD(__QUANTITY min, __QUANTITY max, double factor) => Mathd.__METHOD(min.value, max.value, factor);

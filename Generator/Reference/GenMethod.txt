@@ -1,0 +1,8 @@
+        /// <summary>
+        /// __DESC_LOCAL
+        /// </summary>
+        public readonly __RETURN __METHOD() => Mathd.__METHOD(value);
+        /// <summary>
+        /// __DESC_STATIC
+        /// </summary>
+        public static __RETURN __METHOD(__QUANTITY value) => Mathd.__METHOD(value.value);
