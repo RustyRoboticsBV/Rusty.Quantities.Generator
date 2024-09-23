@@ -11,7 +11,7 @@ namespace Generator
         public static string GenerateSummary(string desc)
         {
             return ClassGenerator.Indent + $"/// <summary>"
-                + "\n" + ClassGenerator.Indent + $"/// {desc}"
+                + "\n" + ClassGenerator.Indent + $"/// {desc.Replace("a a", "an a")}"
                 + "\n" + ClassGenerator.Indent + "/// </summary>";
         }
 
