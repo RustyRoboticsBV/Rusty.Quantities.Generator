@@ -59,6 +59,16 @@ namespace Generator
         /* Public methods. */
         public string GenerateMethod(string className, char returnParameter, string methodName)
         {
+            return GenerateMethod(className, returnParameter, methodName, "");
+        }
+
+        public string GenerateMethod(string className, char returnParameter, string methodName, string argOrder)
+        {
+            return GenerateMethod(className, returnParameter, methodName, argOrder, null);
+        }
+
+        public string GenerateMethod(string className, char returnParameter, string methodName, string argOrder, string methodDesc)
+        {
             // Get return type parameter.
             Parameter returnType = FindParameter(returnParameter);
 
@@ -85,8 +95,10 @@ namespace Generator
 
                         code = code.Substring(0, i) + expanded + code.Substring(i + 1);
                         i += expanded.Length - 1;
+
                         if (!usedParameters.Contains(parameter))
                             usedParameters.Add(parameter);
+
                         break;
                     }
                     else if (code[i] == '+' || code[i] == '-' || code[i] == '*' || code[i] == '/' || code[i] == '%')
@@ -97,56 +109,20 @@ namespace Generator
                 }
             }
 
-            // Generate method.
-            return MethodGenerator.GenerateSummary(GenerateDesc(FindParameter(returnParameter), usedParameters))
-                + "\n" + ClassGenerator.Indent + $"public static {returnType.Type} {methodName}({GenerateParameterList(usedParameters)}) => {code};";
-        }
+            // Expand square root and power-of-two operators.
+            code = code.Replace("SQRT", "Mathd.Sqrt");
+            code = code.Replace("POW2", "Mathd.Pow2");
 
-        public string GenerateMethod(string className, char returnParameter, string methodName, string args)
-        {
-            return GenerateMethod(className, returnParameter, methodName, args, GenerateDesc(returnParameter, args));
-        }
+            // Get ordered parameters.
+            Parameter[] orderedParams = OrderParameters(usedParameters, argOrder);
 
-        public string GenerateMethod(string className, char returnParameter, string methodName, string args, string methodDesc)
-        {
-            // Get return type parameter.
-            Parameter returnType = FindParameter(returnParameter);
-
-            // Get equation.
-            string code = FindFormula(returnType);
-
-            // Remove assignment.
-            code = code.Replace(returnType.ShortName + "=", "");
-
-            // Replace parameters.
-            for (int i = 0; i < code.Length; i++)
-            {
-                for (int j = 0; j < Parameters.Length; j++)
-                {
-                    Parameter parameter = Parameters[j];
-                    if (code[i] == parameter.ShortName)
-                    {
-                        string expanded;
-                        if (parameter.Type == className)
-                            expanded = parameter.FullName + ".value";
-                        else
-                            expanded = "(double)" + parameter.FullName;
-
-                        code = code.Substring(0, i) + expanded + code.Substring(i + 1);
-                        i += expanded.Length - 1;
-                        break;
-                    }
-                    else if (code[i] == '+' || code[i] == '-' || code[i] == '*' || code[i] == '/' || code[i] == '%')
-                    {
-                        code = code.Substring(0, i) + $" {code[i]} " + code.Substring(i + 1);
-                        i += 2;
-                    }
-                }
-            }
+            // Get description.
+            if (methodDesc == null)
+                methodDesc = GenerateDesc(returnType, orderedParams);
 
             // Generate method.
             return MethodGenerator.GenerateSummary(methodDesc)
-                + "\n" + ClassGenerator.Indent + $"public static {returnType.Type} {methodName}({GenerateParameterList(args)}) => {code};";
+                + "\n" + ClassGenerator.Indent + $"public static {returnType.Type} {methodName}({GenerateParameterList(orderedParams)}) => {code};";
         }
 
         /* Private methods. */
@@ -165,7 +141,7 @@ namespace Generator
                 if (formula.StartsWith(returnParameterShortName + "="))
                     return formula;
             }
-            throw new Exception();
+            throw new Exception(returnParameterShortName.ToString());
         }
 
         private string FindFormula(Parameter returnType)
@@ -180,7 +156,7 @@ namespace Generator
                 if (parameter.ShortName == shortName)
                     return parameter;
             }
-            throw new Exception();
+            throw new Exception(shortName.ToString());
         }
 
         /// <summary>
@@ -199,35 +175,44 @@ namespace Generator
         }
 
         /// <summary>
-        /// Generate method header parameter list string.
+        /// Order a set of parameters.
         /// </summary>
-        private static string GenerateParameterList(List<Parameter> parameters)
+        private static Parameter[] OrderParameters(List<Parameter> parameters, string argOrder)
         {
-            return GenerateParameterList(parameters.ToArray());
-        }
-
-        /// <summary>
-        /// Generate method header parameter list string.
-        /// </summary>
-        public string GenerateParameterList(string args)
-        {
-            Parameter[] parameters = new Parameter[args.Length];
-            for (int i = 0; i < args.Length; i++)
+            // Order parameters.
+            List<Parameter> ordered = new();
+            foreach (char arg in argOrder)
             {
-                parameters[i] = FindParameter(args[i]);
+                for (int i = 0; i < parameters.Count; i++)
+                {
+                    if (parameters[i].ShortName == arg)
+                    {
+                        ordered.Add(parameters[i]);
+                        parameters.RemoveAt(i);
+                        break;
+                    }
+                }
             }
-            return GenerateParameterList(parameters);
+
+            // Add parameters that weren't in the order.
+            while (parameters.Count > 0)
+            {
+                ordered.Add(parameters[0]);
+                parameters.RemoveAt(0);
+            }
+
+            return ordered.ToArray();
         }
 
         /// <summary>
         /// Generate a method description from a return parameter and a set of argument parameters.
         /// </summary>
-        private string GenerateDesc(Parameter returnType, List<Parameter> args)
+        private string GenerateDesc(Parameter returnType, Parameter[] args)
         {
             string desc = "Calculate " + returnType.FullName + " from ";
-            for (int i = 0; i < args.Count; i++)
+            for (int i = 0; i < args.Length; i++)
             {
-                if (i > 0 && i < args.Count - 1)
+                if (i > 0 && i < args.Length - 1)
                     desc += ", ";
                 else if (i > 0)
                     desc += " and ";
@@ -235,19 +220,6 @@ namespace Generator
             }
             desc += ".";
             return desc;
-        }
-
-        /// <summary>
-        /// Generate a method description from a return parameter and a set of argument parameters.
-        /// </summary>
-        private string GenerateDesc(char returnParameter, string args)
-        {
-            List<Parameter> parameters = new();
-            foreach (char arg in args)
-            {
-                parameters.Add(FindParameter(arg));
-            }
-            return GenerateDesc(FindParameter(returnParameter), parameters);
         }
     }
 }

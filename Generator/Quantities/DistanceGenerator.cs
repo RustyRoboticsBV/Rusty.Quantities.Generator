@@ -8,11 +8,18 @@ namespace Generator
     public static class DistanceGenerator
     {
         /* Public methods. */
-        public static void Generate(FormulaSet tsuv)
+        public static void Generate(params FormulaSet[] formulas)
         {
             string code = ClassGenerator.Generate("Distance", "Represents a distance quantity.");
 
-            code = code.Replace("//FORMULAS", tsuv.GenerateMethod("Distance", 's', "Calculate", "uvt"));
+            string formulaCode = "";
+            foreach (FormulaSet formulaSet in formulas)
+            {
+                if (formulaCode != "")
+                    formulaCode += "\n";
+                formulaCode += formulaSet.GenerateMethod("Distance", 's', "Calculate", "uvast");
+            }
+            code = code.Replace("//FORMULAS", formulaCode);
 
             FileWriter.Write("Distance", code);
         }

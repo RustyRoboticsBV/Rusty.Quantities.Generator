@@ -8,11 +8,18 @@ namespace Generator
     public static class AccelerationGenerator
     {
         /* Public methods. */
-        public static void Generate(FormulaSet tuva)
+        public static void Generate(params FormulaSet[] formulas)
         {
             string code = ClassGenerator.Generate("Acceleration", "Represents a acceleration quantity.");
 
-            code = code.Replace("//FORMULAS", tuva.GenerateMethod("Acceleration", 'a', "Calculate", "uvt"));
+            string formulaCode = "";
+            foreach (FormulaSet formulaSet in formulas)
+            {
+                if (formulaCode != "")
+                    formulaCode += "\n";
+                formulaCode += formulaSet.GenerateMethod("Acceleration", 'a', "Calculate", "uvast");
+            }
+            code = code.Replace("//FORMULAS", formulaCode);
 
             FileWriter.Write("Acceleration", code);
         }
