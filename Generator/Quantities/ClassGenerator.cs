@@ -47,6 +47,8 @@ namespace Generator
                 + "\n" + "        public readonly override string ToString() => value.ToString();"
                 + "\n"
                 + "\n" + MethodGenerator.GenerateAll(className)
+                + "\n"
+                + "\n//FORMULAS"
                 + "\n" + "    }"
                 + "\n" + "}";
         }

@@ -5,14 +5,14 @@ namespace Generator
     /// <summary>
     /// A generator for class C# script files.
     /// </summary>
-    public static class FileGenerator
+    public static class FileWriter
     {
         /* Public methods. */
-        public static void Generate(string className, string classDesc)
+        public static void Write(string className, string code)
         {
             string path = $"../../../../Library/{className}.cs";
             Console.WriteLine("Creating file: " + path);
-            string program = ClassGenerator.Generate(className, classDesc);
+            string program = code;
             Console.WriteLine(program);
             File.WriteAllText(path, program);
         }

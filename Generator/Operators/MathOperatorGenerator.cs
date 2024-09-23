@@ -18,6 +18,11 @@ namespace Generator
                 + "\n" + GenerateUnaryMinus(className);
         }
 
+        public static string Generate(string returnType, string operand1Type, bool isClass1, string operatorName, string operand2Type, bool isClass2)
+        {
+            return $"public static {returnType} operator {operatorName}({operand1Type} a, {operand2Type} b) => {ToDouble("a", isClass1)} {operatorName} {ToDouble("b", isClass2)};";
+        }
+
         /* Private methods. */
         private static string GenerateCC(string className, char operatorSymbol)
         {
@@ -52,6 +57,14 @@ namespace Generator
         private static string GenerateUnaryMinus(string className)
         {
             return ClassGenerator.Indent + $"public static {className} operator -({className} value) => new {className}(-value.value);";
+        }
+
+        private static string ToDouble(string id, bool isMainClass)
+        {
+            if (isMainClass)
+                return $"{id}.value";
+            else
+                return $"(double){id}";
         }
     }
 }
