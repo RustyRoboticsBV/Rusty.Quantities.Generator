@@ -27,10 +27,10 @@ namespace Generators
                 + "\n" + "        private double value;"
                 + "\n"
                 + "\n" + "        /* Public properties. */"
-                + "\n" + StaticPropertyGenerator.Generate(className, "Zero", "0.0", "0")
-                + "\n" + StaticPropertyGenerator.Generate(className, "One", "1.0", "1")
-                + "\n" + StaticPropertyGenerator.Generate(className, "Pi", "Mathd.Pi", "pi")
-                + "\n" + StaticPropertyGenerator.Generate(className, "TwoPi", "2.0 * Mathd.Pi", "2 * pi")
+                + "\n" + QuantityPropertyGenerator.Generate(className, "Zero", "0.0", "0")
+                + "\n" + QuantityPropertyGenerator.Generate(className, "One", "1.0", "1")
+                + "\n" + QuantityPropertyGenerator.Generate(className, "Pi", "Mathd.Pi", "pi")
+                + "\n" + QuantityPropertyGenerator.Generate(className, "TwoPi", "2.0 * Mathd.Pi", "2 * pi")
                 + "\n//PROPS"
                 + "\n" + "        /* Constructors. */"
                 + "\n" + $"        public {className}(double value)"
@@ -48,9 +48,9 @@ namespace Generators
                 + "\n" + ComparisonOperatorGenerator.Generate(className)
                 + "\n"
                 + "\n" + "        /* Public methods. */"
-                + "\n" + $"        public override readonly bool Equals(object? obj) => obj is {className} {className.ToLower()} && this == {className.ToLower()};"
-                + "\n" + $"        public override readonly int GetHashCode() => value.GetHashCode();"
-                + "\n" + "        public override readonly string ToString() => value.ToString();"
+                + "\n" + MethodGenerator.Generate("public override readonly", "bool", "Equals", "object? obj", $"return obj is {className} {className.ToLower()} && this == {className.ToLower()};")
+                + "\n" + MethodGenerator.Generate("public override readonly", "int", "GetHashCode", "", "return value.GetHashCode();")
+                + "\n" + MethodGenerator.Generate("public override readonly", "string", "ToString", "", "return value.ToString();")
                 + "\n"
                 + "\n" + MethodGenerator.GenerateAll(className)
                 + "\n"

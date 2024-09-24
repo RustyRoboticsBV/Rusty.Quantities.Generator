@@ -13,49 +13,61 @@ namespace Generators
             return GenerateLocal(className) + "\n\n" + GenerateStatic(className);
         }
 
+        public static string Generate(string prefixes, string returnType, string name, string parameters, string implementation, string summary = null)
+        {
+            string code = "";
+            if (summary != null)
+                code += SummaryGenerator.Generate(summary) + "\n";
+            code += Indent + $"{prefixes} {returnType} {name}({parameters})"
+                + "\n" + Indent + "{"
+                + "\n" + Indent + $"    {implementation}"
+                + "\n" + Indent + "}";
+            return code;
+        }
+
         /* Private methods. */
         private static string GenerateLocal(string className)
         {
             return SignMethodGenerator.GenerateLocal(className)
-                + "\n" + Method1Generator.GenerateLocal(className, "Abs", GetAbsDesc(false, className))
-                + "\n" + Method1Generator.GenerateLocal(className, "Truncate", GetTruncateDesc(false, className))
-                + "\n" + Method1Generator.GenerateLocal(className, "Frac", GetFracDesc(false, className))
-                + "\n" + Method2Generator.GenerateLocal(className, "Dist", GetDistDesc(false, className))
-                + "\n" + Method1Generator.GenerateLocal(className, "Sqrt", GetSqrtDesc(false, className))
-                + "\n" + Method1Generator.GenerateLocal(className, "Pow2", GetPow2Desc(false, className))
+                + "\n" + MathMethod0Generator.GenerateLocal(className, "Abs", GetAbsDesc(false, className))
+                + "\n" + MathMethod0Generator.GenerateLocal(className, "Truncate", GetTruncateDesc(false, className))
+                + "\n" + MathMethod0Generator.GenerateLocal(className, "Frac", GetFracDesc(false, className))
+                + "\n" + MathMethod1Generator.GenerateLocal(className, "Dist", GetDistDesc(false, className))
+                + "\n" + MathMethod0Generator.GenerateLocal(className, "Sqrt", GetSqrtDesc(false, className))
+                + "\n" + MathMethod0Generator.GenerateLocal(className, "Pow2", GetPow2Desc(false, className))
                 + "\n" + PowMethodGenerator.GenerateLocal(className)
-                + "\n" + Method2Generator.GenerateLocal(className, "Min", GetMinDesc(false, className))
-                + "\n" + Method2Generator.GenerateLocal(className, "Max", GetMaxDesc(false, className))
+                + "\n" + MathMethod1Generator.GenerateLocal(className, "Min", GetMinDesc(false, className))
+                + "\n" + MathMethod1Generator.GenerateLocal(className, "Max", GetMaxDesc(false, className))
                 + "\n" + ClampMethodGenerator.GenerateLocal(className)
                 + "\n" + LoopMethodGenerator.GenerateLocal(className)
-                + "\n" + Method1Generator.GenerateLocal(className, "Round", GetRoundDesc(false, className))
-                + "\n" + Method1Generator.GenerateLocal(className, "Floor", GetFloorDesc(false, className))
-                + "\n" + Method1Generator.GenerateLocal(className, "Ceil", GetCeilDesc(false, className))
-                + "\n" + Method1Generator.GenerateLocal(className, "Sin", GetSinDesc(false, className))
-                + "\n" + Method1Generator.GenerateLocal(className, "Cos", GetCosDesc(false, className))
-                + "\n" + Method1Generator.GenerateLocal(className, "Tan", GetTanDesc(false, className));
+                + "\n" + MathMethod0Generator.GenerateLocal(className, "Round", GetRoundDesc(false, className))
+                + "\n" + MathMethod0Generator.GenerateLocal(className, "Floor", GetFloorDesc(false, className))
+                + "\n" + MathMethod0Generator.GenerateLocal(className, "Ceil", GetCeilDesc(false, className))
+                + "\n" + MathMethod0Generator.GenerateLocal(className, "Sin", GetSinDesc(false, className))
+                + "\n" + MathMethod0Generator.GenerateLocal(className, "Cos", GetCosDesc(false, className))
+                + "\n" + MathMethod0Generator.GenerateLocal(className, "Tan", GetTanDesc(false, className));
         }
 
         private static string GenerateStatic(string className)
         {
             return SignMethodGenerator.GenerateStatic(className)
-                + "\n" + Method1Generator.GenerateStatic(className, "Abs", GetAbsDesc(true, className))
-                + "\n" + Method1Generator.GenerateStatic(className, "Truncate", GetTruncateDesc(true, className))
-                + "\n" + Method1Generator.GenerateStatic(className, "Frac", GetFracDesc(true, className))
-                + "\n" + Method2Generator.GenerateStatic(className, "Dist", GetDistDesc(true, className))
-                + "\n" + Method1Generator.GenerateStatic(className, "Sqrt", GetSqrtDesc(true, className))
-                + "\n" + Method1Generator.GenerateStatic(className, "Pow2", GetPow2Desc(true, className))
+                + "\n" + MathMethod0Generator.GenerateStatic(className, "Abs", GetAbsDesc(true, className))
+                + "\n" + MathMethod0Generator.GenerateStatic(className, "Truncate", GetTruncateDesc(true, className))
+                + "\n" + MathMethod0Generator.GenerateStatic(className, "Frac", GetFracDesc(true, className))
+                + "\n" + MathMethod1Generator.GenerateStatic(className, "Dist", GetDistDesc(true, className))
+                + "\n" + MathMethod0Generator.GenerateStatic(className, "Sqrt", GetSqrtDesc(true, className))
+                + "\n" + MathMethod0Generator.GenerateStatic(className, "Pow2", GetPow2Desc(true, className))
                 + "\n" + PowMethodGenerator.GenerateStatic(className)
-                + "\n" + Method2Generator.GenerateStatic(className, "Min", GetMinDesc(true, className))
-                + "\n" + Method2Generator.GenerateStatic(className, "Max", GetMaxDesc(true, className))
+                + "\n" + MathMethod1Generator.GenerateStatic(className, "Min", GetMinDesc(true, className))
+                + "\n" + MathMethod1Generator.GenerateStatic(className, "Max", GetMaxDesc(true, className))
                 + "\n" + ClampMethodGenerator.GenerateStatic(className)
                 + "\n" + LoopMethodGenerator.GenerateStatic(className)
-                + "\n" + Method1Generator.GenerateStatic(className, "Round", GetRoundDesc(true, className))
-                + "\n" + Method1Generator.GenerateStatic(className, "Floor", GetFloorDesc(true, className))
-                + "\n" + Method1Generator.GenerateStatic(className, "Ceil", GetCeilDesc(true, className))
-                + "\n" + Method1Generator.GenerateStatic(className, "Sin", GetSinDesc(true, className))
-                + "\n" + Method1Generator.GenerateStatic(className, "Cos", GetCosDesc(true, className))
-                + "\n" + Method1Generator.GenerateStatic(className, "Tan", GetTanDesc(true, className))
+                + "\n" + MathMethod0Generator.GenerateStatic(className, "Round", GetRoundDesc(true, className))
+                + "\n" + MathMethod0Generator.GenerateStatic(className, "Floor", GetFloorDesc(true, className))
+                + "\n" + MathMethod0Generator.GenerateStatic(className, "Ceil", GetCeilDesc(true, className))
+                + "\n" + MathMethod0Generator.GenerateStatic(className, "Sin", GetSinDesc(true, className))
+                + "\n" + MathMethod0Generator.GenerateStatic(className, "Cos", GetCosDesc(true, className))
+                + "\n" + MathMethod0Generator.GenerateStatic(className, "Tan", GetTanDesc(true, className))
                 + "\n" + LerpMethodGenerator.Generate(className);
         }
 

@@ -56,6 +56,9 @@ namespace Generators
             code = code.Replace("POW2", "Mathd.Pow2");
             code = code.Replace("UMIN", "-");
 
+            // Wrap code.
+            code = "return " + code + ";";
+
             // Get ordered parameters.
             Parameter[] orderedParams = OrderParameters(formulas, usedParameters);
 
@@ -65,8 +68,7 @@ namespace Generators
 
             // Generate method.
             string _methodName = GenerateMethodName(methodName, orderedParams, formulas.IncludeParamsInName);
-            return SummaryGenerator.Generate(methodDesc)
-                + "\n" + Indent + $"public static {returnType.Type} {_methodName}({GenerateParameterList(orderedParams)}) => {code};";
+            return MethodGenerator.Generate("public static", returnType.Type, _methodName, GenerateParameterList(orderedParams), code, methodDesc);
         }
 
         /* Private methods. */

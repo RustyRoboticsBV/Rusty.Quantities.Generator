@@ -10,18 +10,16 @@ namespace Generators
         /* Public methods. */
         public static string GenerateLocal(string className)
         {
-            return SummaryGenerator.Generate(GenerateDesc(className, false))
-                + "\n" + Indent + $"public readonly {className} Loop({className} max) => new {className}(Mathd.Loop(value, max.value));";
+            return MathMethod1Generator.GenerateLocal(className, "Loop", "max", GetSummary(className, false));
         }
 
         public static string GenerateStatic(string className)
         {
-            return SummaryGenerator.Generate(GenerateDesc(className, true))
-                + "\n" + Indent + $"public static {className} Loop({className} value, {className} max) => new {className}(Mathd.Loop(value.value, max.value));";
+            return MathMethod1Generator.GenerateStatic(className, "Loop", "value", "max", GetSummary(className, true));
         }
 
         /* Private methods. */
-        private static string GenerateDesc(string className, bool isStatic)
+        private static string GetSummary(string className, bool isStatic)
         {
             return $"Return the result of forcing {(isStatic ? "an" : "this")} {className.ToLower()} into a range from 0 to the specified max (through a modulo operation).";
         }

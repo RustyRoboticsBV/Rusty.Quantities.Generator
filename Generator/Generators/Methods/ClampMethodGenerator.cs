@@ -10,18 +10,18 @@ namespace Generators
         /* Public methods. */
         public static string GenerateLocal(string className)
         {
-            return SummaryGenerator.Generate(GetDesc(false, className))
-                + "\n" + Indent + $"public readonly {className} Clamp({className} min, {className} max) => new {className}(Mathd.Clamp(value, min.value, max.value));";
+            return MethodGenerator.Generate("public readonly", className, "Clamp", $"{className} min, {className} max",
+                $"return new {className}(Mathd.Clamp(value, min.value, max.value));", GetSummary(false, className));
         }
 
         public static string GenerateStatic(string className)
         {
-            return SummaryGenerator.Generate(GetDesc(true, className))
-                + "\n" + Indent + $"public static {className} Clamp({className} value, {className} min, {className} max) => new {className}(Mathd.Clamp(value.value, min.value, max.value));";
+            return MethodGenerator.Generate("public static", className, "Clamp", $"{className} value, {className} min, {className} max",
+                $"return new {className}(Mathd.Clamp(value.value, min.value, max.value));", GetSummary(true, className));
         }
 
         /* Private methods. */
-        private static string GetDesc(bool isStatic, string className)
+        private static string GetSummary(bool isStatic, string className)
         {
             return $"Return the result of clamping {(isStatic ? "a" : "this")} {className.ToLower()} value between a min and max value.";
         }

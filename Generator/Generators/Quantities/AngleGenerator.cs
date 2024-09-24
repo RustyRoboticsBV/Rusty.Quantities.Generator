@@ -21,46 +21,39 @@ namespace Generators
             string math = "";
             code = code.Replace("//MATH", math);
 
-            string methods = GenerateToDegreesLocal() + "\n" + GenerateToRadiansLocal()
-                + "\n\n" + GenerateToDegreesStatic() + "\n" + GenerateToRadiansStatic();
+            string methods = GenerateConversionLocal(false)
+                + "\n" + GenerateConversionLocal(true)
+                + "\n\n" + GenerateConversionStatic(false)
+                + "\n" + GenerateConversionStatic(true);
             code = code.Replace("//METHODS", methods);
 
             FileWriter.Write("Angle", code);
         }
 
         /* Private methods. */
-        private static string GenerateToDegreesLocal()
+        private static string GenerateConversionLocal(bool toRadians)
         {
-            return SummaryGenerator.Generate(GenerateToDegreesDesc(false))
-                + "\n" + Indent + "public readonly Angle ToDegrees() => new Angle(Mathd.Rad2Deg * value);";
+            string name = toRadians ? "ToRadians" : "ToDegrees";
+            string factor = toRadians ? "Deg2Rad" : "Rad2Deg";
+            string summary = GetSummary(false, toRadians);
+            return MethodGenerator.Generate("public readonly", "Angle", name, "",
+                $"return new Angle(Mathd.{factor} * value);", summary);
         }
 
-        private static string GenerateToDegreesStatic()
+        private static string GenerateConversionStatic(bool toRadians)
         {
-            return SummaryGenerator.Generate(GenerateToDegreesDesc(true))
-                + "\n" + Indent + "public static Angle ToDegrees(Angle value) => new Angle(Mathd.Rad2Deg * value.value);";
+            string name = toRadians ? "ToRadians" : "ToDegrees";
+            string factor = toRadians ? "Deg2Rad" : "Rad2Deg";
+            string summary = GetSummary(true, toRadians);
+            return MethodGenerator.Generate("public static", "Angle", name, $"Angle value",
+                $"return new Angle(Mathd.{factor} * value.value);", summary);
         }
 
-        private static string GenerateToDegreesDesc(bool isStatic)
+        private static string GetSummary(bool isStatic, bool toRadians)
         {
-            return $"Return the result of converting {(isStatic ? "an" : "this")} angle from radians to degrees.";
-        }
-
-        private static string GenerateToRadiansLocal()
-        {
-            return SummaryGenerator.Generate(GenerateToRadiansDesc(false))
-                + "\n" + Indent + "public readonly Angle ToRadians() => new Angle(Mathd.Deg2Rad * value);";
-        }
-
-        private static string GenerateToRadiansStatic()
-        {
-            return SummaryGenerator.Generate(GenerateToRadiansDesc(true))
-                + "\n" + Indent + "public static Angle ToRadians(Angle value) => new Angle(Mathd.Deg2Rad * value.value);";
-        }
-
-        private static string GenerateToRadiansDesc(bool isStatic)
-        {
-            return $"Return the result of converting {(isStatic ? "an" : "this")} angle from radians to radians.";
+            string from = toRadians ? "degrees" : "radians";
+            string to = toRadians ? "radians" : "degrees";
+            return $"Return the result of converting {(isStatic ? "an" : "this")} angle from {from} to {to}.";
         }
     }
 }

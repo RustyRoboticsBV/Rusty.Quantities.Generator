@@ -10,18 +10,18 @@ namespace Generators
         /* Public methods. */
         public static string GenerateLocal(string className)
         {
-            return SummaryGenerator.Generate(GenerateDesc(className, false))
-                + "\n" + Indent + $"public readonly int Sign() => Mathd.Sign(value);";
+            return MethodGenerator.Generate("public readonly", "int", "Sign", "", "return Mathd.Sign(value);",
+                GetSummary(className, false));
         }
 
         public static string GenerateStatic(string className)
         {
-            return SummaryGenerator.Generate(GenerateDesc(className, true))
-                + "\n" + Indent + $"public static int Sign({className} value) => Mathd.Sign(value.value);";
+            return MethodGenerator.Generate("public static", "int", "Sign", $"{className} value",
+                "return Mathd.Sign(value.value);", GetSummary(className, false));
         }
 
         /* Private methods. */
-        private static string GenerateDesc(string className, bool isStatic)
+        private static string GetSummary(string className, bool isStatic)
         {
             return $"Return the sign of {(isStatic ? "a" : "this")} {className.ToLower()} value; -1 if negative, 1 if positive and 0 if equal to 0.";
         }
