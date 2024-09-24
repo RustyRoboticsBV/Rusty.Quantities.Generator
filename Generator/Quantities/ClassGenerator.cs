@@ -28,8 +28,10 @@ namespace Generator
                 + "\n" + "        private double value;"
                 + "\n"
                 + "\n" + "        /* Public properties. */"
-                + "\n" + StaticPropertyGenerator.Generate(className, "Zero", "0.0")
-                + "\n" + StaticPropertyGenerator.Generate(className, "One", "1.0")
+                + "\n" + StaticPropertyGenerator.Generate(className, "Zero", "0.0", "0")
+                + "\n" + StaticPropertyGenerator.Generate(className, "One", "1.0", "1")
+                + "\n" + StaticPropertyGenerator.Generate(className, "Pi", "Mathd.Pi", "pi")
+                + "\n" + StaticPropertyGenerator.Generate(className, "TwoPi", "2.0 * Mathd.Pi", "2 * pi")
                 + "\n//PROPS"
                 + "\n" + "        /* Constructors. */"
                 + "\n" + $"        public {className}(double value)"

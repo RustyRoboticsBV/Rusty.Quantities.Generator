@@ -8,9 +8,10 @@ namespace Generator
     public static class StaticPropertyGenerator
     {
         /* Public methods. */
-        public static string Generate(string className, string propertyName, string value)
+        public static string Generate(string className, string propertyName, string value, string desc)
         {
-            return ClassGenerator.Indent + $"public static {className} {propertyName} => new {className}({value});";
+            return MethodGenerator.GenerateSummary($"A {className.ToLower()} equal to {desc}.")
+                + "\n" + ClassGenerator.Indent + $"public static {className} {propertyName} => new {className}({value});";
         }
     }
 }

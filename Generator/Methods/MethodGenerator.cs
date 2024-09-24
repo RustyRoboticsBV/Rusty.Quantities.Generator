@@ -11,8 +11,24 @@ namespace Generator
         public static string GenerateSummary(string desc)
         {
             return ClassGenerator.Indent + $"/// <summary>"
-                + "\n" + ClassGenerator.Indent + $"/// {desc.Replace(" a a", " an a").Replace(" a e", " an e").Replace(" a i", " an i").Replace(" a o", " an o").Replace(" a u", " an u")}"
+                + "\n" + ClassGenerator.Indent + $"/// {An(desc)}"
                 + "\n" + ClassGenerator.Indent + "/// </summary>";
+        }
+
+        private static string An(string str)
+        {
+            return str.Replace("A a", "An a")
+                .Replace("A e", "An e")
+                .Replace("A i", "An i")
+                .Replace("A o", "An o")
+                .Replace("A u", "An u")
+                .Replace("A y", "An y")
+                .Replace(" a a", " an a")
+                .Replace(" a e", " an e")
+                .Replace(" a i", " an i")
+                .Replace(" a o", " an o")
+                .Replace(" a u", " an u")
+                .Replace(" a y", " an y");
         }
 
         public static string GenerateAll(string className)
