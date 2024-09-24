@@ -15,12 +15,19 @@ namespace Generator
             string formulaCode = "";
             foreach (FormulaSet formulaSet in formulas)
             {
-                if (formulaCode != "")
-                    formulaCode += "\n";
-                formulaCode += formulaSet.GenerateMethod("Speed", 'u', "CalculateStartSpeed", "uvast");
-                if (formulaCode != "")
-                    formulaCode += "\n";
-                formulaCode += formulaSet.GenerateMethod("Speed", 'v', "CalculateEndSpeed", "uvast");
+                if (formulaSet.ContainsFormula('u'))
+                {
+                    if (formulaCode != "")
+                        formulaCode += "\n";
+                    formulaCode += formulaSet.GenerateMethod("Speed", 'u', "Calculate" + formulaSet.FindParameter('u').CamelCase);
+                }
+
+                if (formulaSet.ContainsFormula('v'))
+                {
+                    if (formulaCode != "")
+                        formulaCode += "\n";
+                    formulaCode += formulaSet.GenerateMethod("Speed", 'v', "Calculate" + formulaSet.FindParameter('v').CamelCase);
+                }
             }
             code = code.Replace("//FORMULAS", formulaCode);
 

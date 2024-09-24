@@ -17,7 +17,8 @@ namespace Generator
             {
                 if (formulaCode != "")
                     formulaCode += "\n";
-                formulaCode += formulaSet.GenerateMethod("Distance", 's', "Calculate", "uvast");
+                if (formulaSet.ContainsFormula('s'))
+                    formulaCode += formulaSet.GenerateMethod("Distance", 's', "Calculate");
             }
             code = code.Replace("//FORMULAS", formulaCode);
 

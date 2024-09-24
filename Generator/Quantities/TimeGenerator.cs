@@ -17,7 +17,8 @@ namespace Generator
             {
                 if (formulaCode != "")
                     formulaCode += "\n";
-                formulaCode += formulaSet.GenerateMethod("Time", 't', "Calculate", "uvast");
+                if (formulaSet.ContainsFormula('t'))
+                    formulaCode += formulaSet.GenerateMethod("Time", 't', "Calculate");
             }
             code = code.Replace("//FORMULAS", formulaCode);
 

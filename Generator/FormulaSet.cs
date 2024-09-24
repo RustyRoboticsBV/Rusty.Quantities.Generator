@@ -8,7 +8,18 @@ namespace Generator
         public string Type { get; private set; }
         public string FullName { get; private set; }
 
-        public string FullNameFormatted
+        public string CamelCase
+        {
+            get
+            {
+                string name = FullName;
+                if (name[0] >= 'a' && name[0] <= 'z')
+                    return name[0].ToString().ToUpper() + name.Substring(1);
+                else
+                    return name;
+            }
+        }
+        public string LowercaseSpaced
         {
             get
             {
@@ -40,34 +51,71 @@ namespace Generator
         public Parameter[] Parameters { get; private set; }
 
         /* Constructors. */
-        public FormulaSet(string formula, Parameter[] parameters)
+        public FormulaSet(string equation, params Parameter[] parameters)
         {
-            Formulas = new string[] { formula };
+            Formulas = new string[] { equation };
             Parameters = parameters;
             Init();
         }
 
-        public FormulaSet(string formula, Parameter[] parameters, string[] alternateWritings)
+        public FormulaSet(string equation1, string equation2, params Parameter[] parameters)
         {
-            Formulas = new string[alternateWritings.Length + 1];
-            Formulas[0] = formula;
-            Array.Copy(alternateWritings, 0, Formulas, 1, alternateWritings.Length);
+            Formulas = new string[] { equation1, equation2 };
+            Parameters = parameters;
+            Init();
+        }
+
+        public FormulaSet(string equation1, string equation2, string equation3, params Parameter[] parameters)
+        {
+            Formulas = new string[] { equation1, equation2, equation3 };
+            Parameters = parameters;
+            Init();
+        }
+
+        public FormulaSet(string equation1, string equation2, string equation3, string equation4, params Parameter[] parameters)
+        {
+            Formulas = new string[] { equation1, equation2, equation3, equation4 };
             Parameters = parameters;
             Init();
         }
 
         /* Public methods. */
+        public bool ContainsParam(char shortName)
+        {
+            foreach (Parameter parameter in Parameters)
+            {
+                if (parameter.ShortName == shortName)
+                    return true;
+            }
+            return false;
+        }
+
+        public bool ContainsFormula(char returnParameterShortName)
+        {
+            foreach (string formula in Formulas)
+            {
+                if (formula.StartsWith(returnParameterShortName + "="))
+                    return true;
+            }
+            return false;
+        }
+
+        public Parameter FindParameter(char shortName)
+        {
+            foreach (Parameter parameter in Parameters)
+            {
+                if (parameter.ShortName == shortName)
+                    return parameter;
+            }
+            throw new Exception($"Invalid parameter '{shortName}'");
+        }
+
         public string GenerateMethod(string className, char returnParameter, string methodName)
         {
-            return GenerateMethod(className, returnParameter, methodName, "");
+            return GenerateMethod(className, returnParameter, methodName, null);
         }
 
-        public string GenerateMethod(string className, char returnParameter, string methodName, string argOrder)
-        {
-            return GenerateMethod(className, returnParameter, methodName, argOrder, null);
-        }
-
-        public string GenerateMethod(string className, char returnParameter, string methodName, string argOrder, string methodDesc)
+        public string GenerateMethod(string className, char returnParameter, string methodName, string methodDesc)
         {
             // Get return type parameter.
             Parameter returnType = FindParameter(returnParameter);
@@ -112,9 +160,10 @@ namespace Generator
             // Expand square root and power-of-two operators.
             code = code.Replace("SQRT", "Mathd.Sqrt");
             code = code.Replace("POW2", "Mathd.Pow2");
+            code = code.Replace("UMIN", "-");
 
             // Get ordered parameters.
-            Parameter[] orderedParams = OrderParameters(usedParameters, argOrder);
+            Parameter[] orderedParams = OrderParameters(usedParameters);
 
             // Get description.
             if (methodDesc == null)
@@ -149,16 +198,6 @@ namespace Generator
             return FindFormula(returnType.ShortName);
         }
 
-        private Parameter FindParameter(char shortName)
-        {
-            foreach (Parameter parameter in Parameters)
-            {
-                if (parameter.ShortName == shortName)
-                    return parameter;
-            }
-            throw new Exception(shortName.ToString());
-        }
-
         /// <summary>
         /// Generate method header parameter list string.
         /// </summary>
@@ -177,15 +216,15 @@ namespace Generator
         /// <summary>
         /// Order a set of parameters.
         /// </summary>
-        private static Parameter[] OrderParameters(List<Parameter> parameters, string argOrder)
+        private Parameter[] OrderParameters(List<Parameter> parameters)
         {
             // Order parameters.
             List<Parameter> ordered = new();
-            foreach (char arg in argOrder)
+            foreach (Parameter parameter in Parameters)
             {
                 for (int i = 0; i < parameters.Count; i++)
                 {
-                    if (parameters[i].ShortName == arg)
+                    if (parameters[i].ShortName == parameter.ShortName)
                     {
                         ordered.Add(parameters[i]);
                         parameters.RemoveAt(i);
@@ -216,7 +255,7 @@ namespace Generator
                     desc += ", ";
                 else if (i > 0)
                     desc += " and ";
-                desc += args[i].FullNameFormatted;
+                desc += args[i].LowercaseSpaced;
             }
             desc += ".";
             return desc;

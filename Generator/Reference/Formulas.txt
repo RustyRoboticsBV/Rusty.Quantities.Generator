@@ -1,5 +1,8 @@
-// No a; end speed from start speed, displacement and time.
-v=u+s/t
+// Constant speed from displacement and time.
+v=s/t
+
+// No a: displacement from start speed, end speed and time.
+s=0.5*(v+u)*t
 
 // No s; acceleration from start speed, end speed and time.
 a=(v-u)/t
@@ -11,4 +14,4 @@ v^2=u^2+2*a*s
 s=u*t+0.5*a*t^2
 
 // No u; displacement from end speed, acceleration and time.
-s=v*t-a*t^2+0.5*a*t^2
+s=v*t-0.5*a*t^2
