@@ -30,7 +30,7 @@ namespace Generator
                 + "\n" + "        /* Public properties. */"
                 + "\n" + StaticPropertyGenerator.Generate(className, "Zero", "0.0")
                 + "\n" + StaticPropertyGenerator.Generate(className, "One", "1.0")
-                + "\n"
+                + "\n//PROPS"
                 + "\n" + "        /* Constructors. */"
                 + "\n" + $"        public {className}(double value)"
                 + "\n" + "        {"
@@ -39,19 +39,21 @@ namespace Generator
                 + "\n"
                 + "\n" + "        /* Casting operators. */"
                 + "\n" + CastOperatorGenerator.Generate(className)
-                + "\n"
+                + "\n//CASTS"
                 + "\n" + "        /* Arithmetic operators. */"
                 + "\n" + MathOperatorGenerator.Generate(className)
-                + "\n"
+                + "\n//MATH"
                 + "\n" + "        /* Comparison operators. */"
                 + "\n" + ComparisonOperatorGenerator.Generate(className)
                 + "\n"
                 + "\n" + "        /* Public methods. */"
-                + "\n" + "        public readonly override string ToString() => value.ToString();"
+                + "\n" + $"        public override readonly int GetHashCode() => value.GetHashCode();"
+                + "\n" + $"        public override readonly bool Equals(object? obj) => obj is {className} {className.ToLower()} && value == {className.ToLower()}.value;"
+                + "\n" + "        public override readonly string ToString() => value.ToString();"
                 + "\n"
                 + "\n" + MethodGenerator.GenerateAll(className)
                 + "\n"
-                + "\n//FORMULAS"
+                + "\n//METHODS"
                 + "\n" + "    }"
                 + "\n" + "}";
         }

@@ -20,7 +20,7 @@ namespace Modules.L0.Quantities
 
         /* Public methods. */
         /// <summary>
-        /// Get the sign of a number: 1 if the number is positive or equal to 0, and -1 it is negative.
+        /// Return the sign of a number: 1 if the number is positive or equal to 0, and -1 it is negative.
         /// </summary>
         public static int Sign(double value)
         {
@@ -36,7 +36,7 @@ namespace Modules.L0.Quantities
         }
 
         /// <summary>
-        /// Get the integral part of a number.
+        /// Return the integral part of a number.
         /// </summary>
         public static double Truncate(double value)
         {
@@ -44,7 +44,7 @@ namespace Modules.L0.Quantities
         }
 
         /// <summary>
-        /// Get the fractional part of a number.
+        /// Return the fractional part of a number.
         /// </summary>
         public static double Frac(double value)
         {
@@ -53,7 +53,7 @@ namespace Modules.L0.Quantities
 
 
         /// <summary>
-        /// Get the absolute distance between two numbers.
+        /// Return the absolute distance between two numbers.
         /// </summary>
         public static double Dist(double a, double b)
         {
@@ -64,7 +64,7 @@ namespace Modules.L0.Quantities
         }
 
         /// <summary>
-        /// Get the square root of a number.
+        /// Return the square root of a number.
         /// </summary>
         public static double Sqrt(double value)
         {
@@ -87,9 +87,33 @@ namespace Modules.L0.Quantities
             return Math.Pow(value, power);
         }
 
+        /// <summary>
+        /// Returns the base two logarithm of the specified number.
+        /// </summary>
+        public static double Log2(double value)
+        {
+            return Math.Log2(value);
+        }
 
         /// <summary>
-        /// Get the smallest of two numbers.
+        /// Returns the base ten logarithm of the specified number.
+        /// </summary>
+        public static double Log10(double value)
+        {
+            return Math.Log10(value);
+        }
+
+        /// <summary>
+        /// Returns the natural (base e) logarithm of the specified number.
+        /// </summary>
+        public static double Ln(double value)
+        {
+            return Math.Log(value);
+        }
+
+
+        /// <summary>
+        /// Return the smallest of two numbers.
         /// </summary>
         public static double Min(double a, double b)
         {
@@ -97,7 +121,7 @@ namespace Modules.L0.Quantities
         }
 
         /// <summary>
-        /// Get the largest of two numbers.
+        /// Return the largest of two numbers.
         /// </summary>
         public static double Max(double a, double b)
         {
@@ -105,7 +129,7 @@ namespace Modules.L0.Quantities
         }
 
         /// <summary>
-        /// Clamp a number between two values.
+        /// Return the result of clamping a number between two values.
         /// </summary>
         public static double Clamp(double value, double min, double max)
         {
@@ -113,11 +137,22 @@ namespace Modules.L0.Quantities
         }
 
         /// <summary>
-        /// Clamp a number between 0 and 1.
+        /// Return the result of clamping a number between 0 and 1.
         /// </summary>
         public static double Clamp01(double value)
         {
             return Clamp(value, 0d, 1d);
+        }
+
+        /// <summary>
+        /// Return the result of forcing a number into a range from 0 to the specified max (through a modulo operation).
+        /// </summary>
+        public static Angle Loop(double value, double max)
+        {
+            if (value < 0.0)
+                return new Angle(max - value % max);
+            else
+                return new Angle(value % max);
         }
 
 
@@ -171,7 +206,6 @@ namespace Modules.L0.Quantities
         {
             return Math.Tan(value);
         }
-
 
 
         /// <summary>

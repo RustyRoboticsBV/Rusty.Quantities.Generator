@@ -21,3 +21,4 @@ TimeGenerator.Generate(tsv, tsuv, tuva, tsua, tsva);
 DistanceGenerator.Generate(tsv, tsuv, suva, tsua, tsva);
 SpeedGenerator.Generate(tsv, tsuv, tuva, suva, tsua, tsva);
 AccelerationGenerator.Generate(tuva, suva, tsua, tsva);
+AngleGenerator.Generate();

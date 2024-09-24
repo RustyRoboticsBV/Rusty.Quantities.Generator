@@ -12,6 +12,15 @@ namespace Generator
         {
             string code = ClassGenerator.Generate("Speed", "Represents a speed quantity.");
 
+            string props = "";
+            code = code.Replace("//PROPS", props);
+
+            string casts = "";
+            code = code.Replace("//CASTS", casts);
+
+            string math = "";
+            code = code.Replace("//MATH", math);
+
             string formulaCode = "";
             foreach (FormulaSet formulaSet in formulas)
             {
@@ -29,7 +38,7 @@ namespace Generator
                     formulaCode += formulaSet.GenerateMethod("Speed", 'v', "Calculate" + formulaSet.FindParameter('v').CamelCase);
                 }
             }
-            code = code.Replace("//FORMULAS", formulaCode);
+            code = code.Replace("//METHODS", formulaCode);
 
             FileWriter.Write("Speed", code);
         }

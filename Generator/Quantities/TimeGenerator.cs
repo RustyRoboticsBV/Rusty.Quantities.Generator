@@ -12,6 +12,15 @@ namespace Generator
         {
             string code = ClassGenerator.Generate("Time", "Represents a time quantity.");
 
+            string props = "";
+            code = code.Replace("//PROPS", props);
+
+            string casts = "";
+            code = code.Replace("//CASTS", casts);
+
+            string math = "";
+            code = code.Replace("//MATH", math);
+
             string formulaCode = "";
             foreach (FormulaSet formulaSet in formulas)
             {
@@ -20,7 +29,7 @@ namespace Generator
                 if (formulaSet.ContainsFormula('t'))
                     formulaCode += formulaSet.GenerateMethod("Time", 't', "Calculate");
             }
-            code = code.Replace("//FORMULAS", formulaCode);
+            code = code.Replace("//METHODS", formulaCode);
 
             FileWriter.Write("Time", code);
         }

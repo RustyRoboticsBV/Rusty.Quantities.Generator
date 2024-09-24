@@ -12,6 +12,15 @@ namespace Generator
         {
             string code = ClassGenerator.Generate("Acceleration", "Represents a acceleration quantity.");
 
+            string props = "";
+            code = code.Replace("//PROPS", props);
+
+            string casts = "";
+            code = code.Replace("//CASTS", casts);
+
+            string math = "";
+            code = code.Replace("//MATH", math);
+
             string formulaCode = "";
             foreach (FormulaSet formulaSet in formulas)
             {
@@ -20,7 +29,7 @@ namespace Generator
                 if (formulaSet.ContainsFormula('a'))
                     formulaCode += formulaSet.GenerateMethod("Acceleration", 'a', "Calculate");
             }
-            code = code.Replace("//FORMULAS", formulaCode);
+            code = code.Replace("//METHODS", formulaCode);
 
             FileWriter.Write("Acceleration", code);
         }
