@@ -1,1 +1,0 @@
-        public static __QUANTITY __PROP => new __QUANTITY(__VALUE);

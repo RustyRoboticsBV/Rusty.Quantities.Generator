@@ -1,8 +1,0 @@
-        /// <summary>
-        /// __DESC_LOCAL
-        /// </summary>
-        public readonly __RETURN __METHOD(__QUANTITY min, __QUANTITY max) => Mathd.__METHOD(value, min.value, max.value);
-        /// <summary>
-        /// __DESC_STATIC
-        /// </summary>
-        public static __RETURN __METHOD(__QUANTITY value, __QUANTITY min, __QUANTITY max) => Mathd.__METHOD(a.value, min.value, max.value);

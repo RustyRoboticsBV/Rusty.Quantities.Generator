@@ -1,2 +1,0 @@
-        public static __EXPLICIT operator __TYPE(__QUANTITY value) => return (__TYPE)value.value;
-        public static __EXPLICIT operator __QUANTITTY(__TYPE value) => return new __QUANTITY(value);

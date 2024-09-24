@@ -1,2 +1,0 @@
-        public static __QUANTITY operator __OPERATOR(__QUANTITY a, __TYPE b) => return new __QUANTITY(a.value __OPERATOR (double)b);
-        public static __QUANTITY operator __OPERATOR(__TYPE a, __QUANTITY b) => return new __QUANTITY((double)a __OPERATOR b.value);
