@@ -1,11 +1,11 @@
 ﻿
 
-namespace Generator
+namespace Generators
 {
     /// <summary>
     /// A generator for the acceleration quantity class.
     /// </summary>
-    public static class AccelerationGenerator
+    public class AccelerationGenerator : Generator
     {
         /* Public methods. */
         public static void Generate(params FormulaSet[] formulas)
@@ -27,7 +27,7 @@ namespace Generator
                 if (formulaCode != "")
                     formulaCode += "\n";
                 if (formulaSet.ContainsFormula('a'))
-                    formulaCode += formulaSet.GenerateMethod("Acceleration", 'a', "Calculate");
+                    formulaCode += FormulaMethodGenerator.Generate(formulaSet, "Acceleration", 'a', "Calculate");
             }
             code = code.Replace("//METHODS", formulaCode);
 

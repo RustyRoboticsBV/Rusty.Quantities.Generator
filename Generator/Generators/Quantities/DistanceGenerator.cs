@@ -1,11 +1,11 @@
 ﻿
 
-namespace Generator
+namespace Generators
 {
     /// <summary>
     /// A generator for the distance quantity class.
     /// </summary>
-    public static class DistanceGenerator
+    public class DistanceGenerator : Generator
     {
         /* Public methods. */
         public static void Generate(params FormulaSet[] formulas)
@@ -27,7 +27,7 @@ namespace Generator
                 if (formulaCode != "")
                     formulaCode += "\n";
                 if (formulaSet.ContainsFormula('s'))
-                    formulaCode += formulaSet.GenerateMethod("Distance", 's', "Calculate");
+                    formulaCode += FormulaMethodGenerator.Generate(formulaSet, "Distance", 's', "Calculate");
             }
             code = code.Replace("//METHODS", formulaCode);
 

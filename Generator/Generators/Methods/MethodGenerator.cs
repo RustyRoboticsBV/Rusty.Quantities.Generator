@@ -1,18 +1,18 @@
 ﻿
 
-namespace Generator
+namespace Generators
 {
     /// <summary>
     /// A generator for math method blocks.
     /// </summary>
-    public static class MethodGenerator
+    public class MethodGenerator : Generator
     {
         /* Public methods. */
         public static string GenerateSummary(string desc)
         {
-            return ClassGenerator.Indent + $"/// <summary>"
-                + "\n" + ClassGenerator.Indent + $"/// {An(desc)}"
-                + "\n" + ClassGenerator.Indent + "/// </summary>";
+            return Indent + $"/// <summary>"
+                + "\n" + Indent + $"/// {An(desc)}"
+                + "\n" + Indent + "/// </summary>";
         }
 
         private static string An(string str)

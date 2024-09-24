@@ -1,29 +1,29 @@
 ﻿
 
-namespace Generator
+namespace Generators
 {
     /// <summary>
-    /// A generator for power of methods.
+    /// A generator for sign methods.
     /// </summary>
-    public static class PowMethodGenerator
+    public class SignMethodGenerator : Generator
     {
         /* Public methods. */
         public static string GenerateLocal(string className)
         {
             return MethodGenerator.GenerateSummary(GenerateDesc(className, false))
-                + "\n" + ClassGenerator.Indent + $"public readonly {className} Pow(double power) => new {className}(Mathd.Pow(value, power));";
+                + "\n" + Indent + $"public readonly int Sign() => Mathd.Sign(value);";
         }
 
         public static string GenerateStatic(string className)
         {
             return MethodGenerator.GenerateSummary(GenerateDesc(className, true))
-                + "\n" + ClassGenerator.Indent + $"public static {className} Pow({className} value, double power) => new {className}(Mathd.Pow(value.value, power));";
+                + "\n" + Indent + $"public static int Sign({className} value) => Mathd.Sign(value.value);";
         }
 
         /* Private methods. */
         private static string GenerateDesc(string className, bool isStatic)
         {
-            return $"Return the result of raising {(isStatic ? "a" : "this")} {className.ToLower()} value to the specified power.";
+            return $"Return the sign of {(isStatic ? "a" : "this")} {className.ToLower()} value; -1 if negative, 1 if positive and 0 if equal to 0.";
         }
     }
 }

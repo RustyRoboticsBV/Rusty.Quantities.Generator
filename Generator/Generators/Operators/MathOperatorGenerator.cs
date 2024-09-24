@@ -1,11 +1,11 @@
 ﻿
 
-namespace Generator
+namespace Generators
 {
     /// <summary>
     /// A generator for arithmetic operator blocks.
     /// </summary>
-    public static class MathOperatorGenerator
+    public class MathOperatorGenerator : Generator
     {
         /* Public methods. */
         public static string Generate(string className)
@@ -29,17 +29,17 @@ namespace Generator
         /* Private methods. */
         private static string GenerateCC(string className, char operatorSymbol)
         {
-            return ClassGenerator.Indent + $"public static {className} operator {operatorSymbol}({className} a, {className} b) => new {className}(a.value {operatorSymbol} b.value);";
+            return Indent + $"public static {className} operator {operatorSymbol}({className} a, {className} b) => new {className}(a.value {operatorSymbol} b.value);";
         }
 
         private static string GenerateTC(string typeName, char operatorName, string className)
         {
-            return ClassGenerator.Indent + $"public static {className} operator {operatorName}({typeName} a, {className} b) => new {className}(a {operatorName} b.value);";
+            return Indent + $"public static {className} operator {operatorName}({typeName} a, {className} b) => new {className}(a {operatorName} b.value);";
         }
 
         private static string GenerateCT(string className, char operatorSymbol, string typeName)
         {
-            return ClassGenerator.Indent + $"public static {className} operator {operatorSymbol}({className} a, {typeName} b) => new {className}(a.value {operatorSymbol} b);";
+            return Indent + $"public static {className} operator {operatorSymbol}({className} a, {typeName} b) => new {className}(a.value {operatorSymbol} b);";
         }
 
         private static string GenerateAll(string className, char operatorSymbol)
@@ -59,7 +59,7 @@ namespace Generator
 
         private static string GenerateUnary(string className, string operatorSymbol)
         {
-            return ClassGenerator.Indent + $"public static {className} operator {operatorSymbol}({className} value) => new {className}({operatorSymbol}value.value);";
+            return Indent + $"public static {className} operator {operatorSymbol}({className} value) => new {className}({operatorSymbol}value.value);";
         }
 
         private static string ToDouble(string id, bool isMainClass)

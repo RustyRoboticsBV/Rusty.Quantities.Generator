@@ -1,4 +1,4 @@
-﻿using Generator;
+﻿using Generators;
 
 // Define parameters.
 Parameter time = new Parameter('t', "Time", "time");

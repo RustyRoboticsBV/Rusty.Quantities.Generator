@@ -1,11 +1,11 @@
 ﻿
 
-namespace Generator
+namespace Generators
 {
     /// <summary>
     /// A generator for the speed quantity class.
     /// </summary>
-    public static class SpeedGenerator
+    public  class SpeedGenerator : Generator
     {
         /* Public methods. */
         public static void Generate(params FormulaSet[] formulas)
@@ -28,14 +28,14 @@ namespace Generator
                 {
                     if (formulaCode != "")
                         formulaCode += "\n";
-                    formulaCode += formulaSet.GenerateMethod("Speed", 'u', "Calculate" + formulaSet.FindParameter('u').CamelCase);
+                    formulaCode += FormulaMethodGenerator.Generate(formulaSet, "Speed", 'u', "Calculate" + formulaSet.FindParameter('u').CamelCase);
                 }
 
                 if (formulaSet.ContainsFormula('v'))
                 {
                     if (formulaCode != "")
                         formulaCode += "\n";
-                    formulaCode += formulaSet.GenerateMethod("Speed", 'v', "Calculate" + formulaSet.FindParameter('v').CamelCase);
+                    formulaCode += FormulaMethodGenerator.Generate(formulaSet, "Speed", 'v', "Calculate" + formulaSet.FindParameter('v').CamelCase);
                 }
             }
             code = code.Replace("//METHODS", formulaCode);

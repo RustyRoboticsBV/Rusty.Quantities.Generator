@@ -1,11 +1,11 @@
 ﻿
 
-namespace Generator
+namespace Generators
 {
     /// <summary>
     /// A generator for blocks of casting operators.
     /// </summary>
-    public static class ComparisonOperatorGenerator
+    public class ComparisonOperatorGenerator : Generator
     {
         /* Public methods. */
         public static string Generate(string className)
@@ -21,7 +21,7 @@ namespace Generator
         /* Private methods. */
         private static string Generate(string className, string operatorName)
         {
-            return ClassGenerator.Indent + $"public static bool operator {operatorName}({className} a, {className} b) => a.value {operatorName} b.value;";
+            return Indent + $"public static bool operator {operatorName}({className} a, {className} b) => a.value {operatorName} b.value;";
         }
     }
 }

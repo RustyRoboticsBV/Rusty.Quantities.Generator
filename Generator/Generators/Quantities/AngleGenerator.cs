@@ -1,11 +1,11 @@
 ﻿
 
-namespace Generator
+namespace Generators
 {
     /// <summary>
     /// A generator for the angle quantity class.
     /// </summary>
-    public static class AngleGenerator
+    public class AngleGenerator : Generator
     {
         /* Public methods. */
         public static void Generate()
@@ -32,13 +32,13 @@ namespace Generator
         private static string GenerateToDegreesLocal()
         {
             return MethodGenerator.GenerateSummary(GenerateToDegreesDesc(false))
-                + "\n" + ClassGenerator.Indent + "public readonly Angle ToDegrees() => new Angle(Mathd.Rad2Deg * value);";
+                + "\n" + Indent + "public readonly Angle ToDegrees() => new Angle(Mathd.Rad2Deg * value);";
         }
 
         private static string GenerateToDegreesStatic()
         {
             return MethodGenerator.GenerateSummary(GenerateToDegreesDesc(true))
-                + "\n" + ClassGenerator.Indent + "public static Angle ToDegrees(Angle value) => new Angle(Mathd.Rad2Deg * value.value);";
+                + "\n" + Indent + "public static Angle ToDegrees(Angle value) => new Angle(Mathd.Rad2Deg * value.value);";
         }
 
         private static string GenerateToDegreesDesc(bool isStatic)
@@ -49,13 +49,13 @@ namespace Generator
         private static string GenerateToRadiansLocal()
         {
             return MethodGenerator.GenerateSummary(GenerateToRadiansDesc(false))
-                + "\n" + ClassGenerator.Indent + "public readonly Angle ToRadians() => new Angle(Mathd.Deg2Rad * value);";
+                + "\n" + Indent + "public readonly Angle ToRadians() => new Angle(Mathd.Deg2Rad * value);";
         }
 
         private static string GenerateToRadiansStatic()
         {
             return MethodGenerator.GenerateSummary(GenerateToRadiansDesc(true))
-                + "\n" + ClassGenerator.Indent + "public static Angle ToRadians(Angle value) => new Angle(Mathd.Deg2Rad * value.value);";
+                + "\n" + Indent + "public static Angle ToRadians(Angle value) => new Angle(Mathd.Deg2Rad * value.value);";
         }
 
         private static string GenerateToRadiansDesc(bool isStatic)

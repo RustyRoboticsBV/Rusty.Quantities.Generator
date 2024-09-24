@@ -1,11 +1,11 @@
 ﻿
 
-namespace Generator
+namespace Generators
 {
     /// <summary>
     /// A generator for blocks of casting operators.
     /// </summary>
-    public static class CastOperatorGenerator
+    public class CastOperatorGenerator : Generator
     {
         /* Public methods. */
         public static string Generate(string className)
@@ -26,17 +26,17 @@ namespace Generator
         /* Private methods. */
         private static string GenerateFromClassType(string className, string typeName, string plicit)
         {
-            return ClassGenerator.Indent + $"public static {plicit}plicit operator {typeName}({className} value) => {(typeName != "double" ? $"({typeName})" : "")}value.value;";
+            return Indent + $"public static {plicit}plicit operator {typeName}({className} value) => {(typeName != "double" ? $"({typeName})" : "")}value.value;";
         }
 
         private static string GenerateToClassType(string className, string typeName)
         {
-            return ClassGenerator.Indent + $"public static implicit operator {className}({typeName} value) => new {className}(value);";
+            return Indent + $"public static implicit operator {className}({typeName} value) => new {className}(value);";
         }
 
         private static string GenerateToString(string className)
         {
-            return ClassGenerator.Indent + $"public static explicit operator string({className} value) => value.ToString();";
+            return Indent + $"public static explicit operator string({className} value) => value.ToString();";
         }
     }
 }

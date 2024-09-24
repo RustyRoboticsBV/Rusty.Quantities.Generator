@@ -1,6 +1,6 @@
 ﻿
 
-namespace Generator
+namespace Generators
 {
     public interface IGeneratorBiNas
     {

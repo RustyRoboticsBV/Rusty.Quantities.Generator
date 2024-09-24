@@ -1,6 +1,6 @@
 ﻿
 
-namespace Generator
+namespace Generators
 {
     /// <summary>
     /// A generator for class C# script files.

@@ -1,17 +1,17 @@
 ﻿
 
-namespace Generator
+namespace Generators
 {
     /// <summary>
     /// A generator for static linear interpolation methods.
     /// </summary>
-    public static class LerpMethodGenerator
+    public class LerpMethodGenerator : Generator
     {
         /* Public methods. */
         public static string Generate(string className)
         {
             return MethodGenerator.GenerateSummary($"Return the result of linearly interpolating between two {className.ToLower()} values, using the specified interpolation factor.")
-                + "\n" + ClassGenerator.Indent + $"public static {className} Lerp({className} min, {className} max, double factor) => new {className}(Mathd.Lerp(min.value, max.value, factor));";
+                + "\n" + Indent + $"public static {className} Lerp({className} min, {className} max, double factor) => new {className}(Mathd.Lerp(min.value, max.value, factor));";
         }
     }
 }

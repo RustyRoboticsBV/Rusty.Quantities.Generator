@@ -1,15 +1,14 @@
 ﻿
 
-namespace Generator
+namespace Generators
 {
     /// <summary>
     /// A generator for a quantity class.
     /// </summary>
-    public static class ClassGenerator
+    public class ClassGenerator : Generator
     {
         /* Public properties. */
         public static string Namespace => "Modules.L0.Quantities";
-        public static string Indent => new(' ', 8);
 
         /* Public methods. */
         public static string Generate(string className, string desc)

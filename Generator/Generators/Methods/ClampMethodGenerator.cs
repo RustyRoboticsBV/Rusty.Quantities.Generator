@@ -1,23 +1,23 @@
 ﻿
 
-namespace Generator
+namespace Generators
 {
     /// <summary>
     /// A generator for the clamp method.
     /// </summary>
-    public static class ClampMethodGenerator
+    public class ClampMethodGenerator : Generator
     {
         /* Public methods. */
         public static string GenerateLocal(string className)
         {
             return MethodGenerator.GenerateSummary(GetDesc(false, className))
-                + "\n" + ClassGenerator.Indent + $"public readonly {className} Clamp({className} min, {className} max) => new {className}(Mathd.Clamp(value, min.value, max.value));";
+                + "\n" + Indent + $"public readonly {className} Clamp({className} min, {className} max) => new {className}(Mathd.Clamp(value, min.value, max.value));";
         }
 
         public static string GenerateStatic(string className)
         {
             return MethodGenerator.GenerateSummary(GetDesc(true, className))
-                + "\n" + ClassGenerator.Indent + $"public static {className} Clamp({className} value, {className} min, {className} max) => new {className}(Mathd.Clamp(value.value, min.value, max.value));";
+                + "\n" + Indent + $"public static {className} Clamp({className} value, {className} min, {className} max) => new {className}(Mathd.Clamp(value.value, min.value, max.value));";
         }
 
         /* Private methods. */

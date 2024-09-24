@@ -1,11 +1,11 @@
 ﻿
 
-namespace Generator
+namespace Generators
 {
     /// <summary>
     /// A generator for the time quantity class.
     /// </summary>
-    public static class TimeGenerator
+    public class TimeGenerator : Generator
     {
         /* Public methods. */
         public static void Generate(params FormulaSet[] formulas)
@@ -27,7 +27,7 @@ namespace Generator
                 if (formulaCode != "")
                     formulaCode += "\n";
                 if (formulaSet.ContainsFormula('t'))
-                    formulaCode += formulaSet.GenerateMethod("Time", 't', "Calculate");
+                    formulaCode += FormulaMethodGenerator.Generate(formulaSet, "Time", 't', "Calculate");
             }
             code = code.Replace("//METHODS", formulaCode);
 
