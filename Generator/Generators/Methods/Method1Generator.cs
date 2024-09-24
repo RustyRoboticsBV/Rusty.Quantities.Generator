@@ -10,13 +10,13 @@ namespace Generators
         /* Public methods. */
         public static string GenerateLocal(string className, string methodName, string desc)
         {
-            return MethodGenerator.GenerateSummary(desc)
+            return SummaryGenerator.Generate(desc)
                 + "\n" + Indent + $"public readonly {className} {methodName}() => new {className}(Mathd.{methodName}(value));";
         }
 
         public static string GenerateStatic(string className, string methodName, string desc)
         {
-            return MethodGenerator.GenerateSummary(desc)
+            return SummaryGenerator.Generate(desc)
                 + "\n" + Indent + $"public static {className} {methodName}({className} value) => new {className}(Mathd.{methodName}(value.value));";
         }
     }

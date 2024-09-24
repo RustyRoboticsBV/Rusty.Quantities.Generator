@@ -31,13 +31,13 @@ namespace Generators
         /* Private methods. */
         private static string GenerateToDegreesLocal()
         {
-            return MethodGenerator.GenerateSummary(GenerateToDegreesDesc(false))
+            return SummaryGenerator.Generate(GenerateToDegreesDesc(false))
                 + "\n" + Indent + "public readonly Angle ToDegrees() => new Angle(Mathd.Rad2Deg * value);";
         }
 
         private static string GenerateToDegreesStatic()
         {
-            return MethodGenerator.GenerateSummary(GenerateToDegreesDesc(true))
+            return SummaryGenerator.Generate(GenerateToDegreesDesc(true))
                 + "\n" + Indent + "public static Angle ToDegrees(Angle value) => new Angle(Mathd.Rad2Deg * value.value);";
         }
 
@@ -48,13 +48,13 @@ namespace Generators
 
         private static string GenerateToRadiansLocal()
         {
-            return MethodGenerator.GenerateSummary(GenerateToRadiansDesc(false))
+            return SummaryGenerator.Generate(GenerateToRadiansDesc(false))
                 + "\n" + Indent + "public readonly Angle ToRadians() => new Angle(Mathd.Deg2Rad * value);";
         }
 
         private static string GenerateToRadiansStatic()
         {
-            return MethodGenerator.GenerateSummary(GenerateToRadiansDesc(true))
+            return SummaryGenerator.Generate(GenerateToRadiansDesc(true))
                 + "\n" + Indent + "public static Angle ToRadians(Angle value) => new Angle(Mathd.Deg2Rad * value.value);";
         }
 

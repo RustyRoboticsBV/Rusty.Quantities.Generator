@@ -10,13 +10,13 @@ namespace Generators
         /* Public methods. */
         public static string GenerateLocal(string className)
         {
-            return MethodGenerator.GenerateSummary(GetDesc(false, className))
+            return SummaryGenerator.Generate(GetDesc(false, className))
                 + "\n" + Indent + $"public readonly {className} Clamp({className} min, {className} max) => new {className}(Mathd.Clamp(value, min.value, max.value));";
         }
 
         public static string GenerateStatic(string className)
         {
-            return MethodGenerator.GenerateSummary(GetDesc(true, className))
+            return SummaryGenerator.Generate(GetDesc(true, className))
                 + "\n" + Indent + $"public static {className} Clamp({className} value, {className} min, {className} max) => new {className}(Mathd.Clamp(value.value, min.value, max.value));";
         }
 

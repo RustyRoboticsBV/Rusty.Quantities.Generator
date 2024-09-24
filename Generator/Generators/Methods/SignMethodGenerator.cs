@@ -10,13 +10,13 @@ namespace Generators
         /* Public methods. */
         public static string GenerateLocal(string className)
         {
-            return MethodGenerator.GenerateSummary(GenerateDesc(className, false))
+            return SummaryGenerator.Generate(GenerateDesc(className, false))
                 + "\n" + Indent + $"public readonly int Sign() => Mathd.Sign(value);";
         }
 
         public static string GenerateStatic(string className)
         {
-            return MethodGenerator.GenerateSummary(GenerateDesc(className, true))
+            return SummaryGenerator.Generate(GenerateDesc(className, true))
                 + "\n" + Indent + $"public static int Sign({className} value) => Mathd.Sign(value.value);";
         }
 

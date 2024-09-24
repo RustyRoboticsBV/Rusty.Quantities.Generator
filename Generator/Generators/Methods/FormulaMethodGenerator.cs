@@ -65,7 +65,7 @@ namespace Generators
 
             // Generate method.
             string _methodName = GenerateMethodName(methodName, orderedParams, formulas.IncludeParamsInName);
-            return MethodGenerator.GenerateSummary(methodDesc)
+            return SummaryGenerator.Generate(methodDesc)
                 + "\n" + Indent + $"public static {returnType.Type} {_methodName}({GenerateParameterList(orderedParams)}) => {code};";
         }
 
