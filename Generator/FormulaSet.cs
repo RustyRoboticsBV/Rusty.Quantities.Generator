@@ -48,33 +48,38 @@ namespace Generator
     {
         /* Public properties. */
         public string[] Formulas { get; private set; }
+        public bool IncludeParamsInName { get; private set; }
         public Parameter[] Parameters { get; private set; }
 
         /* Constructors. */
-        public FormulaSet(string equation, params Parameter[] parameters)
+        public FormulaSet(string equation, bool includeParamsInName, params Parameter[] parameters)
         {
             Formulas = new string[] { equation };
+            IncludeParamsInName = includeParamsInName;
             Parameters = parameters;
             Init();
         }
 
-        public FormulaSet(string equation1, string equation2, params Parameter[] parameters)
+        public FormulaSet(string equation1, string equation2, bool includeParamsInName, params Parameter[] parameters)
         {
             Formulas = new string[] { equation1, equation2 };
+            IncludeParamsInName = includeParamsInName;
             Parameters = parameters;
             Init();
         }
 
-        public FormulaSet(string equation1, string equation2, string equation3, params Parameter[] parameters)
+        public FormulaSet(string equation1, string equation2, string equation3, bool includeParamsInName, params Parameter[] parameters)
         {
             Formulas = new string[] { equation1, equation2, equation3 };
+            IncludeParamsInName = includeParamsInName;
             Parameters = parameters;
             Init();
         }
 
-        public FormulaSet(string equation1, string equation2, string equation3, string equation4, params Parameter[] parameters)
+        public FormulaSet(string equation1, string equation2, string equation3, string equation4, bool includeParamsInName, params Parameter[] parameters)
         {
             Formulas = new string[] { equation1, equation2, equation3, equation4 };
+            IncludeParamsInName = includeParamsInName;
             Parameters = parameters;
             Init();
         }
@@ -171,7 +176,7 @@ namespace Generator
 
             // Generate method.
             return MethodGenerator.GenerateSummary(methodDesc)
-                + "\n" + ClassGenerator.Indent + $"public static {returnType.Type} {methodName}({GenerateParameterList(orderedParams)}) => {code};";
+                + "\n" + ClassGenerator.Indent + $"public static {returnType.Type} {GenerateMethodName(methodName, orderedParams)}({GenerateParameterList(orderedParams)}) => {code};";
         }
 
         /* Private methods. */
@@ -241,6 +246,22 @@ namespace Generator
             }
 
             return ordered.ToArray();
+        }
+
+        /// <summary>
+        /// Generate a method name from a prefox and a set of argument parameters.
+        /// </summary>
+        private string GenerateMethodName(string methodName, Parameter[] args)
+        {
+            if (!IncludeParamsInName)
+                return methodName;
+
+            string name = methodName;
+            foreach (Parameter parameter in args)
+            {
+                name += parameter.ShortName.ToString().ToUpper();
+            }
+            return name;
         }
 
         /// <summary>
