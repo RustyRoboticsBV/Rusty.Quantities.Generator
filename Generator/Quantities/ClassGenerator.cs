@@ -49,8 +49,8 @@ namespace Generator
                 + "\n" + ComparisonOperatorGenerator.Generate(className)
                 + "\n"
                 + "\n" + "        /* Public methods. */"
+                + "\n" + $"        public override readonly bool Equals(object? obj) => obj is {className} {className.ToLower()} && this == {className.ToLower()};"
                 + "\n" + $"        public override readonly int GetHashCode() => value.GetHashCode();"
-                + "\n" + $"        public override readonly bool Equals(object? obj) => obj is {className} {className.ToLower()} && value == {className.ToLower()}.value;"
                 + "\n" + "        public override readonly string ToString() => value.ToString();"
                 + "\n"
                 + "\n" + MethodGenerator.GenerateAll(className)
