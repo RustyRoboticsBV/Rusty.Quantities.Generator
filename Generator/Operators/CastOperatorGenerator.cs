@@ -19,7 +19,8 @@ namespace Generator
                 + "\n" + GenerateToClassType(className, "int")
                 + "\n" + GenerateToClassType(className, "long")
                 + "\n" + GenerateToClassType(className, "float")
-                + "\n" + GenerateToClassType(className, "double");
+                + "\n" + GenerateToClassType(className, "double")
+                + "\n" + GenerateToString(className);
         }
 
         /* Private methods. */
@@ -33,5 +34,9 @@ namespace Generator
             return ClassGenerator.Indent + $"public static implicit operator {className}({typeName} value) => new {className}(value);";
         }
 
+        private static string GenerateToString(string className)
+        {
+            return ClassGenerator.Indent + $"public static explicit operator string({className} value) => value.ToString();";
+        }
     }
 }

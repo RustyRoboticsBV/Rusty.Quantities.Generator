@@ -15,7 +15,8 @@ namespace Generator
                 + "\n" + GenerateAll(className, '*')
                 + "\n" + GenerateAll(className, '/')
                 + "\n" + GenerateAll(className, '%')
-                + "\n" + GenerateUnaryMinus(className);
+                + "\n" + GenerateUnary(className, '+')
+                + "\n" + GenerateUnary(className, '-');
         }
 
         public static string Generate(string returnType, string operand1Type, bool isClass1, string operatorName, string operand2Type, bool isClass2)
@@ -54,9 +55,9 @@ namespace Generator
                 + "\n" + GenerateCC(className, operatorSymbol);
         }
 
-        private static string GenerateUnaryMinus(string className)
+        private static string GenerateUnary(string className, char operatorSymbol)
         {
-            return ClassGenerator.Indent + $"public static {className} operator -({className} value) => new {className}(-value.value);";
+            return ClassGenerator.Indent + $"public static {className} operator {operatorSymbol}({className} value) => new {className}({operatorSymbol}value.value);";
         }
 
         private static string ToDouble(string id, bool isMainClass)

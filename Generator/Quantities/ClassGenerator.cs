@@ -43,6 +43,9 @@ namespace Generator
                 + "\n" + "        /* Arithmetic operators. */"
                 + "\n" + MathOperatorGenerator.Generate(className)
                 + "\n"
+                + "\n" + "        /* Comparison operators. */"
+                + "\n" + ComparisonOperatorGenerator.Generate(className)
+                + "\n"
                 + "\n" + "        /* Public methods. */"
                 + "\n" + "        public readonly override string ToString() => value.ToString();"
                 + "\n"
