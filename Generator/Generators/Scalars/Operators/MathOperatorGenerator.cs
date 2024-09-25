@@ -48,7 +48,7 @@ namespace Generators.Scalars
             return GenerateBinary(className,
                 operatorName,
                 className, className,
-                $"return {ToDouble("a", true)} {operatorName} {ToDouble("b", true)};");
+                $"return new {className}({ToDouble("a", true)} {operatorName} {ToDouble("b", true)});");
         }
 
         private static string GenerateTC(string typeName, string operatorName, string className)
@@ -56,7 +56,7 @@ namespace Generators.Scalars
             return GenerateBinary(className,
                 operatorName,
                 typeName, className,
-                $"return {ToDouble("a", false)} {operatorName} {ToDouble("b", true)};");
+                $"return new {className}({ToDouble("a", false)} {operatorName} {ToDouble("b", true)});");
         }
 
         private static string GenerateCT(string className, string operatorName, string typeName)
@@ -64,7 +64,7 @@ namespace Generators.Scalars
             return GenerateBinary(className,
                 operatorName,
                 className, typeName,
-                $"return {ToDouble("a", true)} {operatorName} {ToDouble("b", false)};");
+                $"return new {className}({ToDouble("a", true)} {operatorName} {ToDouble("b", false)});");
         }
 
         private static string GenerateUnary(string className, string operatorSymbol)
@@ -76,11 +76,21 @@ namespace Generators.Scalars
 
         private static string GenerateAll(string className, string operatorSymbol)
         {
-            return GenerateTC("short", operatorSymbol, className)
+            return GenerateTC("byte", operatorSymbol, className)
+                + "\n" + GenerateTC("ushort", operatorSymbol, className)
+                + "\n" + GenerateTC("uint", operatorSymbol, className)
+                + "\n" + GenerateTC("ulong", operatorSymbol, className)
+                + "\n" + GenerateTC("sbyte", operatorSymbol, className)
+                + "\n" + GenerateTC("short", operatorSymbol, className)
                 + "\n" + GenerateTC("int", operatorSymbol, className)
                 + "\n" + GenerateTC("long", operatorSymbol, className)
                 + "\n" + GenerateTC("float", operatorSymbol, className)
                 + "\n" + GenerateTC("double", operatorSymbol, className)
+                + "\n" + GenerateCT(className, operatorSymbol, "byte")
+                + "\n" + GenerateCT(className, operatorSymbol, "ushort")
+                + "\n" + GenerateCT(className, operatorSymbol, "uint")
+                + "\n" + GenerateCT(className, operatorSymbol, "ulong")
+                + "\n" + GenerateCT(className, operatorSymbol, "sbyte")
                 + "\n" + GenerateCT(className, operatorSymbol, "short")
                 + "\n" + GenerateCT(className, operatorSymbol, "int")
                 + "\n" + GenerateCT(className, operatorSymbol, "long")
