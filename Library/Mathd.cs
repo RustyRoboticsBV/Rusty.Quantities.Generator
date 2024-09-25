@@ -177,14 +177,15 @@ namespace Modules.L0.Quantities
         /// </summary>
         public static double Wrap(double value, double min, double max)
         {
-            double relVal = value - min;
-            double length = max - min;
-            if (length < 0)
-                throw new ArgumentException("length < 0");
-            if (relVal < 0.0)
-                return min + (length - relVal) % length;
+            double length = Abs(max - min);
+            if (length == 0)
+                return min;
+
+            double relative = value - min;
+            if (relative < 0.0)
+                return min + (length - relative) % length;
             else
-                return min + relVal % length;
+                return min + relative % length;
         }
 
         /// <summary>
@@ -192,20 +193,18 @@ namespace Modules.L0.Quantities
         /// </summary>
         public static double PingPong(double value, double min, double max)
         {
-            double length = max - min;
-            if (length < 0)
-                throw new ArgumentException("length < 0");
+            double length = Abs(max - min);
             if (length == 0)
                 return min;
 
-            double relVal = Abs(min - value);
+            double relative = Abs(min - value);
 
-            bool isEven = (byte)(Floor(relVal / length) % 2.0) == 0;
+            bool isEven = (byte)(Floor(relative / length) % 2.0) == 0;
 
             if (isEven)
-                return min + relVal % length;
+                return min + relative % length;
             else
-                return max - relVal % length;
+                return max - relative % length;
         }
 
         /// <summary>
@@ -213,9 +212,13 @@ namespace Modules.L0.Quantities
         /// </summary>
         public static double Snap(double value, double offset, double size)
         {
-            double relVal = value - offset;
-            double mod = relVal % size;
-            int step = (int)(relVal / size);
+            // TODO: probably doesn't work properly for negative values yet.
+            if (size == 0)
+                return value;
+
+            double relative = value - offset;
+            double mod = relative % size;
+            int step = (int)(relative / size);
             if (mod < 0.5 * size)
                 return offset + step * size;
             else
