@@ -70,13 +70,16 @@ namespace Generators.Scalars
                 + "\n" + MathMethod1Generator.GenerateLocal(ClassName, "Min", GetMinDesc(false, ClassName))
                 + "\n" + MathMethod1Generator.GenerateLocal(ClassName, "Max", GetMaxDesc(false, ClassName))
                 + "\n" + ClampMethodGenerator.GenerateLocal(ClassName)
-                + "\n" + LoopMethodGenerator.GenerateLocal(ClassName)
                 + "\n" + MathMethod0Generator.GenerateLocal(ClassName, "Round", GetRoundDesc(false, ClassName))
                 + "\n" + MathMethod0Generator.GenerateLocal(ClassName, "Floor", GetFloorDesc(false, ClassName))
                 + "\n" + MathMethod0Generator.GenerateLocal(ClassName, "Ceil", GetCeilDesc(false, ClassName))
                 + "\n" + MathMethod0Generator.GenerateLocal(ClassName, "Sin", GetSinDesc(false, ClassName))
                 + "\n" + MathMethod0Generator.GenerateLocal(ClassName, "Cos", GetCosDesc(false, ClassName))
-                + "\n" + MathMethod0Generator.GenerateLocal(ClassName, "Tan", GetTanDesc(false, ClassName)); ;
+                + "\n" + MathMethod0Generator.GenerateLocal(ClassName, "Tan", GetTanDesc(false, ClassName))
+                + "\n" + WrapMethodGenerator.GenerateLocal(ClassName)
+                + "\n" + MathMethod2Generator.GenerateLocal(ClassName, "PingPong", GetPingPongDesc(false, ClassName))
+                + "\n" + MathMethod2Generator.GenerateLocal(ClassName, "Snap", "offset", "size", GetSnapDesc(false, ClassName))
+                + "\n" + MathMethod4Generator.GenerateLocal(ClassName, "Map", GetMapDesc(false, ClassName));
         }
 
         protected override string GenerateStaticMethods()
@@ -92,13 +95,16 @@ namespace Generators.Scalars
                 + "\n" + MathMethod1Generator.GenerateStatic(ClassName, "Min", GetMinDesc(true, ClassName))
                 + "\n" + MathMethod1Generator.GenerateStatic(ClassName, "Max", GetMaxDesc(true, ClassName))
                 + "\n" + ClampMethodGenerator.GenerateStatic(ClassName)
-                + "\n" + LoopMethodGenerator.GenerateStatic(ClassName)
                 + "\n" + MathMethod0Generator.GenerateStatic(ClassName, "Round", GetRoundDesc(true, ClassName))
                 + "\n" + MathMethod0Generator.GenerateStatic(ClassName, "Floor", GetFloorDesc(true, ClassName))
                 + "\n" + MathMethod0Generator.GenerateStatic(ClassName, "Ceil", GetCeilDesc(true, ClassName))
                 + "\n" + MathMethod0Generator.GenerateStatic(ClassName, "Sin", GetSinDesc(true, ClassName))
                 + "\n" + MathMethod0Generator.GenerateStatic(ClassName, "Cos", GetCosDesc(true, ClassName))
                 + "\n" + MathMethod0Generator.GenerateStatic(ClassName, "Tan", GetTanDesc(true, ClassName))
+                + "\n" + WrapMethodGenerator.GenerateStatic(ClassName)
+                + "\n" + MathMethod2Generator.GenerateStatic(ClassName, "PingPong", GetPingPongDesc(true, ClassName))
+                + "\n" + MathMethod2Generator.GenerateStatic(ClassName, "Snap", GetSnapDesc(true, ClassName))
+                + "\n" + MathMethod4Generator.GenerateStatic(ClassName, "Map", GetMapDesc(true, ClassName))
                 + "\n" + LerpMethodGenerator.Generate(ClassName);
         }
 
@@ -154,6 +160,19 @@ namespace Generators.Scalars
         private static string GetRoundDesc(bool isStatic, string className) => GetRoundingDesc("", isStatic, className);
         private static string GetFloorDesc(bool isStatic, string className) => GetRoundingDesc("down", isStatic, className);
         private static string GetCeilDesc(bool isStatic, string className) => GetRoundingDesc("up", isStatic, className);
+
+        private static string GetPingPongDesc(bool isStatic, string className)
+        {
+            return $"Return the result of mapping {(isStatic ? "a" : "this")} {className.ToLower()} value to the specified, ping-ponging range.";
+        }
+        private static string GetSnapDesc(bool isStatic, string className)
+        {
+            return $"Return the result of snapping {(isStatic ? "a" : "this")} {className.ToLower()} value to the specified interval.";
+        }
+        private static string GetMapDesc(bool isStatic, string className)
+        {
+            return $"Return the result of mapping {(isStatic ? "a" : "this")} {className.ToLower()} value from the specified source range to the specified target range.";
+        }
 
         private static string GetTrigoDesc(string funcName, bool isStatic, string className)
         {

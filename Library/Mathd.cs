@@ -144,17 +144,6 @@ namespace Modules.L0.Quantities
             return Clamp(value, 0d, 1d);
         }
 
-        /// <summary>
-        /// Return the result of forcing a number into a range from 0 to the specified max (through a modulo operation).
-        /// </summary>
-        public static double Loop(double value, double max)
-        {
-            if (value < 0.0)
-                return max - value % max;
-            else
-                return value % max;
-        }
-
 
         /// <summary>
         /// Round a number to the nearest integer.
@@ -184,6 +173,66 @@ namespace Modules.L0.Quantities
 
 
         /// <summary>
+        /// Return the result of mapping a number into a looping range between the specified min and max.
+        /// </summary>
+        public static double Wrap(double value, double min, double max)
+        {
+            double relVal = value - min;
+            double length = max - min;
+            if (length < 0)
+                throw new ArgumentException("length < 0");
+            if (relVal < 0.0)
+                return min + (length - relVal) % length;
+            else
+                return min + relVal % length;
+        }
+
+        /// <summary>
+        /// Return the result of mapping a number into a ping-ponging range between the specified min and max.
+        /// </summary>
+        public static double PingPong(double value, double min, double max)
+        {
+            double length = max - min;
+            if (length < 0)
+                throw new ArgumentException("length < 0");
+            if (length == 0)
+                return min;
+
+            double relVal = Abs(min - value);
+
+            bool isEven = (byte)(Floor(relVal / length) % 2.0) == 0;
+
+            if (isEven)
+                return min + relVal % length;
+            else
+                return max - relVal % length;
+        }
+
+        /// <summary>
+        /// Return the result of snapping a number to some interval.
+        /// </summary>
+        public static double Snap(double value, double offset, double size)
+        {
+            double relVal = value - offset;
+            double mod = relVal % size;
+            int step = (int)(relVal / size);
+            if (mod < 0.5 * size)
+                return offset + step * size;
+            else
+                return offset + (step + 1) * size;
+        }
+
+        /// <summary>
+        /// Return the result of linearly mapping a value from a specified range to another specified range.
+        /// </summary>
+        public static double Map(double value, double fromMin, double fromMax, double toMin, double toMax)
+        {
+            double proportion = (value - fromMin) / (fromMax - fromMin);
+            return toMin + proportion * (toMax - toMin);
+        }
+
+
+        /// <summary>
         /// Returns the sine of the specified number.
         /// </summary>
         public static double Sin(double value)
@@ -207,6 +256,20 @@ namespace Modules.L0.Quantities
             return Math.Tan(value);
         }
 
+
+        /// <summary>
+        /// Return the result of stepping from the specified number towards another specified number, with some distance. The
+        /// return value cannot pass through the destination number.
+        /// </summary>
+        public static double Step(double from, double to, double delta)
+        {
+            if (from < to)
+                return Min(from + delta, to);
+            else if (from > to)
+                return Max(from - delta, to);
+            else
+                return to;
+        }
 
         /// <summary>
         /// Linearly interpolate between a and b by the specified factor.
