@@ -10,14 +10,13 @@ namespace Generators.Scalars
         /* Public methods. */
         public static string Generate(string returnType, string name, string parameters, string implementation, string summary = null)
         {
-            string code = "";
-            if (summary != null)
-                code += SummaryGenerator.Generate(summary) + "\n";
-            code += Indent + $"public static {returnType} operator {name}({parameters})"
-                + "\n" + Indent + "{"
-                + "\n" + MethodIndent + implementation.Replace("\n", "\n" + MethodIndent)
-                + "\n" + Indent + "}";
-            return code;
+            return OperatorGenerator.Generate(
+                null,
+                returnType,
+                name,
+                parameters,
+                implementation,
+                summary);
         }
 
         public static string GenerateUnary(string className, string name, string implementation, string summary = null)

@@ -8,6 +8,17 @@ namespace Generators.Scalars
     public class CastOperatorGenerator : Generator
     {
         /* Public methods. */
+        public static string Generate(string plicit, string from, string to, string implementation, string summary = null)
+        {
+            return OperatorGenerator.Generate(
+                $"{plicit}plicit",
+                null,
+                to,
+                $"{from} value",
+                implementation,
+                summary);
+        }
+
         public static string Generate(string className)
         {
             return GenerateFromClassType(className, "short", "ex")
@@ -21,18 +32,6 @@ namespace Generators.Scalars
                 + "\n" + GenerateToClassType(className, "float")
                 + "\n" + GenerateToClassType(className, "double")
                 + "\n" + GenerateToString(className);
-        }
-
-        public static string Generate(string plicit, string from, string to, string implementation, string summary = null)
-        {
-            string code = "";
-            if (summary != null)
-                code += SummaryGenerator.Generate(summary) + "\n";
-            code += Indent + $"public static {plicit}plicit operator {to}({from} value)"
-                + "\n" + Indent + "{"
-                + "\n" + MethodIndent + implementation.Replace("\n", "\n" + MethodIndent)
-                + "\n" + Indent + "}";
-            return code;
         }
 
         /* Private methods. */
