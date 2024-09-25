@@ -79,7 +79,8 @@ namespace Generators.Scalars
                 + "\n" + WrapMethodGenerator.GenerateLocal(ClassName)
                 + "\n" + MathMethod2Generator.GenerateLocal(ClassName, "PingPong", GetPingPongDesc(false, ClassName))
                 + "\n" + MathMethod2Generator.GenerateLocal(ClassName, "Snap", "offset", "size", GetSnapDesc(false, ClassName))
-                + "\n" + MathMethod4Generator.GenerateLocal(ClassName, "Map", GetMapDesc(false, ClassName));
+                + "\n" + MathMethod4Generator.GenerateLocal(ClassName, "Map", GetMapDesc(false, ClassName))
+                + "\n" + MathMethod2Generator.GenerateLocal(ClassName, "Step", "to", "delta", GetMapDesc(false, ClassName));
         }
 
         protected override string GenerateStaticMethods()
@@ -105,6 +106,7 @@ namespace Generators.Scalars
                 + "\n" + MathMethod2Generator.GenerateStatic(ClassName, "PingPong", GetPingPongDesc(true, ClassName))
                 + "\n" + MathMethod2Generator.GenerateStatic(ClassName, "Snap", GetSnapDesc(true, ClassName))
                 + "\n" + MathMethod4Generator.GenerateStatic(ClassName, "Map", GetMapDesc(true, ClassName))
+                + "\n" + MathMethod2Generator.GenerateStatic(ClassName, "Step", "from", "to", "delta", GetStepDesc(true, ClassName))
                 + "\n" + LerpMethodGenerator.Generate(ClassName);
         }
 
@@ -181,5 +183,10 @@ namespace Generators.Scalars
         private static string GetSinDesc(bool isStatic, string className) => GetTrigoDesc("sine", isStatic, className);
         private static string GetCosDesc(bool isStatic, string className) => GetTrigoDesc("cosine", isStatic, className);
         private static string GetTanDesc(bool isStatic, string className) => GetTrigoDesc("tangent", isStatic, className);
+
+        private static string GetStepDesc(bool isStatic, string className)
+        {
+            return $"Return the result of moving {(isStatic ? "a" : "this")} {className.ToLower()} value towards the target value with some amount. The return value doesn't move past the target value.";
+        }
     }
 }
