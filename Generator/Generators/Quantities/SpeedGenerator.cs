@@ -5,42 +5,52 @@ namespace Generators.Quantities
     /// <summary>
     /// A generator for the speed quantity class.
     /// </summary>
-    public class SpeedGenerator : Generator
+    public class SpeedGenerator : ClassGenerator
     {
-        /* Public methods. */
-        public static void Generate(params FormulaSet[] formulas)
+        /* Private properties. */
+        private FormulaSet ConstantFormula { get; set; }
+        private FormulaSet[] Formulas { get; set; }
+
+        /* Constructors. */
+        public SpeedGenerator(FormulaSet constantFormula, FormulaSet[] formulas)
+            : base()
         {
-            string code = ClassGenerator.Generate("Speed", "Represents a speed quantity.");
+            ConstantFormula = constantFormula;
+            Formulas = formulas;
+        }
 
-            string props = "";
-            code = code.Replace("//PROPS", props);
+        /* Public methods. */
+        public static void Generate(FormulaSet constantFormula, params FormulaSet[] formulas)
+        {
+            string code = new SpeedGenerator(constantFormula, formulas).GenerateClass("Speed", "Represents a speed quantity.");
 
-            string casts = "";
-            code = code.Replace("//CASTS", casts);
+            FileWriter.Write("Speed", code);
+        }
 
-            string math = "";
-            code = code.Replace("//MATH", math);
-
-            string formulaCode = "";
-            foreach (FormulaSet formulaSet in formulas)
+        /* Protected methods. */
+        protected override string GenerateStaticMethods()
+        {
+            string code = "";
+            code += FormulaMethodGenerator.Generate(ConstantFormula, "Speed", 'v', "CalcConstSpeedFrom");
+            foreach (FormulaSet formulaSet in Formulas)
             {
                 if (formulaSet.ContainsFormula('u'))
                 {
-                    if (formulaCode != "")
-                        formulaCode += "\n";
-                    formulaCode += FormulaMethodGenerator.Generate(formulaSet, "Speed", 'u', "Calculate" + formulaSet.FindParameter('u').CamelCase);
-                }
-
-                if (formulaSet.ContainsFormula('v'))
-                {
-                    if (formulaCode != "")
-                        formulaCode += "\n";
-                    formulaCode += FormulaMethodGenerator.Generate(formulaSet, "Speed", 'v', "Calculate" + formulaSet.FindParameter('v').CamelCase);
+                    if (code != "")
+                        code += "\n";
+                    code += FormulaMethodGenerator.Generate(formulaSet, "Speed", 'u', "Calc" + formulaSet.FindParameter('u').CamelCase + "From");
                 }
             }
-            code = code.Replace("//METHODS", formulaCode);
-
-            FileWriter.Write("Speed", code);
+            foreach (FormulaSet formulaSet in Formulas)
+            {
+                if (formulaSet.ContainsFormula('v'))
+                {
+                    if (code != "")
+                        code += "\n";
+                    code += FormulaMethodGenerator.Generate(formulaSet, "Speed", 'v', "Calc" + formulaSet.FindParameter('v').CamelCase + "From");
+                }
+            }
+            return base.GenerateStaticMethods() + "\n\n" + code;
         }
     }
 }

@@ -5,29 +5,39 @@ namespace Generators.Quantities
     /// <summary>
     /// A generator for the angle quantity class.
     /// </summary>
-    public class AngleGenerator : Generator
+    public class AngleGenerator : ClassGenerator
     {
-        /* Public methods. */
-        public static void Generate()
+        /* Private properties. */
+        private FormulaSet[] Formulas { get; set; }
+
+        /* Constructors. */
+        public AngleGenerator(FormulaSet[] formulas)
+            : base()
         {
-            string code = ClassGenerator.Generate("Angle", "Represents a angle quantity.");
+            Formulas = formulas;
+        }
 
-            string props = "";
-            code = code.Replace("//PROPS", props);
-
-            string casts = "";
-            code = code.Replace("//CASTS", casts);
-
-            string math = "";
-            code = code.Replace("//MATH", math);
-
-            string methods = GenerateConversionLocal(false)
-                + "\n" + GenerateConversionLocal(true)
-                + "\n\n" + GenerateConversionStatic(false)
-                + "\n" + GenerateConversionStatic(true);
-            code = code.Replace("//METHODS", methods);
+        /* Public methods. */
+        public static void Generate(params FormulaSet[] formulas)
+        {
+            string code = new AngleGenerator(formulas).GenerateClass("Angle", "Represents an angle quantity.");
 
             FileWriter.Write("Angle", code);
+        }
+
+        /* Protected methods. */
+        protected override string GenerateLocalMethods()
+        {
+            return base.GenerateLocalMethods()
+                + "\n" + GenerateConversionLocal(false)
+                + "\n" + GenerateConversionLocal(true);
+        }
+
+        protected override string GenerateStaticMethods()
+        {
+            return base.GenerateStaticMethods()
+                + "\n" + GenerateConversionStatic(false)
+                + "\n" + GenerateConversionStatic(true);
         }
 
         /* Private methods. */

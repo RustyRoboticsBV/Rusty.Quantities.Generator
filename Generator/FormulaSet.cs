@@ -52,34 +52,34 @@ namespace Generators
         public Parameter[] Parameters { get; private set; }
 
         /* Constructors. */
-        public FormulaSet(string equation, bool includeParamsInName, params Parameter[] parameters)
+        public FormulaSet(string equation, params Parameter[] parameters)
         {
             Formulas = new string[] { equation };
-            IncludeParamsInName = includeParamsInName;
+            IncludeParamsInName = true;
             Parameters = parameters;
             Init();
         }
 
-        public FormulaSet(string equation1, string equation2, bool includeParamsInName, params Parameter[] parameters)
+        public FormulaSet(string equation1, string equation2, params Parameter[] parameters)
         {
             Formulas = new string[] { equation1, equation2 };
-            IncludeParamsInName = includeParamsInName;
+            IncludeParamsInName = true;
             Parameters = parameters;
             Init();
         }
 
-        public FormulaSet(string equation1, string equation2, string equation3, bool includeParamsInName, params Parameter[] parameters)
+        public FormulaSet(string equation1, string equation2, string equation3, params Parameter[] parameters)
         {
             Formulas = new string[] { equation1, equation2, equation3 };
-            IncludeParamsInName = includeParamsInName;
+            IncludeParamsInName = true;
             Parameters = parameters;
             Init();
         }
 
-        public FormulaSet(string equation1, string equation2, string equation3, string equation4, bool includeParamsInName, params Parameter[] parameters)
+        public FormulaSet(string equation1, string equation2, string equation3, string equation4, params Parameter[] parameters)
         {
             Formulas = new string[] { equation1, equation2, equation3, equation4 };
-            IncludeParamsInName = includeParamsInName;
+            IncludeParamsInName = true;
             Parameters = parameters;
             Init();
         }

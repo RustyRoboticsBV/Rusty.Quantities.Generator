@@ -5,33 +5,39 @@ namespace Generators.Quantities
     /// <summary>
     /// A generator for the acceleration quantity class.
     /// </summary>
-    public class AccelerationGenerator : Generator
+    public class AccelerationGenerator : ClassGenerator
     {
+        /* Private properties. */
+        private FormulaSet[] Formulas { get; set; }
+
+        /* Constructors. */
+        public AccelerationGenerator(FormulaSet[] formulas)
+            : base()
+        {
+            Formulas = formulas;
+        }
+
         /* Public methods. */
         public static void Generate(params FormulaSet[] formulas)
         {
-            string code = ClassGenerator.Generate("Acceleration", "Represents a acceleration quantity.");
-
-            string props = "";
-            code = code.Replace("//PROPS", props);
-
-            string casts = "";
-            code = code.Replace("//CASTS", casts);
-
-            string math = "";
-            code = code.Replace("//MATH", math);
-
-            string formulaCode = "";
-            foreach (FormulaSet formulaSet in formulas)
-            {
-                if (formulaCode != "")
-                    formulaCode += "\n";
-                if (formulaSet.ContainsFormula('a'))
-                    formulaCode += FormulaMethodGenerator.Generate(formulaSet, "Acceleration", 'a', "Calculate");
-            }
-            code = code.Replace("//METHODS", formulaCode);
+            string code = new AccelerationGenerator(formulas).GenerateClass("Acceleration", "Represents a acceleration quantity.");
 
             FileWriter.Write("Acceleration", code);
+        }
+
+        /* Protected methods. */
+        protected override string GenerateStaticMethods()
+        {
+            string code = "";
+            foreach (FormulaSet formulaSet in Formulas)
+            {
+                if (code != "")
+                    code += "\n";
+                if (formulaSet.ContainsFormula('a'))
+                    code += FormulaMethodGenerator.Generate(formulaSet, "Acceleration", 'a', "CalcFrom");
+            }
+
+            return base.GenerateStaticMethods() + "\n\n" + code;
         }
     }
 }

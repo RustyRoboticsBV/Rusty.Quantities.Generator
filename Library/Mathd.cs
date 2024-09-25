@@ -147,12 +147,12 @@ namespace Modules.L0.Quantities
         /// <summary>
         /// Return the result of forcing a number into a range from 0 to the specified max (through a modulo operation).
         /// </summary>
-        public static Angle Loop(double value, double max)
+        public static double Loop(double value, double max)
         {
             if (value < 0.0)
-                return new Angle(max - value % max);
+                return max - value % max;
             else
-                return new Angle(value % max);
+                return value % max;
         }
 
 
