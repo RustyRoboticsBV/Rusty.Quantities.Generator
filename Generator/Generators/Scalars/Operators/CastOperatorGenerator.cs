@@ -23,20 +23,32 @@ namespace Generators.Scalars
                 + "\n" + GenerateToString(className);
         }
 
+        public static string Generate(string plicit, string from, string to, string implementation, string summary = null)
+        {
+            string code = "";
+            if (summary != null)
+                code += SummaryGenerator.Generate(summary) + "\n";
+            code += Indent + $"public static {plicit}plicit operator {to}({from} value)"
+                + "\n" + Indent + "{"
+                + "\n" + MethodIndent + implementation.Replace("\n", "\n" + MethodIndent)
+                + "\n" + Indent + "}";
+            return code;
+        }
+
         /* Private methods. */
         private static string GenerateFromClassType(string className, string typeName, string plicit)
         {
-            return Indent + $"public static {plicit}plicit operator {typeName}({className} value) => {(typeName != "double" ? $"({typeName})" : "")}value.value;";
+            return Generate(plicit, className, typeName, $"return {(typeName != "double" ? $"({typeName})" : "")}value.value;");
         }
 
         private static string GenerateToClassType(string className, string typeName)
         {
-            return Indent + $"public static implicit operator {className}({typeName} value) => new {className}(value);";
+            return Generate("im", typeName, className, $"return new {className}(value);");
         }
 
         private static string GenerateToString(string className)
         {
-            return Indent + $"public static explicit operator string({className} value) => value.ToString();";
+            return Generate("ex", className, "string", "return value.ToString();");
         }
     }
 }

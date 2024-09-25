@@ -8,41 +8,74 @@ namespace Generators.Scalars
     public class MathOperatorGenerator : Generator
     {
         /* Public methods. */
+        public static string Generate(string returnType, string name, string parameters, string implementation, string summary = null)
+        {
+            string code = "";
+            if (summary != null)
+                code += SummaryGenerator.Generate(summary) + "\n";
+            code += Indent + $"public static {returnType} operator {name}({parameters})"
+                + "\n" + Indent + "{"
+                + "\n" + MethodIndent + implementation.Replace("\n", "\n" + MethodIndent)
+                + "\n" + Indent + "}";
+            return code;
+        }
+
+        public static string GenerateUnary(string className, string name, string implementation, string summary = null)
+        {
+            return Generate(className, name, $"{className} value", implementation, summary);
+        }
+
+        public static string GenerateBinary(string returnType, string name, string argType1, string argType2, string implementation, string summary = null)
+        {
+            return Generate(returnType, name, $"{argType1} a, {argType2} b", implementation, summary);
+        }
+
         public static string Generate(string className)
         {
-            return GenerateAll(className, '+')
-                + "\n" + GenerateAll(className, '-')
-                + "\n" + GenerateAll(className, '*')
-                + "\n" + GenerateAll(className, '/')
-                + "\n" + GenerateAll(className, '%')
+            return GenerateAll(className, "+")
+                + "\n" + GenerateAll(className, "-")
+                + "\n" + GenerateAll(className, "*")
+                + "\n" + GenerateAll(className, "/")
+                + "\n" + GenerateAll(className, "%")
                 + "\n" + GenerateUnary(className, "+")
                 + "\n" + GenerateUnary(className, "-")
                 + "\n" + GenerateUnary(className, "++")
                 + "\n" + GenerateUnary(className, "--");
         }
 
-        public static string Generate(string returnType, string operand1Type, bool isClass1, string operatorName, string operand2Type, bool isClass2)
-        {
-            return $"public static {returnType} operator {operatorName}({operand1Type} a, {operand2Type} b) => {ToDouble("a", isClass1)} {operatorName} {ToDouble("b", isClass2)};";
-        }
-
         /* Private methods. */
-        private static string GenerateCC(string className, char operatorSymbol)
+        private static string GenerateCC(string className, string operatorName)
         {
-            return Indent + $"public static {className} operator {operatorSymbol}({className} a, {className} b) => new {className}(a.value {operatorSymbol} b.value);";
+            return GenerateBinary(className,
+                operatorName,
+                className, className,
+                $"return {ToDouble("a", true)} {operatorName} {ToDouble("b", true)};");
         }
 
-        private static string GenerateTC(string typeName, char operatorName, string className)
+        private static string GenerateTC(string typeName, string operatorName, string className)
         {
-            return Indent + $"public static {className} operator {operatorName}({typeName} a, {className} b) => new {className}(a {operatorName} b.value);";
+            return GenerateBinary(className,
+                operatorName,
+                typeName, className,
+                $"return {ToDouble("a", false)} {operatorName} {ToDouble("b", true)};");
         }
 
-        private static string GenerateCT(string className, char operatorSymbol, string typeName)
+        private static string GenerateCT(string className, string operatorName, string typeName)
         {
-            return Indent + $"public static {className} operator {operatorSymbol}({className} a, {typeName} b) => new {className}(a.value {operatorSymbol} b);";
+            return GenerateBinary(className,
+                operatorName,
+                className, typeName,
+                $"return {ToDouble("a", true)} {operatorName} {ToDouble("b", false)};");
         }
 
-        private static string GenerateAll(string className, char operatorSymbol)
+        private static string GenerateUnary(string className, string operatorSymbol)
+        {
+            return GenerateUnary(className,
+                operatorSymbol,
+                $"return new {className}({operatorSymbol}value.value);");
+        }
+
+        private static string GenerateAll(string className, string operatorSymbol)
         {
             return GenerateTC("short", operatorSymbol, className)
                 + "\n" + GenerateTC("int", operatorSymbol, className)
@@ -57,17 +90,12 @@ namespace Generators.Scalars
                 + "\n" + GenerateCC(className, operatorSymbol);
         }
 
-        private static string GenerateUnary(string className, string operatorSymbol)
-        {
-            return Indent + $"public static {className} operator {operatorSymbol}({className} value) => new {className}({operatorSymbol}value.value);";
-        }
-
         private static string ToDouble(string id, bool isMainClass)
         {
             if (isMainClass)
                 return $"{id}.value";
             else
-                return $"(double){id}";
+                return id;
         }
     }
 }

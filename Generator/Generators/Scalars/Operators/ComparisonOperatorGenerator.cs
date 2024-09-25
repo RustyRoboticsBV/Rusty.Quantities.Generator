@@ -8,6 +8,23 @@ namespace Generators.Scalars
     public class ComparisonOperatorGenerator : Generator
     {
         /* Public methods. */
+        public static string Generate(string type1, string type2, string operatorName, string term1, string term2, string summary = null)
+        {
+            string code = "";
+            if (summary != null)
+                code += "\n" + SummaryGenerator.Generate(summary) + "\n";
+            code += Indent + $"public static bool operator {operatorName}({type1} a, {type2} b)"
+                + "\n" + Indent + "{"
+                + "\n" + MethodIndent + $"return {term1} {operatorName} {term2};"
+                + "\n" + Indent + "}";
+            return code;
+        }
+
+        public static string Generate(string className, string operatorName)
+        {
+            return Generate(className, className, operatorName, "a.value", "b.value");
+        }
+
         public static string Generate(string className)
         {
             return Generate(className, "==")
@@ -16,12 +33,6 @@ namespace Generators.Scalars
                 + "\n" + Generate(className, "<")
                 + "\n" + Generate(className, ">=")
                 + "\n" + Generate(className, "<=");
-        }
-
-        /* Private methods. */
-        private static string Generate(string className, string operatorName)
-        {
-            return Indent + $"public static bool operator {operatorName}({className} a, {className} b) => a.value {operatorName} b.value;";
         }
     }
 }

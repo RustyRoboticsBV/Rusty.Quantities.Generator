@@ -20,7 +20,7 @@ namespace Generators.Scalars
                 code += SummaryGenerator.Generate(summary) + "\n";
             code += Indent + $"{prefixes} {returnType} {name}({parameters})"
                 + "\n" + Indent + "{"
-                + "\n" + Indent + $"    {implementation}"
+                + "\n" + MethodIndent + implementation.Replace("\n", "\n" + MethodIndent)
                 + "\n" + Indent + "}";
             return code;
         }
