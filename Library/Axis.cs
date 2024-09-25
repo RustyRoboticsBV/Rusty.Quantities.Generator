@@ -1,6 +1,6 @@
 ﻿
 
-namespace Modules.L0.Quantities
+namespace Rusty.Quantities
 {
     /// <summary>
     /// Represents an axis of a coordinate system.

@@ -1,26 +1,16 @@
-﻿using Generators.Scalars;
+﻿using Generators.Generic;
 
-namespace Generators.Quantities
+namespace Generators.Scalars
 {
     /// <summary>
     /// A generator for the angle quantity class.
     /// </summary>
     public class AngleGenerator : ClassGenerator
     {
-        /* Private properties. */
-        private FormulaSet[] Formulas { get; set; }
-
-        /* Constructors. */
-        public AngleGenerator(FormulaSet[] formulas)
-            : base()
-        {
-            Formulas = formulas;
-        }
-
         /* Public methods. */
-        public static void Generate(params FormulaSet[] formulas)
+        public static void Generate()
         {
-            string code = new AngleGenerator(formulas).GenerateClass("Angle", "Represents an angle quantity.");
+            string code = new AngleGenerator().GenerateClass("Angle", "Represents an angle quantity.");
 
             FileWriter.Write("Angle", code);
         }

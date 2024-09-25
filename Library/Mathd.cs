@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Modules.L0.Quantities
+namespace Rusty.Quantities
 {
     /// <summary>
     /// Contains math methods and constants for doubles.

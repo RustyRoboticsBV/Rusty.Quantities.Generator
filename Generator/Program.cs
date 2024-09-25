@@ -1,5 +1,4 @@
-﻿using Generators;
-using Generators.Quantities;
+﻿using Generators.Scalars;
 
 // Define parameters.
 Parameter time = new Parameter('t', "Time", "time");

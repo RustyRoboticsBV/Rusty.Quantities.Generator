@@ -1,6 +1,6 @@
-﻿using Generators.Scalars;
+﻿using Generators.Generic;
 
-namespace Generators.Quantities
+namespace Generators.Scalars
 {
     /// <summary>
     /// A generator for the acceleration quantity class.

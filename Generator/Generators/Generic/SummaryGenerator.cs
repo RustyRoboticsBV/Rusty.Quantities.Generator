@@ -1,6 +1,6 @@
 ﻿
 
-namespace Generators
+namespace Generators.Generic
 {
     /// <summary>
     /// A generator for summary comments.

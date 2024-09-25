@@ -1,4 +1,4 @@
-﻿
+﻿using Generators.Generic;
 
 namespace Generators.Scalars
 {

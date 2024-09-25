@@ -1,6 +1,6 @@
 ﻿
 
-namespace Generators.Scalars
+namespace Generators.Generic
 {
     /// <summary>
     /// A generator for operators.

@@ -8,7 +8,7 @@ namespace Generators.Generic
     public abstract class ClassGenerator : Generator
     {
         /* Public properties. */
-        public static string Namespace => "Modules.L0.Quantities";
+        public static string Namespace => "Rusty.Quantities";
 
         /* Protected properties. */
         protected string ClassName { get; private set; }

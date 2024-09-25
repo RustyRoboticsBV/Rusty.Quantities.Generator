@@ -1,7 +1,7 @@
 ﻿using Godot;
 using System;
 
-namespace Modules.L0.Quantities
+namespace Rusty.Quantities
 {
     /// <summary>
     /// Represents a 3D direction vector.
