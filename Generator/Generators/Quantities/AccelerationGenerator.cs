@@ -26,6 +26,12 @@ namespace Generators.Quantities
         }
 
         /* Protected methods. */
+        protected override string GenerateArithmetic()
+        {
+            string code = MathOperatorGenerator.Generate("Speed", "*", "Acceleration a, Time b", "return a.value * (double)b;");
+            return base.GenerateArithmetic() + "\n" + code + "\n";
+        }
+
         protected override string GenerateStaticMethods()
         {
             string code = "";

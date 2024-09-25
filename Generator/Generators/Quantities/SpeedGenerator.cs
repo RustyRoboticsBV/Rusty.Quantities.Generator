@@ -28,6 +28,27 @@ namespace Generators.Quantities
         }
 
         /* Protected methods. */
+        protected override string GenerateArithmetic()
+        {
+            string code = MathOperatorGenerator.Generate(
+                    "Distance", "*", "Speed a, Time b", "return new Distance(a.value * (double)b);")
+                + "\n" + MathOperatorGenerator.Generate(
+                        "Acceleration", "/", "Speed a, Time b", "return new Acceleration(a.value / (double)b);");
+            return base.GenerateArithmetic() + "\n" + code + "\n";
+        }
+
+        protected override string GenerateLocalMethods()
+        {
+            string code = MethodGenerator.Generate("public readonly",
+                "Speed",
+                "AccelerateTowards",
+                "Speed to, Acceleration acceleration, Time time",
+                "return Step(to, acceleration * time);",
+                "Move towards some speed value, using an acceleration and time.");
+
+            return base.GenerateLocalMethods() + "\n\n" + code;
+        }
+
         protected override string GenerateStaticMethods()
         {
             string code = "";
