@@ -1,6 +1,6 @@
 ﻿
 
-namespace Generators
+namespace Generators.Scalars
 {
     /// <summary>
     /// A generator for math methods with one argument in the non-static version.

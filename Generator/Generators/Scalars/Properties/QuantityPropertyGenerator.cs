@@ -1,6 +1,6 @@
 ﻿
 
-namespace Generators
+namespace Generators.Scalars
 {
     /// <summary>
     /// A generator for static, read-only properties with the same return type as the class.

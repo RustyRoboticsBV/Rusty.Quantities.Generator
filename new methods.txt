@@ -1,0 +1,18 @@
+Wrap(v, min, max)		-> Rename of loop method, not a new one!
+Snap(v, origin, step)
+Pingpong(v, min, max)
+Remap(v, fromStart, fromEnd, toStart, toEnd)
+
+Step(from, to, delta)		-> gets used as the basis for MoveTowards and AccelerateTowards
+StepWrapped(from, to, delta, rangeMin, rangeMax)		-> maps the value within the range and finds the shortest path to the target
+
+SmoothStep(from, to, factor)		-> STATIC ONLY, LIKE LERP!!!
+
+
+Exp
+Ln
+Log2
+Log10
+
+Rand
+RandRange

@@ -1,6 +1,6 @@
 ﻿
 
-namespace Generators
+namespace Generators.Scalars
 {
     public class FormulaMethodGenerator : Generator
     {

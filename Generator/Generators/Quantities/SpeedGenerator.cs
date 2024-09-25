@@ -1,11 +1,11 @@
-﻿
+﻿using Generators.Scalars;
 
-namespace Generators
+namespace Generators.Quantities
 {
     /// <summary>
     /// A generator for the speed quantity class.
     /// </summary>
-    public  class SpeedGenerator : Generator
+    public class SpeedGenerator : Generator
     {
         /* Public methods. */
         public static void Generate(params FormulaSet[] formulas)

@@ -1,6 +1,6 @@
 ﻿
 
-namespace Generators
+namespace Generators.Scalars
 {
     /// <summary>
     /// A generator for blocks of casting operators.

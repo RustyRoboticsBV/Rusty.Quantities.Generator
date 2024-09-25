@@ -1,6 +1,6 @@
-﻿
+﻿using Generators.Scalars;
 
-namespace Generators
+namespace Generators.Quantities
 {
     /// <summary>
     /// A generator for the distance quantity class.
