@@ -1,4 +1,5 @@
-﻿using Generators.Scalars;
+﻿using Generators;
+using Generators.Scalars;
 using Generators.Vectors;
 
 // Define parameters.
@@ -25,3 +26,5 @@ AccelerationGenerator.Generate(tuva, suva, tsua, tsva);
 AngleGenerator.Generate();
 MotionGenerator.Generate(tsv, tsuv, suva, tsua, tsva);
 VelocityGenerator.Generate(tsv, tsuv, tuva, suva, tsua, tsva);
+
+Generators.New.CSFile.Generate(new Generators.New.Speed(null));
