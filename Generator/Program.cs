@@ -1,4 +1,5 @@
 ﻿using Generators.Scalars;
+using Generators.Vectors;
 
 // Define parameters.
 Parameter time = new Parameter('t', "Time", "time");
@@ -22,3 +23,5 @@ DistanceGenerator.Generate(tsv, tsuv, suva, tsua, tsva);
 SpeedGenerator.Generate(tsv, tsuv, tuva, suva, tsua, tsva);
 AccelerationGenerator.Generate(tuva, suva, tsua, tsva);
 AngleGenerator.Generate();
+MotionGenerator.Generate(tsv, tsuv, suva, tsua, tsva);
+VelocityGenerator.Generate(tsv, tsuv, tuva, suva, tsua, tsva);

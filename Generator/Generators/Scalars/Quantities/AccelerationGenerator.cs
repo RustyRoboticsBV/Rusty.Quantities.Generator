@@ -12,7 +12,7 @@ namespace Generators.Scalars
 
         /* Constructors. */
         public AccelerationGenerator(FormulaSet[] formulas)
-            : base()
+            : base("Acceleration", "Represents an acceleration quantity.")
         {
             Formulas = formulas;
         }
@@ -20,7 +20,7 @@ namespace Generators.Scalars
         /* Public methods. */
         public static void Generate(params FormulaSet[] formulas)
         {
-            string code = new AccelerationGenerator(formulas).GenerateClass("Acceleration", "Represents a acceleration quantity.");
+            string code = new AccelerationGenerator(formulas).GenerateClass();
 
             FileWriter.Write("Acceleration", code);
         }

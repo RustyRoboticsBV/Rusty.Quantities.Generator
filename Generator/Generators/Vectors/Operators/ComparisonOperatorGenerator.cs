@@ -1,6 +1,6 @@
 ﻿using Generators.Generic;
 
-namespace Generators.Scalars
+namespace Generators.Vectors
 {
     /// <summary>
     /// A generator for comparison operators.
@@ -15,7 +15,7 @@ namespace Generators.Scalars
                 "bool",
                 opName,
                 $"{type1} a, {type2} b",
-                $"return {term1} {opName} {term2};",
+                $"return {term1}.x {opName} {term2}.x && {term1}.y {opName} {term2}.y && {term1}.z {opName} {term2}.z;",
                 summary);
         }
     }

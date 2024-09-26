@@ -12,7 +12,7 @@ namespace Generators.Scalars
 
         /* Constructors. */
         public DistanceGenerator(FormulaSet[] formulas)
-            : base()
+            : base("Distance", "Represents a distance quantity.")
         {
             Formulas = formulas;
         }
@@ -20,7 +20,7 @@ namespace Generators.Scalars
         /* Public methods. */
         public static void Generate(params FormulaSet[] formulas)
         {
-            string code = new DistanceGenerator(formulas).GenerateClass("Distance", "Represents a distance quantity.");
+            string code = new DistanceGenerator(formulas).GenerateClass();
 
             FileWriter.Write("Distance", code);
         }

@@ -13,7 +13,7 @@ namespace Generators.Scalars
 
         /* Constructors. */
         public SpeedGenerator(FormulaSet constantFormula, FormulaSet[] formulas)
-            : base()
+            : base("Speed", "Represents a speed quantity.")
         {
             ConstantFormula = constantFormula;
             Formulas = formulas;
@@ -22,7 +22,7 @@ namespace Generators.Scalars
         /* Public methods. */
         public static void Generate(FormulaSet constantFormula, params FormulaSet[] formulas)
         {
-            string code = new SpeedGenerator(constantFormula, formulas).GenerateClass("Speed", "Represents a speed quantity.");
+            string code = new SpeedGenerator(constantFormula, formulas).GenerateClass();
 
             FileWriter.Write("Speed", code);
         }

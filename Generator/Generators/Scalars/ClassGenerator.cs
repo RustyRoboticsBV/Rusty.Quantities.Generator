@@ -7,11 +7,14 @@ namespace Generators.Scalars
     /// </summary>
     public class ClassGenerator : Generic.ClassGenerator
     {
+        /* Constructors. */
+        public ClassGenerator(string className, string desc) : base(className, desc) { }
+
         /* Public methods. */
         public static string Generate(string className, string desc)
         {
-            ClassGenerator generator = new ClassGenerator();
-            return generator.GenerateClass(className, desc);
+            ClassGenerator generator = new ClassGenerator(className, desc);
+            return generator.GenerateClass();
         }
 
         /* Protected methods. */

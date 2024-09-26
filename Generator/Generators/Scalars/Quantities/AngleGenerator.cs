@@ -7,10 +7,13 @@ namespace Generators.Scalars
     /// </summary>
     public class AngleGenerator : ClassGenerator
     {
+        /* Constructors. */
+        public AngleGenerator() : base("Angle", "Represents an angle quantity.") { }
+
         /* Public methods. */
         public static void Generate()
         {
-            string code = new AngleGenerator().GenerateClass("Angle", "Represents an angle quantity.");
+            string code = new AngleGenerator().GenerateClass();
 
             FileWriter.Write("Angle", code);
         }

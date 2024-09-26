@@ -7,26 +7,32 @@ namespace Generators.Generic
     /// </summary>
     public abstract class ClassGenerator : Generator
     {
+        /* Constructors. */
+        public ClassGenerator(string className, string summary)
+        {
+            ClassName = className;
+            Summary = summary;
+        }
+
         /* Public properties. */
         public static string Namespace => "Rusty.Quantities";
 
         /* Protected properties. */
         protected string ClassName { get; private set; }
+        protected string Summary { get; private set; }
 
         /* Protected methods. */
-        protected string GenerateClass(string name, string summary)
+        protected string GenerateClass()
         {
-            ClassName = name;
-
             return "using System;"
                 + "\n"
                 + "\n" + $"namespace {Namespace}"
                 + "\n" + "{"
                 + "\n" + "    /// <summary>"
-                + "\n" + "    /// " + summary
+                + "\n" + "    /// " + Summary
                 + "\n" + "    /// </summary>"
                 + "\n" + "    [Serializable]"
-                + "\n" + $"    public struct {name}"
+                + "\n" + $"    public struct {ClassName}"
                 + "\n" + "    {"
                 + "\n" + "        /* Fields. */"
                 + "\n" + GenerateField()

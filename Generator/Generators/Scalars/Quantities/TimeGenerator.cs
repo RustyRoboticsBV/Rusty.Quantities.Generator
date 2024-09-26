@@ -12,7 +12,7 @@ namespace Generators.Scalars
 
         /* Constructors. */
         public TimeGenerator(FormulaSet[] formulas)
-            : base()
+            : base("Time", "Represents a time quantity.")
         {
             Formulas = formulas;
         }
@@ -29,7 +29,7 @@ namespace Generators.Scalars
 
         public static void Generate(params FormulaSet[] formulas)
         {
-            string code = new TimeGenerator(formulas).GenerateClass("Time", "Represents a time quantity.");
+            string code = new TimeGenerator(formulas).GenerateClass();
 
             FileWriter.Write("Time", code);
         }
