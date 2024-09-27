@@ -7,19 +7,11 @@
     {
         /* Public methods. */
         /// <summary>
-        /// Generate code from this object, at some indentation level.
-        /// </summary>
-        public string Generate(int indent = 0)
-        {
-            return Indent(Generate(), indent);
-        }
-
-        /* Protected methods. */
-        /// <summary>
         /// Generate code from this object.
         /// </summary>
-        protected abstract string Generate();
+        public abstract string Generate();
 
+        /* Protected methods. */
         /// <summary>
         /// Apply indentation to a block or line of code.
         /// </summary>

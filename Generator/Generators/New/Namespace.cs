@@ -9,7 +9,7 @@
         public Generator Contents { get; set; }
 
         /* Constructors. */
-        public Namespace(string name, Generator contents) : base(name, null)
+        public Namespace(string name, Generator contents) : base(name, null as Summary)
         {
             Contents = contents;
         }
@@ -25,7 +25,7 @@
         {
             return $"namespace {Name}"
                 + "\n{"
-                + Indent(Contents.Generate())
+                + "\n" + Indent(Contents.Generate())
                 + "\n}";
         }
     }

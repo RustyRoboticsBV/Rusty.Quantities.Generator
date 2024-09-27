@@ -22,24 +22,41 @@
                 + "\n" + Property.Generate(Name, "TwoPi", $"new {Name}(2.0 * Mathd.Pi)", $"A {Name} with the value 2π.");
         }
 
+        protected override string ConstructorContents()
+        {
+            return Constructor.Generate(Name, new ParameterList(new Parameter("double", "value")), "this.value = value;");
+        }
+
         protected override string CastOpContents()
         {
-            return "";
+            return CastingOperatorBlock.Generate(Name);
         }
 
         protected override string MathOpContents()
         {
-            return "";
+            return ArithmeticOperatorBlock.Generate(Name);
         }
 
         protected override string CompareOpContents()
         {
-            return "";
+            return ComparisonOperatorBlock.Generate(Name);
         }
 
         protected override string MethodContents()
         {
-            return "";
+            return SignMethod.Generate(false, Name)
+                + "\n" + SignMethod.Generate(true, Name);
         }
+
+        /* Private methods. */
+        /*private string MathOperators()
+        {
+        }
+
+        private string MathOperatorBlock(string @operator)
+        {
+            string str = ArithmeticOperator.Generate(Name, @operator,
+                new(new Parameter(Name, "a"), new Parameter(Name, "b")), $"return a.value {@operator} b.value;");
+        }*/
     }
 }

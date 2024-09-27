@@ -6,12 +6,13 @@
     public abstract class Struct : Id
     {
         /* Constructors. */
-        public Struct(string name, string? summary) : base(name, summary) { }
+        public Struct(string name, string summary) : base(name, summary) { }
 
         /* Protected methods. */
         protected sealed override string IdContents()
         {
-            return $"public class {Name}"
+            return "[Serializable]"
+                + $"\npublic struct {Name}"
                 + "\n{"
                 + "\n" + Indent(StructContents())
                 + "\n}";
@@ -19,6 +20,7 @@
 
         protected abstract string FieldContents();
         protected abstract string PropertyContents();
+        protected abstract string ConstructorContents();
         protected abstract string CastOpContents();
         protected abstract string MathOpContents();
         protected abstract string CompareOpContents();
@@ -27,18 +29,15 @@
         /* Private methods. */
         private string StructContents()
         {
-            return MultiLineComment.Generate("Fields.")
-                + "\n" + FieldContents()
-                + "\n" + MultiLineComment.Generate("Public properties.")
-                + "\n" + PropertyContents()
-                + "\n" + MultiLineComment.Generate("Casting operators.")
-                + "\n" + CastOpContents()
-                + "\n" + MultiLineComment.Generate("Arithmetic operators.")
-                + "\n" + MathOpContents()
-                + "\n" + MultiLineComment.Generate("Comparison operators.")
-                + "\n" + CompareOpContents()
-                + "\n" + MultiLineComment.Generate("Public methods.")
-                + "\n" + MethodContents();
+            return SectionList.Generate(new Section[] {
+                new Section("Fields.", FieldContents()),
+                new Section("Public properties.", PropertyContents()),
+                new Section("Constructors.", ConstructorContents()),
+                new Section("Casting operators.", CastOpContents()),
+                new Section("Arithmetic operators.", MathOpContents()),
+                new Section("Comparison operators.", CompareOpContents()),
+                new Section("Public methods.", MethodContents())
+            });
         }
     }
 }

@@ -30,7 +30,7 @@ namespace Generators.New
             Console.WriteLine("Creating file: " + path);
 #endif
             string program = Include.Generate("System")
-                + "\n" +Include.Generate("Godot")
+                + "\n" + Include.Generate("Godot")
                 + "\n\n" + Namespace.Generate("Rusty.Quantities", Struct);
 #if PRINT_OUTPUT
             Console.WriteLine(program);

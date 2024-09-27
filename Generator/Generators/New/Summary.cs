@@ -3,21 +3,48 @@
     /// <summary>
     /// A summary generator.
     /// </summary>
-    public sealed class Summary : Generator
+    public class Summary : Generator
     {
         /* Public properties. */
         public string? Text { get; set; }
 
+        /* Casting oeprators. */
+        public static implicit operator Summary(string text)
+        {
+            return new Summary(text);
+        }
+
         /* Constructors. */
-        public Summary(string? text)
+        public Summary()
+        {
+            Text = null;
+        }
+
+        public Summary(string text)
         {
             Text = text;
         }
 
-        /* Protected methods. */
-        protected override string Generate()
+        public Summary(Summary other)
         {
-            return $"/// <summary>\n/// {Text}\n/// </summary>";
+            Text = other.Text;
+        }
+
+        /* Public methods. */
+        public override string Generate()
+        {
+            Console.WriteLine(GetText());
+            return $"/// <summary>"
+                + $"\n/// {GetText()}"
+                + $"\n/// </summary>";
+        }
+
+        /* Protected methods. */
+        protected virtual string GetText()
+        {
+            if (Text == null)
+                return "";
+            return Text;
         }
     }
 }

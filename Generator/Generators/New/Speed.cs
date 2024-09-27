@@ -11,7 +11,7 @@ namespace Generators.New
         public FormulaSet[] Formulas { get; set; }
 
         /* Constructors. */
-        public Speed(FormulaSet[] formulas) : base("Speed", "A struct representing a speed quantity.")
+        public Speed(FormulaSet[] formulas) : base("Speed", "Represents a speed quantity.")
         {
             Formulas = formulas;
         }

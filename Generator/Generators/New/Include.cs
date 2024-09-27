@@ -20,8 +20,7 @@
             return new Include(text).Generate();
         }
 
-        /* Protected methods. */
-        protected override string Generate()
+        public override string Generate()
         {
             return $"using {Name};";
         }

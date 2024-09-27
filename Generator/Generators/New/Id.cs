@@ -7,24 +7,27 @@
     {
         /* Public properties. */
         public string Name { get; set; }
-        public Summary Summary { get; set; }
+        public Summary? Summary { get; set; }
 
         /* Constructors. */
-        public Id(string name, string? summary)
+        public Id(string name, Summary? summary)
         {
             Name = name;
-            Summary = new Summary(summary);
+            Summary = summary;
         }
 
-        /* Protected methods. */
-        protected sealed override string Generate()
+        public Id(string name) : this(name, null) { }
+
+        /* Public methods. */
+        public sealed override string Generate()
         {
-            if (Summary.Text != null)
+            if (Summary != null && Summary.Text != null)
                 return Summary.Generate() + "\n" + IdContents();
             else
                 return IdContents();
         }
 
+        /* Protected methods. */
         protected abstract string IdContents();
     }
 }
