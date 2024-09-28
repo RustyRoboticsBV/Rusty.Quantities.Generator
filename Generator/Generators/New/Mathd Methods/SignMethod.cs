@@ -6,8 +6,10 @@
     public class SignMethod : MathdMethodPair
     {
         /* Constructors. */
-        public SignMethod(string quantityName) : base("int", "Sign", quantityName, "value",
-            new($"Returns the mathematical sign of PRONOUN QUANTITY_NAME; 1 if positive, -1 if negative and 0 is equal to zero.",
+        public SignMethod(string quantityName) : base(new("int", false), "Sign",
+            new(),
+            new ThisParameter(quantityName, "value"),
+            new($"Returns the mathematical sign of PRONOUN QUANTITY_NAME value; 1 if positive, -1 if negative and 0 is equal to zero.",
                 quantityName))
         { }
 

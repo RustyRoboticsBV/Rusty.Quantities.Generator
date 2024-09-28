@@ -44,19 +44,37 @@
 
         protected override string MethodContents()
         {
-            return SignMethod.Generate(false, Name)
-                + "\n" + SignMethod.Generate(true, Name);
+            return ToStringMethod()
+                + "\n" + EqualsMethod()
+                + "\n" + GetHashCodeMethod()
+                + "\n"
+                + "\n" + SignMethod.Generate(false, Name)
+                + "\n" + AbsMethod.Generate(false, Name)
+                + "\n" + TruncateMethod.Generate(false, Name)
+                + "\n" + FracMethod.Generate(false, Name)
+                + "\n" + DistMethod.Generate(false, Name)
+                + "\n"
+                + "\n" + SignMethod.Generate(true, Name)
+                + "\n" + AbsMethod.Generate(true, Name)
+                + "\n" + TruncateMethod.Generate(true, Name)
+                + "\n" + FracMethod.Generate(true, Name)
+                + "\n" + DistMethod.Generate(true, Name);
         }
 
         /* Private methods. */
-        /*private string MathOperators()
+        private string ToStringMethod()
         {
+            return Method.Generate("public", "override readonly", "string", "ToString", null, "return value.ToString();");
         }
 
-        private string MathOperatorBlock(string @operator)
+        private string EqualsMethod()
         {
-            string str = ArithmeticOperator.Generate(Name, @operator,
-                new(new Parameter(Name, "a"), new Parameter(Name, "b")), $"return a.value {@operator} b.value;");
-        }*/
+            return Method.Generate("public", "override readonly", "bool", "Equals", new Parameter("object", "obj"), $"return obj is {Name} {Name.ToLower()} && this == {Name.ToLower()};");
+        }
+
+        private string GetHashCodeMethod()
+        {
+            return Method.Generate("public", "override readonly", "int", "GetHashCode", null, "return value.GetHashCode();");
+        }
     }
 }

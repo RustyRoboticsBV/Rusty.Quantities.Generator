@@ -23,6 +23,13 @@
             Implementation = implementation;
         }
 
+        /* Public methods. */
+        public static string Generate(string accessor, string? modifiers, string? returnType, string name,
+            ParameterList parameters, string implementation, Summary summary = null)
+        {
+            return new Method(accessor, modifiers, returnType, name, parameters, implementation, summary).Generate();
+        }
+
         /* Protected methods. */
         protected override sealed string IdContents()
         {
@@ -30,7 +37,7 @@
                 + $"{(Modifiers != null ? $"{Modifiers} " : "")}"
                 + $"{(ReturnType != null ? $"{ReturnType} " : "")}";
 
-            return $"{prefix}{Name}{Parameters.Generate()}"
+            return $"{prefix}{Name}({(Parameters != null ? Parameters.Generate() : "")})"
                 + "\n" + Block.Generate(Implementation);
         }
     }

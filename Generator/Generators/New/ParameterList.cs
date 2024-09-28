@@ -3,7 +3,7 @@
     /// <summary>
     /// A parameter list generator.
     /// </summary>
-    public sealed class ParameterList : Generator
+    public class ParameterList : Generator
     {
         /* Public properties. */
         public Parameter[] Parameters { get; set; }
@@ -12,6 +12,12 @@
         public ParameterList(params Parameter[] parameters)
         {
             Parameters = parameters;
+        }
+
+        /* Casting operators. */
+        public static implicit operator ParameterList(Parameter value)
+        {
+            return new ParameterList(value);
         }
 
         /* Arithmatic operators. */
@@ -50,7 +56,7 @@
                     code += parameterCode;
                 }
             }
-            return "(" + code + ")";
+            return code;
         }
     }
 }
