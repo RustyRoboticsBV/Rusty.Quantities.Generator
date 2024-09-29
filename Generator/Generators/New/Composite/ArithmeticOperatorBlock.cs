@@ -6,21 +6,6 @@
     public class ArithmeticOperatorBlock : Generator
     {
         public string ClassName { get; set; }
-        public static string[] NumericTypes => new string[]
-        {
-            "byte",
-            "ushort",
-            "uint",
-            "ulong",
-            "sbyte",
-            "short",
-            "int",
-            "long",
-            "float",
-            "double",
-            "decimal"
-        };
-
         /* Constructors. */
         public ArithmeticOperatorBlock(string className)
         {
@@ -49,30 +34,35 @@
         /* Private methods. */
         private string BinaryOperator(string op)
         {
-            /*string code = "";
-            foreach (string numeric in NumericTypes)
+            string code = "";
+            foreach (string numeric in Numerics.Scalars)
             {
                 if (code != "")
                     code += "\n";
-                code += BinaryArithmeticOperator.Generate(ClassName, op, new NumericParameter(numeric, "b"), new ThisParameter(ClassName, "a"));
+                code += BinaryArithmeticOperator.Generate(new ReturnScalarQuantity(ClassName), op,
+                    new ScalarNumericParameter(numeric, "a"),
+                    new ScalarQuantityParameter(ClassName, "b"));
             }
-            foreach (string numeric in NumericTypes)
+            foreach (string numeric in Numerics.Scalars)
             {
                 if (code != "")
                     code += "\n";
-                code += BinaryArithmeticOperator.Generate(ClassName, op, new ThisParameter(ClassName, "a"), new NumericParameter(numeric, "b"));
+                code += BinaryArithmeticOperator.Generate(new ReturnScalarQuantity(ClassName), op,
+                    new ScalarQuantityParameter(ClassName, "a"),
+                    new ScalarNumericParameter(numeric, "b"));
             }
             if (code != "")
                 code += "\n";
-            code += BinaryArithmeticOperator.Generate(ClassName, op, new ThisParameter(ClassName, "a"), new ThisParameter(ClassName, "b"));
-            return code;*/
-            return "";
+            code += BinaryArithmeticOperator.Generate(new ReturnScalarQuantity(ClassName), op,
+                new ScalarQuantityParameter(ClassName, "a"),
+                new ScalarQuantityParameter(ClassName, "b"));
+            return code;
         }
 
         private string UnaryOperator(string op)
         {
-            return "";
-            //return UnaryArithmeticOperator.Generate(ClassName, op, new ThisParameter(ClassName, "value"));
+            return UnaryArithmeticOperator.Generate(new ReturnScalarQuantity(ClassName), op,
+                new ScalarQuantityParameter(ClassName, "value"));
         }
     }
 }

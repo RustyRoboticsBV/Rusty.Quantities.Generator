@@ -24,9 +24,7 @@
 
         protected override string ConstructorContents()
         {
-            return Constructor.Generate(Name,
-                new ParameterList(new ScalarNumericParameter(Numerics.CoreType, "value")),
-                "this.value = value;");
+            return ConstructorBlock.Generate(Name);
         }
 
         protected override string CastOpContents()
