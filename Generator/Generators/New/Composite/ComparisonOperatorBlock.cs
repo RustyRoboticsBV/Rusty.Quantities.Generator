@@ -73,23 +73,23 @@ namespace Generators.New
 
         private string NumOpClass(string type, string op)
         {
-            if (type == "decimal")
-                return ComparisonOperator.Generate(op, new Parameter(type, "a"), new Parameter(StructName, "b"), $"return a {op} (decimal)b.value;");
-            else
-                return ComparisonOperator.Generate(op, new Parameter(type, "a"), new Parameter(StructName, "b"), $"return a {op} b.value;");
+            return ComparisonOperator.Generate(op,
+                new ScalarNumericParameter(type, "a"),
+                new ScalarQuantityParameter(StructName, "b"));
         }
 
         private string ClassOpNum(string op, string type)
         {
-            if (type == "decimal")
-                return ComparisonOperator.Generate(op, new Parameter(StructName, "a"), new Parameter(type, "b"), $"return (decimal)a.value {op} b;");
-            else
-                return ComparisonOperator.Generate(op, new Parameter(StructName, "a"), new Parameter(type, "b"), $"return a.value {op} b;");
+            return ComparisonOperator.Generate(op,
+                new ScalarQuantityParameter(StructName, "a"),
+                new ScalarNumericParameter(type, "b"));
         }
 
         private string ClassOpClass(string op)
         {
-            return ComparisonOperator.Generate(op, new Parameter(StructName, "a"), new Parameter(StructName, "b"), $"return a.value {op} b.value;");
+            return ComparisonOperator.Generate(op,
+                new ScalarQuantityParameter(StructName, "a"),
+                new ScalarQuantityParameter(StructName, "b"));
         }
     }
 }

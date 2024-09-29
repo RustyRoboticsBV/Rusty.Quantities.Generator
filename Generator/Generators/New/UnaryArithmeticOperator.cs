@@ -6,13 +6,14 @@
     public class UnaryArithmeticOperator : ArithmeticOperator
     {
         /* Constructors. */
-        public UnaryArithmeticOperator(string returnType, string name, Parameter parameter, string implementation)
-            : base(returnType, name, new ParameterList(parameter), implementation) { }
+        public UnaryArithmeticOperator(ReturnType returnType, string name, Parameter parameter)
+            : base(returnType.Type.Name, name, new ParameterList(parameter),
+                  returnType.Generate(Numerics.CoreType, parameter.UnaryOperator(name))) { }
 
         /* Public methods. */
-        public static string Generate(string returnType, string name, Parameter parameter, string implementation)
+        public static string Generate(ReturnType returnType, string name, Parameter parameter)
         {
-            return new UnaryArithmeticOperator(returnType, name, parameter, implementation).Generate();
+            return new UnaryArithmeticOperator(returnType, name, parameter).Generate();
         }
     }
 }

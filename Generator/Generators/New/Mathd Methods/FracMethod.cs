@@ -6,9 +6,11 @@
     public class FracMethod : MathdMethodPair
     {
         /* Constructors. */
-        public FracMethod(string quantityName) : base(quantityName, "Frac",
+        public FracMethod(string quantityName) : base(
+            new ReturnScalarQuantity(quantityName),
+            "Frac",
             new(),
-            new ThisParameter(quantityName, "value"),
+            new ScalarQuantityParameter(quantityName, "value"),
             new($"Returns the fractional part of PRONOUN QUANTITY_NAME value.",
                 quantityName))
         { }

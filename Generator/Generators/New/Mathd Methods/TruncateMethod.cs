@@ -6,12 +6,13 @@
     public class TruncateMethod : MathdMethodPair
     {
         /* Constructors. */
-        public TruncateMethod(string quantityName) : base(quantityName, "Truncate",
+        public TruncateMethod(string quantityName) : base(
+            new ReturnScalarQuantity(quantityName),
+            "Truncate",
             new(),
-            new ThisParameter(quantityName, "value"),
+            new ScalarQuantityParameter(quantityName, "value"),
             new($"Returns the integral part of PRONOUN QUANTITY_NAME value.",
-                quantityName))
-        { }
+                quantityName)) { }
 
         /* Public methods. */
         public static string Generate(bool isStatic, string quantityName)

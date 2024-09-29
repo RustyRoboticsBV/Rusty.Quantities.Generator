@@ -6,9 +6,9 @@
     public class SignMethod : MathdMethodPair
     {
         /* Constructors. */
-        public SignMethod(string quantityName) : base(new("int", false), "Sign",
+        public SignMethod(string quantityName) : base(new ReturnScalarNumeric("int"), "Sign",
             new(),
-            new ThisParameter(quantityName, "value"),
+            new ScalarQuantityParameter(quantityName, "value"),
             new($"Returns the mathematical sign of PRONOUN QUANTITY_NAME value; 1 if positive, -1 if negative and 0 is equal to zero.",
                 quantityName))
         { }

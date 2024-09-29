@@ -6,13 +6,13 @@
     public class BinaryArithmeticOperator : ArithmeticOperator
     {
         /* Constructors. */
-        public BinaryArithmeticOperator(string returnType, string name, Parameter a, Parameter b, string implementation)
-            : base(returnType, name, new ParameterList(a, b), implementation) { }
+        public BinaryArithmeticOperator(ReturnType returnType, string name, Parameter a, Parameter b)
+            : base(returnType.Type.Name, name, new ParameterList(a, b), a.BinaryOperator(name, b)) { }
 
         /* Public methods. */
-        public static string Generate(string returnType, string name, Parameter a, Parameter b, string implementation)
+        public static string Generate(ReturnType returnType, string name, Parameter a, Parameter b)
         {
-            return new BinaryArithmeticOperator(returnType, name, a, b, implementation).Generate();
+            return new BinaryArithmeticOperator(returnType, name, a, b).Generate();
         }
     }
 }

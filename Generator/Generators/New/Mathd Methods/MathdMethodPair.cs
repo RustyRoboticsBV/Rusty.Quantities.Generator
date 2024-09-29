@@ -24,8 +24,8 @@
                 arguments += parameter.ToNumeric();
             }
 
-            return new Method("public", isStatic ? "static" : "readonly", returnType.Name, methodName, parameters,
-                returnType.Generate($"Mathd.{methodName}({arguments})"), summary);
+            return new Method("public", isStatic ? "static" : "readonly", returnType.Type.Name, methodName, parameters,
+                returnType.Generate(returnType.Type, $"Mathd.{methodName}({arguments})"), summary);
         }
     }
 }

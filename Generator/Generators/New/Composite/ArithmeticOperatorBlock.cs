@@ -35,63 +35,44 @@
 
         public override string Generate()
         {
-            return Operator("+")
-                + "\n" + Operator("-")
-                + "\n" + Operator("*")
-                + "\n" + Operator("/")
-                + "\n" + Operator("%")
-                + "\n" + OpClass("+")
-                + "\n" + OpClass("-")
-                + "\n" + OpClass("++")
-                + "\n" + OpClass("--");
+            return BinaryOperator("+")
+                + "\n" + BinaryOperator("-")
+                + "\n" + BinaryOperator("*")
+                + "\n" + BinaryOperator("/")
+                + "\n" + BinaryOperator("%")
+                + "\n" + UnaryOperator("+")
+                + "\n" + UnaryOperator("-")
+                + "\n" + UnaryOperator("++")
+                + "\n" + UnaryOperator("--");
         }
 
         /* Private methods. */
-        private string Operator(string op)
+        private string BinaryOperator(string op)
         {
-            string code = "";
+            /*string code = "";
             foreach (string numeric in NumericTypes)
             {
                 if (code != "")
                     code += "\n";
-                code += NumOpClass(numeric, op);
+                code += BinaryArithmeticOperator.Generate(ClassName, op, new NumericParameter(numeric, "b"), new ThisParameter(ClassName, "a"));
             }
             foreach (string numeric in NumericTypes)
             {
                 if (code != "")
                     code += "\n";
-                code += ClassOpNum(op, numeric);
+                code += BinaryArithmeticOperator.Generate(ClassName, op, new ThisParameter(ClassName, "a"), new NumericParameter(numeric, "b"));
             }
             if (code != "")
                 code += "\n";
-            code += ClassOpClass(op);
-            return code;
+            code += BinaryArithmeticOperator.Generate(ClassName, op, new ThisParameter(ClassName, "a"), new ThisParameter(ClassName, "b"));
+            return code;*/
+            return "";
         }
 
-        private string NumOpClass(string type, string op)
+        private string UnaryOperator(string op)
         {
-            if (type == "decimal")
-                return BinaryArithmeticOperator.Generate(ClassName, op, new(type, "a"), new(ClassName, "b"), $"return new {ClassName}((double)(a {op} (decimal)b.value));");
-            else
-                return BinaryArithmeticOperator.Generate(ClassName, op, new(type, "a"), new(ClassName, "b"), $"return new {ClassName}(a {op} b.value);");
-        }
-
-        private string ClassOpNum(string op, string type)
-        {
-            if (type == "decimal")
-                return BinaryArithmeticOperator.Generate(ClassName, op, new(ClassName, "a"), new(type, "b"), $"return new {ClassName}((double)((decimal)a.value {op} b));");
-            else
-                return BinaryArithmeticOperator.Generate(ClassName, op, new(ClassName, "a"), new(type, "b"), $"return new {ClassName}(a.value {op} b);");
-        }
-
-        private string ClassOpClass(string op)
-        {
-            return BinaryArithmeticOperator.Generate(ClassName, op, new(ClassName, "a"), new(ClassName, "b"), $"return new {ClassName}(a.value {op} b.value);");
-        }
-
-        private string OpClass(string op)
-        {
-            return UnaryArithmeticOperator.Generate(ClassName, op, new(ClassName, "value"), $"return new {ClassName}({op}value.value);");
+            return "";
+            //return UnaryArithmeticOperator.Generate(ClassName, op, new ThisParameter(ClassName, "value"));
         }
     }
 }

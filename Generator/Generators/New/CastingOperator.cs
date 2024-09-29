@@ -6,14 +6,14 @@
     public class CastingOperator : Operator
     {
         /* Constructors. */
-        public CastingOperator(bool @implicit, string name, Parameter parameter, string implementation)
-            : base("static " + (@implicit ? "implicit" : "explicit"), null, name,
-                  new ParameterList(parameter), implementation) { }
+        public CastingOperator(bool @implicit, ReturnType returnType, Parameter parameter)
+            : base("static " + (@implicit ? "implicit" : "explicit"), null, returnType.Type.Name,
+                  new ParameterList(parameter), returnType.Generate(parameter.Type, parameter.Name)) { }
 
         /* Public methods. */
-        public static string Generate(bool @implicit, string name, Parameter parameter, string implementation)
+        public static string Generate(bool @implicit, ReturnType returnType, Parameter parameter)
         {
-            return new CastingOperator(@implicit, name, parameter, implementation).Generate();
+            return new CastingOperator(@implicit, returnType, parameter).Generate();
         }
     }
 }

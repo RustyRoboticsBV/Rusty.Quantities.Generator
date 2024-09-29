@@ -24,7 +24,9 @@
 
         protected override string ConstructorContents()
         {
-            return Constructor.Generate(Name, new ParameterList(new Parameter("double", "value")), "this.value = value;");
+            return Constructor.Generate(Name,
+                new ParameterList(new ScalarNumericParameter(Numerics.CoreType, "value")),
+                "this.value = value;");
         }
 
         protected override string CastOpContents()
@@ -69,7 +71,7 @@
 
         private string EqualsMethod()
         {
-            return Method.Generate("public", "override readonly", "bool", "Equals", new Parameter("object", "obj"), $"return obj is {Name} {Name.ToLower()} && this == {Name.ToLower()};");
+            return Method.Generate("public", "override readonly", "bool", "Equals", new ObjectParameter(), $"return obj is {Name} {Name.ToLower()} && this == {Name.ToLower()};");
         }
 
         private string GetHashCodeMethod()
