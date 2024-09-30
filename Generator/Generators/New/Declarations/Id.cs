@@ -1,4 +1,4 @@
-﻿namespace Generators.New
+﻿namespace Generators
 {
     /// <summary>
     /// A base class for all identifier generator, such as namespaces, classes, methods, operators, properties and fields.

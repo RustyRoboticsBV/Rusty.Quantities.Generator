@@ -1,4 +1,4 @@
-﻿namespace Generators.New
+﻿namespace Generators
 {
     public abstract class MathdMethodPair : GeneratorPair<Method>
     {

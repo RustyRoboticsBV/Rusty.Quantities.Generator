@@ -1,4 +1,4 @@
-﻿using Generators.New;
+﻿using Generators;
 
 // Define parameters.
 FormulaParameter time = new FormulaParameter('t', "Time", "time");

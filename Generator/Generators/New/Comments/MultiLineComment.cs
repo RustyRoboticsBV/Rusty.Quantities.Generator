@@ -1,4 +1,4 @@
-﻿namespace Generators.New
+﻿namespace Generators
 {
     /// <summary>
     /// A multi-line comment generator.

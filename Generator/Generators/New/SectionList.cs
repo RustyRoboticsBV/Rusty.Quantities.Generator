@@ -1,4 +1,4 @@
-﻿namespace Generators.New
+﻿namespace Generators
 {
     /// <summary>
     /// A generator for lists of code sections.

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Generators.New
+﻿namespace Generators
 {
     /// <summary>
     /// A comparison operator block generator.

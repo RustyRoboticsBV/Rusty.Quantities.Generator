@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-namespace Generators.New
+﻿namespace Generators
 {
     /// <summary>
     /// An binary arithmetic operator generator.

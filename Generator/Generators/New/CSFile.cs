@@ -1,7 +1,5 @@
 ﻿//#define PRINT_OUTPUT
-using System.IO;
-
-namespace Generators.New
+namespace Generators
 {
     /// <summary>
     /// A generator for class C# script files.

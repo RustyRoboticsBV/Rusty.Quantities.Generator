@@ -1,4 +1,4 @@
-﻿namespace Generators.New
+﻿namespace Generators
 {
     /// <summary>
     /// A summary that replaces looks for certain keywords in the summary text, and replaces them with other values.
