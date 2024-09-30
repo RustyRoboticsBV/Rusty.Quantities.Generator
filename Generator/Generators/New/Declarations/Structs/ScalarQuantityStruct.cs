@@ -3,10 +3,10 @@
     /// <summary>
     /// A scalar struct generator.
     /// </summary>
-    public abstract class Scalar : Struct
+    public abstract class ScalarQuantityStruct : Struct
     {
         /* Constructors. */
-        public Scalar(string name, string? summary) : base(name, summary) { }
+        public ScalarQuantityStruct(string name, string? summary) : base(name, summary) { }
 
         /* Protected methods. */
         protected override string FieldContents()

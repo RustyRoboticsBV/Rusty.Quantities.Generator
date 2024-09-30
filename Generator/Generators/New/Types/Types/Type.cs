@@ -15,5 +15,7 @@
 
         /* Public methods. */
         public abstract string CastTo(string value, Type to);
+
+        public abstract Type Rescope(string scope);
     }
 }

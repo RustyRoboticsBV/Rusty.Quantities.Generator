@@ -27,5 +27,10 @@
                 return $"new {toV.Name}({value}, {value}, {value})";
             throw new InvalidCastException();
         }
+
+        public override Type Rescope(string scope)
+        {
+            return new ScalarNumericType(Name, scope);
+        }
     }
 }

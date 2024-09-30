@@ -26,5 +26,10 @@
             FromValue = fromValue;
             return Generate();
         }
+
+        public static string Generate(Type fromType, string fromValue, ScalarQuantityType toType)
+        {
+            return new ReturnScalarQuantity(toType).Generate(fromType, fromValue);
+        }
     }
 }

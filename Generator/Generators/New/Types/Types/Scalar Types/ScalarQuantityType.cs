@@ -33,5 +33,10 @@
             else
                 throw new ArgumentOutOfRangeException(value + " from " + Name + " to " + to.Name);
         }
+
+        public override Type Rescope(string scope)
+        {
+            return new ScalarQuantityType(Name, scope);
+        }
     }
 }
