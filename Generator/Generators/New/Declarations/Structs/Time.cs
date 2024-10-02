@@ -21,6 +21,18 @@
         }
 
         /* Protected methods. */
+        protected override string MathOpContents()
+        {
+            string code = "";
+            code += BinaryArithmeticOperator.Generate(new ReturnScalarQuantity("Distance"), "*",
+                new ScalarQuantityParameter("Time", "a"),
+                new ScalarQuantityParameter(new ScalarQuantityType("Speed", "Time"), "b"));
+            code += "\n" + BinaryArithmeticOperator.Generate(new ReturnScalarQuantity("Speed"), "*",
+                new ScalarQuantityParameter("Time", "a"),
+                new ScalarQuantityParameter(new ScalarQuantityType("Acceleration", "Time"), "b"));
+            return base.MathOpContents() + "\n\n" + code;
+        }
+
         protected override string MethodContents()
         {
             string code = "";
