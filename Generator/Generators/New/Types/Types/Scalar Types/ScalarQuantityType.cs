@@ -9,7 +9,7 @@
         {
             if (to is ScalarNumericType n)
             {
-                if (StructScope == Name)
+                if (Scope == Name)
                 {
                     if (to.Name == Numerics.Core)
                         return $"{value}.value";
@@ -25,7 +25,7 @@
             {
                 if (Name == scalar.Name)
                     return value;
-                else if (StructScope == Name)
+                else if (Scope == Name)
                     return $"new {scalar.Name}({value}.value)";
                 else
                     return $"new {scalar.Name}(({Numerics.Core}){value})";

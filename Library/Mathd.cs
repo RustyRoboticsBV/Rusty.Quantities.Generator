@@ -279,7 +279,7 @@ namespace Rusty.Quantities
         /// </summary>
         public static double Lerp(double a, double b, double factor)
         {
-            return a + (b - a) * factor;
+            return a + (b - a) * Clamp01(factor);
         }
     }
 }

@@ -11,21 +11,10 @@
         { }
 
         /* Private methods. */
-        private static Method CreateMethod(bool isStatic, ReturnType returnType, string methodName, ScalarParameterList parameters,
-            Summary summary)
+        private static MathdMethod CreateMethod(bool isStatic, ReturnType returnType, string methodName,
+            ScalarParameterList parameters, Summary summary)
         {
-            string arguments = "";
-            if (!isStatic)
-                arguments += "value";
-            foreach (ScalarParameter parameter in parameters.Parameters)
-            {
-                if (arguments != "")
-                    arguments += ", ";
-                arguments += parameter.ToNumeric();
-            }
-
-            return new Method("public", isStatic ? "static" : "readonly", returnType.Type.Name, methodName, parameters,
-                returnType.Generate(returnType.Type, $"Mathd.{methodName}({arguments})"), summary);
+            return new MathdMethod(isStatic, returnType, methodName, parameters, summary);
         }
     }
 }

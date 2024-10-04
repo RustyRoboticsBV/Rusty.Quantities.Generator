@@ -12,13 +12,6 @@
             new(),
             new ScalarQuantityParameter(quantityName, "value"),
             new($"Returns the fractional part of PRONOUN QUANTITY_NAME value.",
-                quantityName))
-        { }
-
-        /* Public methods. */
-        public static string Generate(bool isStatic, string quantityName)
-        {
-            return new FracMethod(quantityName).Generate(isStatic);
-        }
+                quantityName)) { }
     }
 }

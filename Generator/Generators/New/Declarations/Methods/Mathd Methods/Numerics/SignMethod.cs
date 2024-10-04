@@ -11,12 +11,9 @@
             new ScalarQuantityParameter(quantityName, "value"),
             new($"Returns the mathematical sign of PRONOUN QUANTITY_NAME value; 1 if positive, -1 if negative and 0 is equal to zero.",
                 quantityName))
-        { }
-
-        /* Public methods. */
-        public static string Generate(bool isStatic, string quantityName)
         {
-            return new SignMethod(quantityName).Generate(isStatic);
+            Local.Implementation = Local.Implementation.Replace("(int)", "");
+            Static.Implementation = Static.Implementation.Replace("(int)", "");
         }
     }
 }

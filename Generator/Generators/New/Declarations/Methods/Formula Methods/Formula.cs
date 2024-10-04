@@ -49,7 +49,7 @@
                         FormulaParameter parameter = Parameters[j];
                         if (code[i] == parameter.ShortName)
                         {
-                            string expanded = parameter.Parameter.Type.Rescope(Target.Parameter.Type.StructScope).CastTo(parameter.Parameter.Name, Numerics.CoreType);
+                            string expanded = parameter.Parameter.Type.Rescope(Target.Parameter.Type.Scope).CastTo(parameter.Parameter.Name, Numerics.CoreType);
                             code = code.Substring(0, i) + expanded + code.Substring(i + 1);
                             i += expanded.Length - 1;
 

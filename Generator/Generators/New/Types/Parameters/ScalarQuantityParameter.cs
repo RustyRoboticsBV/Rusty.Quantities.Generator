@@ -5,9 +5,6 @@
         /* Public properties. */
         public new ScalarQuantityType Type => base.Type as ScalarQuantityType;
 
-        /* Public properties. */
-        public bool This { get; set; }
-
         /* Constructors. */
         public ScalarQuantityParameter(ScalarQuantityType type, string name) : base(type, name) { }
         public ScalarQuantityParameter(string type, string name) : this(new ScalarQuantityType(type), name) { }
@@ -23,12 +20,9 @@
             return $"{Type.Name} {Name}";
         }
 
-        public override string ToNumeric()
+        public override string CastToCore()
         {
-            if (This)
-                return $"{Name}.value";
-            else
-                return $"(double){Name}";
+            return Type.CastTo(Name, Numerics.CoreType);
         }
     }
 }

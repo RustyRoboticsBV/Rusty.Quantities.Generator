@@ -4,13 +4,13 @@
     {
         /* Public properties. */
         public string Name { get; set; }
-        public string StructScope { get; set; }
+        public string Scope { get; set; }
 
         /* Constructors. */
         public Type(string name, string structScope = "")
         {
             Name = name;
-            StructScope = structScope;
+            Scope = structScope;
         }
 
         /* Public methods. */

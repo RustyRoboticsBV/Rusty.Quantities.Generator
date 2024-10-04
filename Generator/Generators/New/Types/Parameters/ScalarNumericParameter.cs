@@ -20,9 +20,9 @@
             return $"{Type.Name} {Name}";
         }
 
-        public override string ToNumeric()
+        public override string CastToCore()
         {
-            return Type.CastTo($"{Name}", new ScalarNumericType(Numerics.Core, Type.StructScope));
+            return Type.CastTo($"{Name}", new ScalarNumericType(Numerics.Core, Type.Scope));
         }
     }
 }

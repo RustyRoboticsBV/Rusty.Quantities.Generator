@@ -28,9 +28,9 @@
             }
             else if (other is ScalarParameter scalar)
             {
-                return $"{ToNumericX()} {op} {scalar.ToNumeric()}, "
-                    + $"{ToNumericY()} {op} {scalar.ToNumeric()}, "
-                    + $"{ToNumericZ()} {op} {scalar.ToNumeric()}";
+                return $"{ToNumericX()} {op} {scalar.CastToCore()}, "
+                    + $"{ToNumericY()} {op} {scalar.CastToCore()}, "
+                    + $"{ToNumericZ()} {op} {scalar.CastToCore()}";
             }
             throw new ArgumentOutOfRangeException();
         }

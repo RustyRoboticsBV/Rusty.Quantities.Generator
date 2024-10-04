@@ -4,10 +4,7 @@
     {
         /* Constructors. */
         public FormulaMethod(FormulaSet formulas, char target)
-            : base("public", "static",
-                  null,
-                  null,
-                  null, "KAAS", null)
+            : base("public", "static", null, null, null, null, null)
         {
             Formula formula = formulas.Find(target);
             ReturnType = formula.Target.Parameter.Type.Name;
@@ -30,12 +27,6 @@
                 summary += parameter.LowercaseSpaced;
             }
             Summary = new Summary($"Calculate {formula.Target.LowercaseSpaced} from {summary}.");
-        }
-
-        /* Public methods. */
-        public static string Generate(FormulaSet formulas, char target)
-        {
-            return new FormulaMethod(formulas, target).Generate();
         }
     }
 }
