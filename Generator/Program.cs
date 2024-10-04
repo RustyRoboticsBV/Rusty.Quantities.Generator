@@ -22,6 +22,6 @@ CSFile.Generate(new Time(formulas));
 CSFile.Generate(new Distance(formulas));
 CSFile.Generate(new Speed(formulas));
 CSFile.Generate(new Acceleration(formulas));
-//AngleGenerator.Generate();
+CSFile.Generate(new Angle());
 //MotionGenerator.Generate(tsv, tsuv, suva, tsua, tsva);
 //VelocityGenerator.Generate(tsv, tsuv, tuva, suva, tsua, tsva);
