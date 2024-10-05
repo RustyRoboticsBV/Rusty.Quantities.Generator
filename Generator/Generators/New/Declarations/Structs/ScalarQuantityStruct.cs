@@ -12,10 +12,10 @@
             Fields.Add(new Field(Numerics.Core, "value", null));
 
             // Properties.
-            Properties.Add(new Property(name, "Zero", $"new {Name}(0.0)", $"A {Name.ToLower()} with the value 0."));
-            Properties.Add(new Property(name, "One", $"new {Name}(1.0)", $"A {Name.ToLower()} with the value 1."));
-            Properties.Add(new Property(name, "Pi", $"new {Name}(Mathd.Pi)", $"A {Name.ToLower()} with the value π."));
-            Properties.Add(new Property(name, "TwoPi", $"new {Name}(2.0 * Mathd.Pi)", $"A {Name.ToLower()} with the value 2π."));
+            Properties.Add(new Property(true, name, "Zero", $"new {Name}({Numerics.Zero})", $"A {Name.ToLower()} with the value 0."));
+            Properties.Add(new Property(true, name, "One", $"new {Name}({Numerics.One})", $"A {Name.ToLower()} with the value 1."));
+            Properties.Add(new Property(true, name, "Pi", $"new {Name}({Numerics.Pi})", $"A {Name.ToLower()} with the value π."));
+            Properties.Add(new Property(true, name, "TwoPi", $"new {Name}({Numerics.TwoPi})", $"A {Name.ToLower()} with the value 2π."));
 
             // Constructors.
             foreach (string type in Numerics.Scalars)
@@ -23,6 +23,7 @@
                 Constructors.Add(new Constructor(name, new ScalarNumericParameter(type, "value"),
                     $"this.value = {new ScalarNumericType(type).CastTo("value", Numerics.CoreType)};"));
             }
+            Constructors.Add(new Constructor(name, new ScalarQuantityParameter(name, "value"), "this.value = value.value;"));
 
             // Casting operators.
             foreach (string type in Numerics.Scalars)

@@ -12,27 +12,5 @@
         public abstract string ToNumericX();
         public abstract string ToNumericY();
         public abstract string ToNumericZ();
-
-        public override string UnaryOperator(string op)
-        {
-            return $"{op}{ToNumericX()}, {op}{ToNumericY()}, {op}{ToNumericZ()}";
-        }
-
-        public override string BinaryOperator(string op, Parameter other)
-        {
-            if (other is VectorParameter vec)
-            {
-                return $"{ToNumericX()} {op} {vec.ToNumericX()}, "
-                    + $"{ToNumericY()} {op} {vec.ToNumericY()}, "
-                    + $"{ToNumericZ()} {op} {vec.ToNumericZ()}";
-            }
-            else if (other is ScalarParameter scalar)
-            {
-                return $"{ToNumericX()} {op} {scalar.CastToCore()}, "
-                    + $"{ToNumericY()} {op} {scalar.CastToCore()}, "
-                    + $"{ToNumericZ()} {op} {scalar.CastToCore()}";
-            }
-            throw new ArgumentOutOfRangeException();
-        }
     }
 }

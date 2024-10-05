@@ -10,25 +10,5 @@
 
         /* Public methods. */
         public abstract string CastToCore();
-
-        public override string UnaryOperator(string op)
-        {
-            return $"{op}{CastToCore()}";
-        }
-
-        public override string BinaryOperator(string op, Parameter other)
-        {
-            if (other is ScalarParameter scalar)
-            {
-                return $"{CastToCore()} {op} {scalar.CastToCore()}";
-            }
-            else if (other is VectorParameter vec)
-            {
-                return $"{CastToCore()} {op} {vec.ToNumericX()}, "
-                    + $"{CastToCore()} {op} {vec.ToNumericY()}, "
-                    + $"{CastToCore()} {op} {vec.ToNumericZ()}";
-            }
-            throw new ArgumentOutOfRangeException();
-        }
     }
 }

@@ -18,8 +18,15 @@
         /* Private methods. */
         private static string GetImpl(ReturnType returnType, Parameter a, string op, Parameter b)
         {
-            return returnType.Generate(Numerics.CoreType,
-                $"{a.Type.CastTo("a", Numerics.CoreType)} {op} {b.Type.CastTo("b", Numerics.CoreType)}");
+            if (a is VectorParameter va && b is VectorParameter vb)
+            {
+                return $"return new {returnType.Type.Name}(a.X + b.X, a.Y + b.Y, a.Z + b.Z);";
+            }
+            else
+            {
+                return returnType.Generate(Numerics.CoreType,
+                    $"{a.Type.CastTo("a", Numerics.CoreType)} {op} {b.Type.CastTo("b", Numerics.CoreType)}");
+            }
         }
     }
 }

@@ -7,31 +7,51 @@
 
         public override string CastTo(string value, Type to)
         {
-            if (to is ScalarNumericType n)
+            // Scalar numerics.
+            if (to is ScalarNumericType sn)
             {
                 if (Scope == Name)
                 {
                     if (to.Name == Numerics.Core)
                         return $"{value}.value";
                     else
-                        return $"({n.Name}){value}.value";
+                        return $"({sn.Name}){value}.value";
                 }
                 else
-                    return $"({n.Name}){value}";
+                    return $"({sn.Name}){value}";
             }
-            else if (to is StringType s)
-                return $"{value}.ToString()";
-            else if (to is ScalarQuantityType scalar)
+
+            // Scalar quantities.
+            else if (to is ScalarQuantityType sq)
             {
-                if (Name == scalar.Name)
+                if (Name == sq.Name)
                     return value;
                 else if (Scope == Name)
-                    return $"new {scalar.Name}({value}.value)";
+                    return $"new {sq.Name}({value}.value)";
                 else
-                    return $"new {scalar.Name}(({Numerics.Core}){value})";
+                    return $"new {sq.Name}(({Numerics.Core}){value})";
             }
+
+            // Vector numerics.
+            else if (to is VectorNumericType vn)
+            {
+                string cast = CastTo(value, Numerics.CoreType);
+                return $"new {vn.Name}({cast}, {cast}, {cast})";
+            }
+
+            // Vector quantities.
+            else if (to is VectorQuantityType vq)
+            {
+                return $"new {vq.Name}({value}, {value}, {value})";
+            }
+
+            // Strings.
+            else if (to is StringType)
+                return $"{value}.ToString()";
+
+            // Invalid types.
             else
-                throw new ArgumentOutOfRangeException(value + " from " + Name + " to " + to.Name);
+                throw new ArgumentOutOfRangeException($"{value} from {Name} to {to.Name}");
         }
 
         public override Type Rescope(string scope)

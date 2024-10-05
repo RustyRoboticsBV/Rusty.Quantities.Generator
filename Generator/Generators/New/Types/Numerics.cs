@@ -33,10 +33,27 @@
             }
         }
 
+        public static string Zero => "0.0";
+        public static string One => "1.0";
+        public static string Pi => "Mathd.Pi";
+        public static string TwoPi => $"2.0 * {Pi}";
+
         /// <summary>
         /// The core, scalar numeric type that the entire module is built upon.
         /// </summary>
         public static ScalarNumericType CoreType => new ScalarNumericType(Core);
+
+        /// <summary>
+        /// The vector type that vector structs can convert to. Has three elements.
+        /// </summary>
+        public static string Vector3 => "Vector3";
+        public static string Vector2 => "Vector2";
+        public static string Vector4 => "Vector4";
+        public static string Vector2I => "Vector2I";
+        public static string Vector3I => "Vector3I";
+        public static string Vector4I => "Vector4I";
+
+        public static VectorNumericType Vector3Type => new VectorNumericType(Vector3);
 
         /* Public methods. */
         /// <summary>

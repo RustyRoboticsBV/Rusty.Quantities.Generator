@@ -14,12 +14,6 @@
             Type = type;
         }
 
-        /* Public methods. */
-        public static string Generate(string type, string name, string value, string? summary = null)
-        {
-            return new Property(type, name, value, summary).Generate();
-        }
-
         /* Protected methods. */
         protected sealed override string IdContents()
         {

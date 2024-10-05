@@ -15,9 +15,5 @@
             Type = type;
             Name = name;
         }
-
-        /* Public methods. */
-        public abstract string UnaryOperator(string op);
-        public abstract string BinaryOperator(string op, Parameter other);
     }
 }

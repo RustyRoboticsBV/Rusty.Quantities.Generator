@@ -8,15 +8,5 @@
         {
             return "object " + Name;
         }
-
-        public override string BinaryOperator(string op, Parameter other)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override string UnaryOperator(string op)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

@@ -8,8 +8,10 @@
         /* Constructors. */
         public Distance(FormulaSet[] formulas) : base("Distance", "Represents a distance quantity.")
         {
+            ArithmeticOperators.Space();
             AddBinaryOperator(typeof(Speed).Name, "/", typeof(Time).Name);
 
+            StaticMethods.Space();
             AddFormulas(formulas, 's');
         }
     }
