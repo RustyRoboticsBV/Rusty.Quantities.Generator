@@ -69,6 +69,7 @@
             InstanceMethods.Add(new Method("public", "override readonly", "bool", "Equals", new ObjectParameter(), $"return obj is {Name} {Name.ToLower()} && Equals({Name.ToLower()});"));
             InstanceMethods.Add(new Method("public", "readonly", "bool", "Equals", new ScalarQuantityParameter(Name, "other"), $"return this == other;"));
             InstanceMethods.Add(new Method("public", "override readonly", "int", "GetHashCode", null, "return value.GetHashCode();"));
+            InstanceMethods.Add(new Method("public", "readonly", "int", "CompareTo", new ScalarQuantityParameter(Name, "other"), $"if (this > other)\n{Indent("return 1;")}\nelse if (this < other)\n{Indent("return -1;")}\nelse\n{Indent("return 0;")}"));
             InstanceMethods.Space();
             AddMethodPair(new SignMethod(name));
             AddMethodPair(new AbsMethod(name));
