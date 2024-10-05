@@ -17,7 +17,7 @@
         /* Protected methods. */
         protected sealed override string IdContents()
         {
-            return $"private {Type} {Name};";
+            return $"private readonly {Type} {Name};";
         }
     }
 }

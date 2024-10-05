@@ -39,7 +39,7 @@
         protected sealed override string IdContents()
         {
             return "[Serializable]"
-                + $"\npublic struct {Name} : IEquatable<{Name}>"
+                + $"\npublic readonly struct {Name} : IEquatable<{Name}>"
                 + "\n{"
                 + "\n" + Indent(StructContents())
                 + "\n}";

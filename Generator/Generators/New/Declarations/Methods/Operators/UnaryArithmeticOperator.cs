@@ -9,16 +9,15 @@
         public UnaryArithmeticOperator(ReturnType returnType, string name, Parameter parameter)
             : base(returnType.Type.Name, name, new ParameterList(parameter), GetImpl(returnType, name, parameter)) { }
 
-        /* Public methods. */
-        public static string Generate(ReturnType returnType, string name, Parameter parameter)
-        {
-            return new UnaryArithmeticOperator(returnType, name, parameter).Generate();
-        }
-
         /* Private methods. */
         private static string GetImpl(ReturnType returnType, string op, Parameter parameter)
         {
-            return returnType.Generate(Numerics.CoreType, $"{op}{parameter.Type.CastTo(parameter.Name, Numerics.CoreType)}");
+            if (op == "++")
+                return returnType.Generate(Numerics.CoreType, $"{parameter.Type.CastTo(parameter.Name, Numerics.CoreType)} + 1");
+            if (op == "--")
+                return returnType.Generate(Numerics.CoreType, $"{parameter.Type.CastTo(parameter.Name, Numerics.CoreType)} - 1");
+            else
+                return returnType.Generate(Numerics.CoreType, $"{op}{parameter.Type.CastTo(parameter.Name, Numerics.CoreType)}");
         }
     }
 }
