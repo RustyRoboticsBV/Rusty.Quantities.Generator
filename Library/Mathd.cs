@@ -281,5 +281,20 @@ namespace Rusty.Quantities
         {
             return a + (b - a) * Clamp01(factor);
         }
+
+        /// <summary>
+        /// Convert the specified value in degrees to radians.
+        /// </summary>
+        public static double ToRadians(double degrees)
+        {
+            return Deg2Rad * degrees;
+        }
+        /// <summary>
+        /// Convert the specified value in radians to degrees.
+        /// </summary>
+        public static double ToDegrees(double radians)
+        {
+            return Rad2Deg * radians;
+        }
     }
 }
