@@ -1,62 +1,74 @@
 ﻿namespace Generators
 {
+    /// <summary>
+    /// Represents a scalar quantity struct type.
+    /// </summary>
     public class ScalarQuantityType : ScalarType
     {
-        public ScalarQuantityType(string name) : this(name, name) { }
-        public ScalarQuantityType(string name, string structScope) : base(name, structScope) { }
+        /* Puclic properties. */
+        public ScalarQuantityType(string name) : base(name) { }
 
-        public override string CastTo(string value, Type to)
+        /* Public methods. */
+        public override string CastTo(string instanceName, Type to, string scope)
         {
             // Scalar numerics.
             if (to is ScalarNumericType sn)
             {
-                if (Scope == Name)
+                if (scope == Name)
                 {
-                    if (to.Name == Numerics.Core)
-                        return $"{value}.value";
+                    if (Numerics.Core.MustExplicitCastTo(sn))
+                        return $"({sn}){instanceName}.value";
                     else
-                        return $"({sn.Name}){value}.value";
+                        return $"{instanceName}.value";
                 }
                 else
-                    return $"({sn.Name}){value}";
+                    return $"({sn}){instanceName}";
             }
 
             // Scalar quantities.
             else if (to is ScalarQuantityType sq)
             {
                 if (Name == sq.Name)
-                    return value;
-                else if (Scope == Name)
-                    return $"new {sq.Name}({value}.value)";
+                    return instanceName;
+                else if (scope == Name)
+                    return $"new {sq}({instanceName}.value)";
                 else
-                    return $"new {sq.Name}(({Numerics.Core}){value})";
+                    return $"new {sq}(({Numerics.Core}){instanceName})";
             }
 
             // Vector numerics.
             else if (to is VectorNumericType vn)
             {
-                string cast = CastTo(value, Numerics.CoreType);
-                return $"new {vn.Name}({cast}, {cast}, {cast})";
+                string elementCode = CastTo(instanceName, Numerics.Core, scope);
+                if (Numerics.Core.MustExplicitCastTo(vn.ScalarType))
+                {
+                    elementCode = Numerics.Core.CastTo(elementCode, vn.ScalarType, scope);
+                    return $"new {vn}({elementCode}, {elementCode}, {elementCode})";
+                }
+                else
+                    return $"new {vn}({elementCode}, {elementCode}, {elementCode})";
             }
 
             // Vector quantities.
             else if (to is VectorQuantityType vq)
             {
-                return $"new {vq.Name}({value}, {value}, {value})";
+                string elementCode = CastTo(instanceName, vq.ScalarType, scope);
+                return $"new {vq}({elementCode}, {elementCode}, {elementCode})";
             }
 
             // Strings.
             else if (to is StringType)
-                return $"{value}.ToString()";
+                return $"{instanceName}.ToString()";
+
+            // Objects.
+            else if (to is ObjectType)
+                return $"(object){instanceName}";
 
             // Invalid types.
+            if (to == null)
+                throw new ArgumentOutOfRangeException($"{instanceName} from {Name} to null");
             else
-                throw new ArgumentOutOfRangeException($"{value} from {Name} to {to.Name}");
-        }
-
-        public override Type Rescope(string scope)
-        {
-            return new ScalarQuantityType(Name, scope);
+                throw new ArgumentOutOfRangeException($"{instanceName} from {Name} to {to.Name}");
         }
     }
 }

@@ -2,10 +2,14 @@
 {
     public class VectorNumericType : VectorType
     {
-        public VectorNumericType(string name) : this(name, name) { }
-        public VectorNumericType(string name, string structScope = "") : base(name, structScope) { }
+        /* Public properties. */
+        public new ScalarNumericType ScalarType => base.ScalarType as ScalarNumericType;
 
-        public override string CastTo(string value, Type to)
+        /* Constructors. */
+        public VectorNumericType(string name, ScalarNumericType scalarType, int size) : base(name, scalarType, size) { }
+
+        /* Public methods. */
+        public override string CastTo(string value, Type to, string scope)
         {
             if (to is ScalarNumericType sn)
                 return "VEC_NUM_TO_SCL_NUM";
@@ -20,11 +24,6 @@
 
             // Invalid types.
             throw new ArgumentOutOfRangeException($"{value} from {Name} to {to.Name}");
-        }
-
-        public override Type Rescope(string scope)
-        {
-            return new VectorNumericType(Name, scope);
         }
     }
 }

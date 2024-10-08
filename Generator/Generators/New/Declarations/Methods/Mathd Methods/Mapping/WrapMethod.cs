@@ -1,17 +1,17 @@
 ﻿namespace Generators
 {
     /// <summary>
-    /// An wrap method generator.
+    /// A wrap method generator.
     /// </summary>
     public class WrapMethod : MathdMethodPair
     {
         /* Constructors. */
-        public WrapMethod(string quantityName) : base(
-            new ReturnScalarQuantity(quantityName),
+        public WrapMethod(ScalarQuantityType quantity) : base(
+            quantity,
             "Wrap",
-            new(new ScalarQuantityParameter(quantityName, "min"), new ScalarQuantityParameter(quantityName, "max")),
-            new(new ScalarQuantityParameter(quantityName, "value"), new ScalarQuantityParameter(quantityName, "min"), new ScalarQuantityParameter(quantityName, "max")),
+            new(new ScalarQuantityParameter(quantity, "min"), new ScalarQuantityParameter(quantity, "max")),
+            new(new ScalarQuantityParameter(quantity, "value"), new ScalarQuantityParameter(quantity, "min"), new ScalarQuantityParameter(quantity, "max")),
             new($"Returns PRONOUN QUANTITY_NAME mapped to some looping range between a minimum and maximum value.",
-                quantityName)) { }
+                quantity.Name)) { }
     }
 }

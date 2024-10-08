@@ -6,11 +6,11 @@
     public sealed class Speed : ScalarQuantityStruct
     {
         /* Constructors. */
-        public Speed(FormulaSet[] formulas) : base("Speed", "Represents a speed quantity.")
+        public Speed(FormulaSet[] formulas) : base(Quantities.Speed, "Represents a speed quantity.")
         {
             ArithmeticOperators.Space();
-            AddBinaryOperator(typeof(Distance).Name, "*", typeof(Time).Name);
-            AddBinaryOperator(typeof(Acceleration).Name, "/", typeof(Time).Name);
+            AddBinaryOperator(Quantities.Distance, "*", Quantities.Time);
+            AddBinaryOperator(Quantities.Acceleration, "/", Quantities.Time);
 
             StaticMethods.Space();
             AddFormulas(formulas, 'V');

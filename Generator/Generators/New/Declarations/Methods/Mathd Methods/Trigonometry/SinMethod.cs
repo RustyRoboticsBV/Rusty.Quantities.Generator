@@ -6,12 +6,12 @@
     public class SinMethod : MathdMethodPair
     {
         /* Constructors. */
-        public SinMethod(string quantityName) : base(
-            new ReturnScalarQuantity(quantityName),
+        public SinMethod(ScalarQuantityType quantity) : base(
+            quantity,
             "Sin",
             new(),
-            new ScalarQuantityParameter(quantityName, "value"),
+            new ScalarQuantityParameter(quantity, "value"),
             new($"Returns the sine of PRONOUN QUANTITY_NAME value.",
-                quantityName)) { }
+                quantity.Name)) { }
     }
 }

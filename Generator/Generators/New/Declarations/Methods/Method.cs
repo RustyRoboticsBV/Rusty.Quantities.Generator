@@ -7,13 +7,15 @@
     {
         /* Public properties. */
         public string Accessor { get; set; }
-        public string? Modifiers { get; set; }
-        public string? ReturnType { get; set; }
+        public string Modifiers { get; set; }
+        public Type ReturnType { get; set; }
         public ParameterList Parameters { get; set; }
         public string Implementation { get; set; }
 
+        public bool HideReturnType { get; protected set; }
+
         /* Constructors. */
-        public Method(string accessor, string? modifiers, string? returnType, string name, ParameterList parameters,
+        public Method(string accessor, string modifiers, Type returnType, string name, ParameterList parameters,
             string implementation, Summary summary = null) : base(name, summary)
         {
             Accessor = accessor;
@@ -21,21 +23,19 @@
             ReturnType = returnType;
             Parameters = parameters;
             Implementation = implementation;
-        }
 
-        /* Public methods. */
-        public static string Generate(string accessor, string? modifiers, string? returnType, string name,
-            ParameterList parameters, string implementation, Summary summary = null)
-        {
-            return new Method(accessor, modifiers, returnType, name, parameters, implementation, summary).Generate();
+            if (Parameters != null)
+                Parameters.Parent = this;
+            if (Summary != null)
+                Summary.Parent = this;
         }
 
         /* Protected methods. */
-        protected override sealed string IdContents()
+        protected override string IdContents()
         {
             string prefix = $"{Accessor} "
-                + $"{(Modifiers != null ? $"{Modifiers} " : "")}"
-                + $"{(ReturnType != null ? $"{ReturnType} " : "")}";
+                + $"{(!string.IsNullOrEmpty(Modifiers) ? $"{Modifiers} " : "")}"
+                + $"{((ReturnType != null && !HideReturnType) ? $"{ReturnType} " : "")}";
 
             return $"{prefix}{Name}({(Parameters != null ? Parameters.Generate() : "")})"
                 + "\n" + Block.Generate(Implementation);

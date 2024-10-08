@@ -1,18 +1,17 @@
 ﻿namespace Generators
 {
     /// <summary>
-    /// An ceil method generator.
+    /// A ceil method generator.
     /// </summary>
     public class CeilMethod : MathdMethodPair
     {
         /* Constructors. */
-        public CeilMethod(string quantityName) : base(
-            new ReturnScalarQuantity(quantityName),
+        public CeilMethod(ScalarQuantityType quantity) : base(
+            quantity,
             "Ceil",
             new(),
-            new ScalarQuantityParameter(quantityName, "value"),
+            new ScalarQuantityParameter(quantity, "value"),
             new($"Returns PRONOUN QUANTITY_NAME value rounded up to the nearest integer.",
-                quantityName))
-        { }
+                quantity.Name)) { }
     }
 }

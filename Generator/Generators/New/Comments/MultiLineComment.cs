@@ -6,16 +6,16 @@
     public sealed class MultiLineComment : Generator
     {
         /* Public properties. */
-        public string? Text { get; set; }
+        public string Text { get; set; }
 
         /* Constructors. */
-        public MultiLineComment(string? text)
+        public MultiLineComment(string text)
         {
             Text = text;
         }
 
         /* Public methods. */
-        public static string Generate(string? text)
+        public static string Generate(string text)
         {
             return new MultiLineComment(text).Generate();
         }

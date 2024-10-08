@@ -1,18 +1,17 @@
 ﻿namespace Generators
 {
     /// <summary>
-    /// An step method generator.
+    /// A step method generator.
     /// </summary>
     public class StepMethod : MathdMethodPair
     {
         /* Constructors. */
-        public StepMethod(string quantityName) : base(
-            new ReturnScalarQuantity(quantityName),
+        public StepMethod(ScalarQuantityType quantity) : base(
+            quantity,
             "Step",
-            new(new ScalarQuantityParameter(quantityName, "target"), new ScalarQuantityParameter(quantityName, "delta")),
-            new(new ScalarQuantityParameter(quantityName, "value"), new ScalarQuantityParameter(quantityName, "target"), new ScalarQuantityParameter(quantityName, "delta")),
+            new(new ScalarQuantityParameter(quantity, "target"), new ScalarQuantityParameter(quantity, "delta")),
+            new(new ScalarQuantityParameter(quantity, "value"), new ScalarQuantityParameter(quantity, "target"), new ScalarQuantityParameter(quantity, "delta")),
             new($"Returns PRONOUN QUANTITY_NAME value, moved by some distance in the direction of some target value.",
-                quantityName))
-        { }
+                quantity.Name)) { }
     }
 }

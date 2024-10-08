@@ -6,12 +6,12 @@
     public class PowMethod : MathdMethodPair
     {
         /* Constructors. */
-        public PowMethod(string quantityName) : base(
-            new ReturnScalarQuantity(quantityName),
+        public PowMethod(ScalarQuantityType quantity) : base(
+            quantity,
             "Pow",
             new ScalarNumericParameter(Numerics.Core, "power"),
-            new(new ScalarQuantityParameter(quantityName, "value"), new ScalarNumericParameter(Numerics.Core, "power")),
+            new(new ScalarQuantityParameter(quantity, "value"), new ScalarNumericParameter(Numerics.Core, "power")),
             new($"Returns the value of PRONOUN QUANTITY_NAME raised to the specified power.",
-                quantityName)) { }
+                quantity.Name)) { }
     }
 }

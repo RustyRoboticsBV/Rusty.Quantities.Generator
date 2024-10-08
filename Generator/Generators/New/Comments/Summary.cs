@@ -6,7 +6,7 @@
     public class Summary : Generator
     {
         /* Public properties. */
-        public string? Text { get; set; }
+        public string Text { get; set; }
 
         /* Casting oeprators. */
         public static implicit operator Summary(string text)

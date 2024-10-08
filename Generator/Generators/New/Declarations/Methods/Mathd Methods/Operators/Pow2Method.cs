@@ -6,12 +6,12 @@
     public class Pow2Method : MathdMethodPair
     {
         /* Constructors. */
-        public Pow2Method(string quantityName) : base(
-            new ReturnScalarQuantity(quantityName),
+        public Pow2Method(ScalarQuantityType quantity) : base(
+            quantity,
             "Pow2",
-            new(),
-            new ScalarQuantityParameter(quantityName, "value"),
+            ScalarParameterList.Empty,
+            new ScalarQuantityParameter(quantity, "value"),
             new($"Returns the value of PRONOUN QUANTITY_NAME raised to the power of two.",
-                quantityName)) { }
+                quantity.Name)) { }
     }
 }

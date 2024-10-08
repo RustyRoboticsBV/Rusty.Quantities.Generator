@@ -1,23 +1,41 @@
-﻿namespace Generators
+﻿using System.Reflection;
+
+namespace Generators
 {
+    /// <summary>
+    /// A math method that uses the mathd library.
+    /// </summary>
     public class MathdMethod : Method
     {
-        public MathdMethod(bool isStatic, ReturnType returnType, string methodName, ScalarParameterList parameters,
-            Summary summary) : base("public", isStatic ? "static" : "readonly", returnType.Type.Name, methodName,
-                parameters, GetImplementation(isStatic, returnType.Type, methodName, parameters), summary) { }
+        /* Public properties. */
+        public bool IsStatic { get; private set; }
 
+        /* Constructors. */
+        public MathdMethod(bool isStatic, Type returnType, string methodName, ScalarParameterList parameters,
+            Summary summary) : base("public", isStatic ? "static" : "readonly", returnType, methodName,
+                parameters, "", summary)
+        {
+            IsStatic = isStatic;
+        }
+
+        /* Protected methods. */
+        protected override string IdContents()
+        {
+            Implementation = GetImplementation(IsStatic, ReturnType, Name, Parameters);
+            return base.IdContents();
+        }
         /* Private methods. */
-        private static string GetImplementation(bool isStatic, Type returnType, string methodName, ScalarParameterList parameters)
+        private string GetImplementation(bool isStatic, Type returnType, string methodName, ParameterList parameters)
         {
             string arguments = isStatic ? "" : "value";
-            foreach (ScalarParameter parameter in parameters.Parameters)
+            foreach (Variable parameter in parameters.Parameters)
             {
                 if (arguments != "")
                     arguments += ", ";
-                arguments += parameter.CastToCore();
+                arguments += parameter.CastTo(Numerics.Core);
             }
 
-            return $"return {Numerics.CoreType.CastTo($"Mathd.{methodName}({arguments})", returnType)};";
+            return $"return {Numerics.Core.CastTo($"Mathd.{methodName}({arguments})", returnType, GetScope())};";
         }
     }
 }

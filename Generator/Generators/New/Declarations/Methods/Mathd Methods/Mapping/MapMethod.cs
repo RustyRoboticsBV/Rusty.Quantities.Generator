@@ -1,17 +1,17 @@
 ﻿namespace Generators
 {
     /// <summary>
-    /// An map method generator.
+    /// A map method.
     /// </summary>
     public class MapMethod : MathdMethodPair
     {
         /* Constructors. */
-        public MapMethod(string quantityName) : base(
-            new ReturnScalarQuantity(quantityName),
+        public MapMethod(ScalarQuantityType quantity) : base(
+            quantity,
             "Map",
-            new(new ScalarQuantityParameter(quantityName, "fromMin"), new ScalarQuantityParameter(quantityName, "fromMax"), new ScalarQuantityParameter(quantityName, "toMin"), new ScalarQuantityParameter(quantityName, "toMax")),
-            new(new ScalarQuantityParameter(quantityName, "value"), new ScalarQuantityParameter(quantityName, "fromMin"), new ScalarQuantityParameter(quantityName, "fromMax"), new ScalarQuantityParameter(quantityName, "toMin"), new ScalarQuantityParameter(quantityName, "toMax")),
+            new(new ScalarQuantityParameter(quantity, "fromMin"), new ScalarQuantityParameter(quantity, "fromMax"), new ScalarQuantityParameter(quantity, "toMin"), new ScalarQuantityParameter(quantity, "toMax")),
+            new(new ScalarQuantityParameter(quantity, "value"), new ScalarQuantityParameter(quantity, "fromMin"), new ScalarQuantityParameter(quantity, "fromMax"), new ScalarQuantityParameter(quantity, "toMin"), new ScalarQuantityParameter(quantity, "toMax")),
             new($"Returns PRONOUN QUANTITY_NAME value mapped from one range to another. The value may be outside of the first range and the method will still work.",
-                quantityName)) { }
+                quantity.Name)) { }
     }
 }

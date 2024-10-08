@@ -6,13 +6,12 @@
     public class CosMethod : MathdMethodPair
     {
         /* Constructors. */
-        public CosMethod(string quantityName) : base(
-            new ReturnScalarQuantity(quantityName),
+        public CosMethod(ScalarQuantityType quantity) : base(
+            quantity,
             "Cos",
             new(),
-            new ScalarQuantityParameter(quantityName, "value"),
+            new ScalarQuantityParameter(quantity, "value"),
             new($"Returns the cosine of PRONOUN QUANTITY_NAME value.",
-                quantityName))
-        { }
+                quantity.Name)) { }
     }
 }

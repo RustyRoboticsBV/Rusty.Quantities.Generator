@@ -5,28 +5,23 @@
     /// </summary>
     public class BinaryArithmeticOperator : ArithmeticOperator
     {
+        /* Public properties. */
+        public Variable A => Parameters[0];
+        public Variable B => Parameters[1];
+
         /* Constructors. */
-        public BinaryArithmeticOperator(ReturnType returnType, string name, Parameter a, Parameter b)
-            : base(returnType.Type.Name, name, new ParameterList(a, b), GetImpl(returnType, a, name, b)) { }
+        public BinaryArithmeticOperator(Type returnType, string name, Variable a, Variable b)
+            : base(returnType, name, new ParameterList(a, b), "") { }
 
-        /* Public methods. */
-        public static string Generate(ReturnType returnType, string name, Parameter a, Parameter b)
+        /* Protected methods. */
+        protected override string IdContents()
         {
-            return new BinaryArithmeticOperator(returnType, name, a, b).Generate();
-        }
-
-        /* Private methods. */
-        private static string GetImpl(ReturnType returnType, Parameter a, string op, Parameter b)
-        {
-            if (a is VectorParameter va && b is VectorParameter vb)
-            {
-                return $"return new {returnType.Type.Name}(a.X + b.X, a.Y + b.Y, a.Z + b.Z);";
-            }
-            else
-            {
-                return returnType.Generate(Numerics.CoreType,
-                    $"{a.Type.CastTo("a", Numerics.CoreType)} {op} {b.Type.CastTo("b", Numerics.CoreType)}");
-            }
+            Implementation = Numerics.Core.Return(
+                $"{A.CastTo(Numerics.Core)} {OpName} {B.CastTo(Numerics.Core)}",
+                ReturnType,
+                GetScope()
+            );
+            return base.IdContents();
         }
     }
 }

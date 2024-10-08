@@ -1,17 +1,17 @@
 ﻿namespace Generators
 {
     /// <summary>
-    /// An truncate method generator.
+    /// A truncate method generator.
     /// </summary>
     public class TruncateMethod : MathdMethodPair
     {
         /* Constructors. */
-        public TruncateMethod(string quantityName) : base(
-            new ReturnScalarQuantity(quantityName),
+        public TruncateMethod(ScalarQuantityType quantity) : base(
+            quantity,
             "Truncate",
             new(),
-            new ScalarQuantityParameter(quantityName, "value"),
+            new ScalarQuantityParameter(quantity, "value"),
             new($"Returns the integral part of PRONOUN QUANTITY_NAME value.",
-                quantityName)) { }
+                quantity.Name)) { }
     }
 }

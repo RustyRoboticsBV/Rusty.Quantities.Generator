@@ -6,12 +6,12 @@
     public class AbsMethod : MathdMethodPair
     {
         /* Constructors. */
-        public AbsMethod(string quantityName) : base(
-            new ReturnScalarQuantity(quantityName),
+        public AbsMethod(ScalarQuantityType quantity) : base(
+            quantity,
             "Abs",
             new(),
-            new ScalarQuantityParameter(quantityName, "value"),
+            new ScalarQuantityParameter(quantity, "value"),
             new($"Returns the absolute value of PRONOUN QUANTITY_NAME value.",
-                quantityName)) { }
+                quantity.Name)) { }
     }
 }

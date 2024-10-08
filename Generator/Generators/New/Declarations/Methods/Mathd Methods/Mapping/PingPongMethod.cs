@@ -1,17 +1,17 @@
 ﻿namespace Generators
 {
     /// <summary>
-    /// An ping-pong method generator.
+    /// A ping-pong method.
     /// </summary>
     public class PingPongMethod : MathdMethodPair
     {
         /* Constructors. */
-        public PingPongMethod(string quantityName) : base(
-            new ReturnScalarQuantity(quantityName),
+        public PingPongMethod(ScalarQuantityType quantity) : base(
+            quantity,
             "PingPong",
-            new(new ScalarQuantityParameter(quantityName, "min"), new ScalarQuantityParameter(quantityName, "max")),
-            new(new ScalarQuantityParameter(quantityName, "value"), new ScalarQuantityParameter(quantityName, "min"), new ScalarQuantityParameter(quantityName, "max")),
+            new(new ScalarQuantityParameter(quantity, "min"), new ScalarQuantityParameter(quantity, "max")),
+            new(new ScalarQuantityParameter(quantity, "value"), new ScalarQuantityParameter(quantity, "min"), new ScalarQuantityParameter(quantity, "max")),
             new($"Returns PRONOUN QUANTITY_NAME mapped to some ping-ponging range between a minimum and maximum value.",
-                quantityName)) { }
+                quantity.Name)) { }
     }
 }

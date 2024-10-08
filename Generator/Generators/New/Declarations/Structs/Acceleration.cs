@@ -6,10 +6,10 @@
     public sealed class Acceleration : ScalarQuantityStruct
     {
         /* Constructors. */
-        public Acceleration(FormulaSet[] formulas) : base("Acceleration", "Represents a acceleration quantity.")
+        public Acceleration(FormulaSet[] formulas) : base(Quantities.Acceleration, "Represents a acceleration quantity.")
         {
             ArithmeticOperators.Space();
-            AddBinaryOperator(typeof(Speed).Name, "*", typeof(Time).Name);
+            AddBinaryOperator(Quantities.Speed, "*", Quantities.Time);
 
             StaticMethods.Space();
             AddFormulas(formulas, 'a');

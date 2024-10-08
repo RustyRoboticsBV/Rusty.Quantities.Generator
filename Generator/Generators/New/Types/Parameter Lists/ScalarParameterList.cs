@@ -3,11 +3,13 @@
     /// <summary>
     /// A scalar-only parameter list generator.
     /// </summary>
-    public class ScalarParameterList : ParameterList
+    public sealed class ScalarParameterList : ParameterList
     {
+        /* Public properties. */
+        public static ScalarParameterList Empty => new();
+
         /* Constructors. */
-        public ScalarParameterList(params ScalarParameter[] parameters)
-            : base(parameters) { }
+        public ScalarParameterList(params ScalarParameter[] parameters) : base(parameters) { }
 
         /* Casting operators. */
         public static implicit operator ScalarParameterList(ScalarParameter parameter)

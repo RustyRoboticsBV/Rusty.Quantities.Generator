@@ -7,17 +7,17 @@
     {
         /* Public properties. */
         public MultiLineComment Title { get; set; }
-        public string? Contents { get; set; }
+        public string Contents { get; set; }
 
         /* Constructors. */
-        public Section(string? title, string? contents)
+        public Section(string title, string contents)
         {
             Title = new(title);
             Contents = contents;
         }
 
         /* Public methods. */
-        public static string Generate(string? title, string? contents)
+        public static string Generate(string title, string contents)
         {
             return new Section(title, contents).Generate();
         }

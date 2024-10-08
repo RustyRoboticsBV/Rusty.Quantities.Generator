@@ -5,21 +5,19 @@
     /// </summary>
     public class ComparisonOperator : Operator
     {
+        /* Public properties. */
+        public Variable A => Parameters[0];
+        public Variable B => Parameters[1];
+
         /* Constructors. */
-        public ComparisonOperator(string name, Parameter a, Parameter b)
-            : base("static", "bool", name, new(a, b), GetImpl(a, name, b)) { }
+        public ComparisonOperator(string name, Variable a, Variable b)
+            : base("static", Types.Bool, name, new(a, b), "") { }
 
-        /* Public methods. */
-        public static string Generate(string name, Parameter a, Parameter b)
+        /* Private methods. */
+        protected override string IdContents()
         {
-            return new ComparisonOperator(name, a, b).Generate();
-        }
-
-        private static string GetImpl(Parameter a, string op, Parameter b)
-        {
-            if (a is ScalarParameter && b is ScalarParameter)
-                return $"return {a.Type.CastTo(a.Name, Numerics.CoreType)} {op} {b.Type.CastTo(b.Name, Numerics.CoreType)};";
-            return "";
+            Implementation = $"return {A.CastTo(Numerics.Core)} {OpName} {B.CastTo(Numerics.Core)};";
+            return base.IdContents();
         }
     }
 }

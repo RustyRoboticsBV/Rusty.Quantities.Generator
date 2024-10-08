@@ -1,18 +1,18 @@
 ﻿namespace Generators
 {
     /// <summary>
-    /// A to degrees method generator.
+    /// A radians to degrees method.
     /// </summary>
     public class ToDegreesMethod : MathdMethodPair
     {
         /* Constructors. */
-        public ToDegreesMethod(string quantityName) : base(
-            new ReturnScalarQuantity(quantityName),
+        public ToDegreesMethod(ScalarQuantityType quantity) : base(
+            quantity,
             "ToDegrees",
             new(),
-            new ScalarQuantityParameter(quantityName, "value"),
+            new ScalarQuantityParameter(quantity, "value"),
             new($"Returns PRONOUN QUANTITY_NAME value converted from radians to degrees.",
-                quantityName))
+                quantity.Name))
         {
             Local.Implementation = "return Mathd.Rad2Deg * value;";
             Static.Implementation = "return Mathd.Rad2Deg * value.value;";

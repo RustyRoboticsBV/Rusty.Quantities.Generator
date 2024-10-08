@@ -6,10 +6,10 @@
     public sealed class Angle : ScalarQuantityStruct
     {
         /* Constructors. */
-        public Angle() : base("Angle", "Represents an angle quantity.")
+        public Angle() : base(Quantities.Angle, "Represents an angle quantity.")
         {
-            AddMethodPair(new ToDegreesMethod(Name));
-            AddMethodPair(new ToRadiansMethod(Name));
+            AddMethodPair(new ToDegreesMethod(Quantities.Angle));
+            AddMethodPair(new ToRadiansMethod(Quantities.Angle));
         }
     }
 }

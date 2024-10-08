@@ -2,29 +2,25 @@
 {
     public class VectorQuantityType : VectorType
     {
-        public VectorQuantityType(string name) : this(name, name) { }
-        public VectorQuantityType(string name, string structScope = "") : base(name, structScope) { }
+        /* Constructors. */
+        public VectorQuantityType(string name, ScalarType scalarType, int size) : base(name, scalarType, size) { }
 
-        public override string CastTo(string value, Type to)
+        /* Public methods. */
+        public override string CastTo(string instanceName, Type to, string scope)
         {
             // Vector numerics.
             if (to is VectorNumericType vn)
-                return $"new {Numerics.Vector3}((float){value}.x, (float){value}.y, (float){value}.z)";
+                return $"new {Numerics.Vector3}((float){instanceName}.x, (float){instanceName}.y, (float){instanceName}.z)";
 
             if (to is ScalarNumericType sn)
                 return "VEC_Q_TO_SCL_NUM";
             if (to is ScalarNumericType sq)
                 return "VEC_Q_TO_SCL_Q";
             if (to is VectorQuantityType vq)
-                return $"new {to.Name}({value})";
+                return $"new {to.Name}({instanceName})";
 
             // Invalid types.
-            throw new ArgumentOutOfRangeException($"{value} from {Name} to {to.Name}");
-        }
-
-        public override Type Rescope(string scope)
-        {
-            return new VectorQuantityType(Name, scope);
+            throw new ArgumentOutOfRangeException($"{instanceName} from {Name} to {to.Name}");
         }
     }
 }

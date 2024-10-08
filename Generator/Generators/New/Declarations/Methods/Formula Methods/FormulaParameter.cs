@@ -1,13 +1,28 @@
 ﻿namespace Generators
 {
-    public struct FormulaParameter
+    /// <summary>
+    /// A parameter of a physics formula.
+    /// </summary>
+    public readonly struct FormulaParameter
     {
         /* Public properties. */
-        public char ShortName { get; set; }
-        public Parameter Parameter { get; set; }
+        /// <summary>
+        /// The single-character name as used in formula equations.
+        /// </summary>
+        public readonly char ShortName { get; private init; }
+        /// <summary>
+        /// The full name of this formula parameter, in pascalCase format.
+        /// </summary>
+        public readonly string FullName { get; private init; }
+        /// <summary>
+        /// The quantity type of this formula parameter.
+        /// </summary>
+        public readonly ScalarQuantityType Type { get; private init; }
 
-        public string FullName => Parameter.Name;
-        public string CamelCase
+        /// <summary>
+        /// The full name in CamelCase format.
+        /// </summary>
+        public readonly string CamelCase
         {
             get
             {
@@ -18,7 +33,10 @@
                     return name;
             }
         }
-        public string LowercaseSpaced
+        /// <summary>
+        /// The full name in lowercase spaced format.
+        /// </summary>
+        public readonly string LowercaseSpaced
         {
             get
             {
@@ -33,13 +51,11 @@
         }
 
         /* Constructors. */
-        public FormulaParameter(char shortName, Parameter parameter)
+        public FormulaParameter(char shortName, string fullName, ScalarQuantityType type)
         {
             ShortName = shortName;
-            Parameter = parameter;
+            FullName = fullName;
+            Type = type;
         }
-
-        public FormulaParameter(char shortName, string parameterType, string parameterName)
-            : this(shortName, new ScalarQuantityParameter(parameterType, parameterName)) { }
     }
 }

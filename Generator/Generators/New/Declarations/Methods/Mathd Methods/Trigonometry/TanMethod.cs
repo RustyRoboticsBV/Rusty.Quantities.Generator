@@ -6,13 +6,12 @@
     public class TanMethod : MathdMethodPair
     {
         /* Constructors. */
-        public TanMethod(string quantityName) : base(
-            new ReturnScalarQuantity(quantityName),
+        public TanMethod(ScalarQuantityType quantity) : base(
+            quantity,
             "Tan",
             new(),
-            new ScalarQuantityParameter(quantityName, "value"),
+            new ScalarQuantityParameter(quantity, "value"),
             new($"Returns the tangent of PRONOUN QUANTITY_NAME value.",
-                quantityName))
-        { }
+                quantity.Name)) { }
     }
 }

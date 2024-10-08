@@ -1,12 +1,12 @@
 ﻿using Generators;
 
 // Define parameters.
-FormulaParameter time = new FormulaParameter('t', "Time", "time");
-FormulaParameter distance = new FormulaParameter('s', "Distance", "distance");
-FormulaParameter constantSpeed = new FormulaParameter('V', "Speed", "constantSpeed");
-FormulaParameter startSpeed = new FormulaParameter('u', "Speed", "startSpeed");
-FormulaParameter endSpeed = new FormulaParameter('v', "Speed", "endSpeed");
-FormulaParameter acceleration = new FormulaParameter('a', "Acceleration", "acceleration");
+FormulaParameter time = new FormulaParameter('t', "time", Quantities.Time);
+FormulaParameter distance = new FormulaParameter('s', "distance", Quantities.Distance);
+FormulaParameter constantSpeed = new FormulaParameter('V', "constantSpeed", Quantities.Speed);
+FormulaParameter startSpeed = new FormulaParameter('u', "startSpeed", Quantities.Speed);
+FormulaParameter endSpeed = new FormulaParameter('v', "endSpeed", Quantities.Speed);
+FormulaParameter acceleration = new FormulaParameter('a', "acceleration", Quantities.Acceleration);
 
 // Define formula sets.
 FormulaSet tsv = new FormulaSet("V=s/t", "t=s/V", "s=V*t", constantSpeed, distance, time);
@@ -23,5 +23,3 @@ CSFile.Generate(new Distance(formulas));
 CSFile.Generate(new Speed(formulas));
 CSFile.Generate(new Acceleration(formulas));
 CSFile.Generate(new Angle());
-//MotionGenerator.Generate(tsv, tsuv, suva, tsua, tsva);
-CSFile.Generate(new Velocity(formulas, new Speed(formulas)));

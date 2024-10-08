@@ -6,16 +6,16 @@
     public sealed class Block : Generator
     {
         /* Public properties. */
-        public string? Contents { get; set; }
+        public string Contents { get; set; }
 
         /* Constructors. */
-        public Block(string? contents)
+        public Block(string contents)
         {
             Contents = contents;
         }
 
         /* Public methods. */
-        public static string Generate(string? contents)
+        public static string Generate(string contents)
         {
             return new Block(contents).Generate();
         }

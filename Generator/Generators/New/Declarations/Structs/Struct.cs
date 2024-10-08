@@ -6,33 +6,38 @@
     public abstract class Struct : Id
     {
         /* Public properties. */
-        public Area<Field> Fields { get; set; }
-        public Area<Property> Properties { get; set; }
-        public Area<Constructor> Constructors { get; set; }
-        public Area<CastingOperator> CastingOperators { get; set; }
-        public Area<ArithmeticOperator> ArithmeticOperators { get; set; }
-        public Area<ComparisonOperator> ComparisonOperators { get; set; }
-        public Area<Method> InstanceMethods { get; set; }
-        public Area<Method> StaticMethods { get; set; }
+        public Type Type { get; private set; }
+
+        public Area<Field> Fields { get; private set; } = new();
+        public Area<Property> Properties { get; private set; } = new();
+        public Area<Constructor> Constructors { get; private set; } = new();
+        public Area<CastingOperator> CastingOperators { get; private set; } = new();
+        public Area<ArithmeticOperator> ArithmeticOperators { get; private set; } = new();
+        public Area<ComparisonOperator> ComparisonOperators { get; private set; } = new();
+        public Area<Method> InstanceMethods { get; private set; } = new();
+        public Area<Method> StaticMethods { get; private set; } = new();
 
         /* Public methods. */
-        public void AddMethodPair(GeneratorPair<Method> methodPair)
+        public void AddMethodPair(GeneratorPair<MathdMethod> methodPair)
         {
             InstanceMethods.Add(methodPair.Local);
             StaticMethods.Add(methodPair.Static);
         }
 
         /* Constructors. */
-        public Struct(string name, string summary) : base(name, summary)
+        public Struct(Type type, string summary) : base(type.Name, summary)
         {
-            Fields = new(name);
-            Properties = new(name);
-            Constructors = new(name);
-            CastingOperators = new(name);
-            ArithmeticOperators = new(name);
-            ComparisonOperators = new(name);
-            InstanceMethods = new(name);
-            StaticMethods = new(name);
+            Type = type;
+            Scope = Name;
+
+            Fields.Parent = this;
+            Properties.Parent = this;
+            Constructors.Parent = this;
+            CastingOperators.Parent = this;
+            ArithmeticOperators.Parent = this;
+            ComparisonOperators.Parent = this;
+            InstanceMethods.Parent = this;
+            StaticMethods.Parent = this;
         }
 
         /* Protected methods. */

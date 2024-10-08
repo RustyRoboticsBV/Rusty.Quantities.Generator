@@ -6,47 +6,49 @@
     public class ParameterList : Generator
     {
         /* Public properties. */
-        public Parameter[] Parameters { get; set; }
+        public Variable[] Parameters { get; set; }
+
+        public Variable this[int index] => Parameters[index];
 
         /* Constructors. */
-        public ParameterList(params Parameter[] parameters)
+        public ParameterList(params Variable[] parameters)
         {
             Parameters = parameters;
+
+            foreach (Variable parameter in Parameters)
+            {
+                parameter.Parent = this;
+            }
         }
 
         /* Casting operators. */
-        public static implicit operator ParameterList(Parameter value)
+        public static implicit operator ParameterList(Variable value)
         {
             return new ParameterList(value);
         }
 
         /* Arithmatic operators. */
-        public static ParameterList operator +(Parameter a, ParameterList b)
+        public static ParameterList operator +(Variable a, ParameterList b)
         {
-            Parameter[] parameters = new Parameter[b.Parameters.Length + 1];
+            Variable[] parameters = new Variable[b.Parameters.Length + 1];
             parameters[0] = a;
             Array.Copy(b.Parameters, 0, parameters, 1, b.Parameters.Length);
             return new ParameterList(parameters);
         }
 
-        public static ParameterList operator +(ParameterList a, Parameter b)
+        public static ParameterList operator +(ParameterList a, Variable b)
         {
-            Parameter[] parameters = new Parameter[a.Parameters.Length + 1];
+            Variable[] parameters = new Variable[a.Parameters.Length + 1];
             Array.Copy(a.Parameters, parameters, a.Parameters.Length);
             parameters[^1] = b;
             return new ParameterList(parameters);
         }
 
         /* Public methods. */
-        public static string Generate(Parameter[] contents)
-        {
-            return new ParameterList(contents).Generate();
-        }
-
         public sealed override string Generate()
         {
             string code = "";
-            foreach (Parameter parameter in Parameters)
+            foreach (Variable parameter in Parameters)
             {
                 string parameterCode = parameter.Generate();
                 if (parameterCode != "")

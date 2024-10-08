@@ -1,12 +1,12 @@
 ﻿namespace Generators
 {
     /// <summary>
-    /// Represents the System.String type.
+    /// Represents the System.Boolean type.
     /// </summary>
-    public class StringType : Type
+    public class BoolType : Type
     {
         /* Constructors. */
-        public StringType() : base("string") { }
+        public BoolType() : base("bool") { }
 
         /* Public methods. */
         public override string CastTo(string instanceName, Type to, string scope)

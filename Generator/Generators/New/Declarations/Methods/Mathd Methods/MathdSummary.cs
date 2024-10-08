@@ -1,5 +1,8 @@
 ﻿namespace Generators
 {
+    /// <summary>
+    /// A mathd summary pair.
+    /// </summary>
     public class MathdSummary : GeneratorPair<ContextualSummary>
     {
         /* Constructors. */

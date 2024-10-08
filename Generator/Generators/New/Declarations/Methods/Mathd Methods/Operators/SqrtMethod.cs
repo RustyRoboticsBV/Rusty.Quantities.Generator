@@ -1,17 +1,17 @@
 ﻿namespace Generators
 {
     /// <summary>
-    /// An square root method generator.
+    /// A square root method generator.
     /// </summary>
     public class SqrtMethod : MathdMethodPair
     {
         /* Constructors. */
-        public SqrtMethod(string quantityName) : base(
-            new ReturnScalarQuantity(quantityName),
+        public SqrtMethod(ScalarQuantityType quantity) : base(
+            quantity,
             "Sqrt",
             new(),
-            new ScalarQuantityParameter(quantityName, "value"),
+            new ScalarQuantityParameter(quantity, "value"),
             new($"Returns the square root of PRONOUN QUANTITY_NAME value.",
-                quantityName)) { }
+                quantity.Name)) { }
     }
 }

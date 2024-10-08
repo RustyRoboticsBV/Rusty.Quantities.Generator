@@ -5,19 +5,24 @@
     /// </summary>
     public class UnaryArithmeticOperator : ArithmeticOperator
     {
-        /* Constructors. */
-        public UnaryArithmeticOperator(ReturnType returnType, string name, Parameter parameter)
-            : base(returnType.Type.Name, name, new ParameterList(parameter), GetImpl(returnType, name, parameter)) { }
+        /* Public properties. */
+        public Variable Parameter => Parameters[0];
 
-        /* Private methods. */
-        private static string GetImpl(ReturnType returnType, string op, Parameter parameter)
+        /* Constructors. */
+        public UnaryArithmeticOperator(Type returnType, string name, Variable parameter)
+            : base(returnType, name, new ParameterList(parameter), "") { }
+
+        /* Protected methods. */
+        protected override string IdContents()
         {
-            if (op == "++")
-                return returnType.Generate(Numerics.CoreType, $"{parameter.Type.CastTo(parameter.Name, Numerics.CoreType)} + 1");
-            if (op == "--")
-                return returnType.Generate(Numerics.CoreType, $"{parameter.Type.CastTo(parameter.Name, Numerics.CoreType)} - 1");
+            if (OpName == "++")
+                Implementation = Numerics.Core.Return($"{Parameter.CastTo(Numerics.Core)} + 1", ReturnType, GetScope());
+            else if (OpName == "--")
+                Implementation = Numerics.Core.Return($"{Parameter.CastTo(Numerics.Core)} - 1", ReturnType, GetScope());
             else
-                return returnType.Generate(Numerics.CoreType, $"{op}{parameter.Type.CastTo(parameter.Name, Numerics.CoreType)}");
+                Implementation = Numerics.Core.Return($"{OpName}{Parameter.CastTo(Numerics.Core)}", ReturnType, GetScope());
+
+            return base.IdContents();
         }
     }
 }

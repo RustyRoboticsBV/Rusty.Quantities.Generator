@@ -1,12 +1,13 @@
 ﻿namespace Generators
 {
     /// <summary>
-    /// A set of physics formulas.
+    /// A set of physics formulas that use the same parameters. Each individual formula should use a different target parameter,
+    /// and all should be derivable from each other.
     /// </summary>
-    public class FormulaSet
+    public readonly struct FormulaSet
     {
         /* Public properties. */
-        public Formula[] Formulas { get; private set; }
+        public readonly Formula[] Formulas { get; private init; }
 
         /* Constructors. */
         /// <summary>
@@ -42,22 +43,27 @@
         /// <summary>
         /// Return whether or not this formula set has some parameter.
         /// </summary>
-        public bool HasFormula(char shortName)
+        public readonly bool HasFormula(char shortName)
         {
-            return Find(shortName) != null;
+            foreach (Formula formula in Formulas)
+            {
+                if (formula.Target.ShortName == shortName)
+                    return true;
+            }
+            return false;
         }
 
         /// <summary>
         /// Return a formula, using its target parameter's short name.
         /// </summary>
-        public Formula Find(char shortName)
+        public readonly Formula Find(char shortName)
         {
             foreach (Formula formula in Formulas)
             {
                 if (formula.Target.ShortName == shortName)
                     return formula;
             }
-            return null;
+            throw new ArgumentOutOfRangeException(shortName.ToString(), "No formula with target parameter exists.");
         }
     }
 }

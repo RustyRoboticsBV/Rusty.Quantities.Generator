@@ -6,10 +6,10 @@
     public class Field : Id
     {
         /* Public properties. */
-        public string Type { get; set; }
+        public Type Type { get; set; }
 
         /* Constructors. */
-        public Field(string type, string name, string? summary) : base(name, summary)
+        public Field(Type type, string name, string summary) : base(name, summary)
         {
             Type = type;
         }

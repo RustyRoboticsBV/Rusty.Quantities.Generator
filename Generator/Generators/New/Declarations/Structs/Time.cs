@@ -6,11 +6,11 @@
     public sealed class Time : ScalarQuantityStruct
     {
         /* Constructors. */
-        public Time(FormulaSet[] formulas) : base("Time", "Represents a time quantity.")
+        public Time(FormulaSet[] formulas) : base(Quantities.Time, "Represents a time quantity.")
         {
             ArithmeticOperators.Space();
-            AddBinaryOperator(typeof(Distance).Name, "*", typeof(Speed).Name);
-            AddBinaryOperator(typeof(Speed).Name, "*", typeof(Acceleration).Name);
+            AddBinaryOperator(Quantities.Distance, "*", Quantities.Speed);
+            AddBinaryOperator(Quantities.Speed, "*", Quantities.Acceleration);
 
             StaticMethods.Space();
             AddFormulas(formulas, 't');

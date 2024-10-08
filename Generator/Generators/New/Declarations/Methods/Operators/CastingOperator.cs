@@ -1,19 +1,23 @@
 ﻿namespace Generators
 {
     /// <summary>
-    /// An casting operator generator.
+    /// A casting operator.
     /// </summary>
     public class CastingOperator : Operator
     {
         /* Constructors. */
-        public CastingOperator(bool @implicit, ReturnType returnType, Parameter parameter)
-            : base("static " + (@implicit ? "implicit" : "explicit"), null, returnType.Type.Name,
-                  new ParameterList(parameter), returnType.Generate(parameter.Type, parameter.Name)) { }
+        public CastingOperator(bool @implicit, Type returnType, Variable parameter)
+            : base("static " + (@implicit ? "implicit" : "explicit"), returnType, returnType.Name,
+                  new ParameterList(parameter), "")
+        {
+            HideReturnType = true;
+        }
 
         /* Public methods. */
-        public static string Generate(bool @implicit, ReturnType returnType, Parameter parameter)
+        protected override string IdContents()
         {
-            return new CastingOperator(@implicit, returnType, parameter).Generate();
+            Implementation = Parameters.Parameters[0].Return(ReturnType);
+            return base.IdContents();
         }
     }
 }

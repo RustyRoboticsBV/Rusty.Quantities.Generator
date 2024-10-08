@@ -7,20 +7,14 @@
         where T : Generator
     {
         /* Public properties. */
-        public string StructName { get; set; }
         public List<T> Members { get; set; } = new();
         public List<bool> Spaces { get; set; } = new();
-
-        /* Constructors. */
-        public Area(string structName)
-        {
-            StructName = structName;
-        }
 
         /* Public methods. */
         public void Add(T member)
         {
             Members.Add(member);
+            member.Parent = this;
             Spaces.Add(false);
         }
 

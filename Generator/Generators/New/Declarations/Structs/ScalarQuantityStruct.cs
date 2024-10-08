@@ -5,44 +5,47 @@
     /// </summary>
     public abstract class ScalarQuantityStruct : Struct
     {
+        /* Public properties. */
+        public new ScalarQuantityType Type => base.Type as ScalarQuantityType;
+
         /* Constructors. */
-        public ScalarQuantityStruct(string name, string? summary) : base(name, summary)
+        public ScalarQuantityStruct(ScalarQuantityType type, string summary) : base(type, summary)
         {
             // Fields.
             Fields.Add(new Field(Numerics.Core, "value", null));
 
             // Properties.
-            Properties.Add(new Property(true, name, "Zero", $"new {Name}({Numerics.Zero})", $"A {Name.ToLower()} with the value 0."));
-            Properties.Add(new Property(true, name, "One", $"new {Name}({Numerics.One})", $"A {Name.ToLower()} with the value 1."));
-            Properties.Add(new Property(true, name, "Pi", $"new {Name}({Numerics.Pi})", $"A {Name.ToLower()} with the value π."));
-            Properties.Add(new Property(true, name, "TwoPi", $"new {Name}({Numerics.TwoPi})", $"A {Name.ToLower()} with the value 2π."));
+            Properties.Add(new Property(true, type, "Zero", $"new {Name}({Numerics.Zero})", $"A {Name.ToLower()} with the value 0."));
+            Properties.Add(new Property(true, type, "One", $"new {Name}({Numerics.One})", $"A {Name.ToLower()} with the value 1."));
+            Properties.Add(new Property(true, type, "Pi", $"new {Name}({Numerics.Pi})", $"A {Name.ToLower()} with the value π."));
+            Properties.Add(new Property(true, type, "TwoPi", $"new {Name}({Numerics.TwoPi})", $"A {Name.ToLower()} with the value 2π."));
 
             // Constructors.
-            foreach (string type in Numerics.Scalars)
+            foreach (ScalarNumericType numeric in Numerics.Scalars)
             {
-                Constructors.Add(new Constructor(name, new ScalarNumericParameter(type, "value"),
-                    $"this.value = {new ScalarNumericType(type).CastTo("value", Numerics.CoreType)};"));
+                Constructors.Add(new Constructor(Name, new ScalarNumericParameter(numeric, "value"),
+                    $"this.value = {numeric.CastTo("value", Numerics.Core, GetScope())};"));
             }
-            Constructors.Add(new Constructor(name, new ScalarQuantityParameter(name, "value"), "this.value = value.value;"));
+            Constructors.Add(new Constructor(Name, new ScalarQuantityParameter(type, "value"), "this.value = value.value;"));
 
             // Casting operators.
-            foreach (string type in Numerics.Scalars)
+            foreach (ScalarNumericType numeric in Numerics.Scalars)
             {
                 CastingOperators.Add(new CastingOperator(
-                    !Numerics.MustCast(Numerics.Core, type),
-                    new ReturnScalarNumeric(type),
-                    new ScalarQuantityParameter(name, "value"))
+                    !Numerics.MustExplicitCast(Numerics.Core, numeric),
+                    numeric,
+                    new ScalarQuantityParameter(type, "value"))
                 );
             }
 
-            CastingOperators.Add(new CastingOperator(true, new ReturnString(), new ScalarQuantityParameter(name, "value")));
+            CastingOperators.Add(new CastingOperator(true, Types.String, new ScalarQuantityParameter(type, "value")));
 
-            foreach (string type in Numerics.Scalars)
+            foreach (ScalarNumericType numeric in Numerics.Scalars)
             {
                 CastingOperators.Add(new CastingOperator(
-                    !Numerics.MustCast(type, Numerics.Core),
-                    new ReturnScalarQuantity(new ScalarQuantityType(name)),
-                    new ScalarNumericParameter(type, "value")));
+                    !Numerics.MustExplicitCast(numeric, Numerics.Core),
+                    Type,
+                    new ScalarNumericParameter(numeric, "value")));
             }
 
             // Arithmetic operators.
@@ -65,46 +68,46 @@
             AddComparisonOperator("<=");
 
             // Methods.
-            InstanceMethods.Add(new Method("public", "override readonly", "string", "ToString", null, "return value.ToString();"));
-            InstanceMethods.Add(new Method("public", "override readonly", "bool", "Equals", new ObjectParameter(), $"return obj is {Name} {Name.ToLower()} && Equals({Name.ToLower()});"));
-            InstanceMethods.Add(new Method("public", "readonly", "bool", "Equals", new ScalarQuantityParameter(Name, "other"), $"return this == other;"));
-            InstanceMethods.Add(new Method("public", "override readonly", "int", "GetHashCode", null, "return value.GetHashCode();"));
-            InstanceMethods.Add(new Method("public", "readonly", "int", "CompareTo", new ScalarQuantityParameter(Name, "other"), $"if (this > other)\n{Indent("return 1;")}\nelse if (this < other)\n{Indent("return -1;")}\nelse\n{Indent("return 0;")}"));
+            InstanceMethods.Add(new Method("public", "override readonly", Types.String, "ToString", null, "return value.ToString();"));
+            InstanceMethods.Add(new Method("public", "override readonly", Types.Bool, "Equals", new ObjectParameter(), $"return obj is {Name} {Name.ToLower()} && Equals({Name.ToLower()});"));
+            InstanceMethods.Add(new Method("public", "readonly", Types.Bool, "Equals", new ScalarQuantityParameter(type, "other"), $"return this == other;"));
+            InstanceMethods.Add(new Method("public", "override readonly", Numerics.Int, "GetHashCode", null, "return value.GetHashCode();"));
+            InstanceMethods.Add(new Method("public", "readonly", Numerics.Int, "CompareTo", new ScalarQuantityParameter(type, "other"), $"if (this > other)\n{Indent("return 1;")}\nelse if (this < other)\n{Indent("return -1;")}\nelse\n{Indent("return 0;")}"));
             InstanceMethods.Space();
-            AddMethodPair(new SignMethod(name));
-            AddMethodPair(new AbsMethod(name));
-            AddMethodPair(new TruncateMethod(name));
-            AddMethodPair(new FracMethod(name));
-            AddMethodPair(new DistMethod(name));
-            AddMethodPair(new SqrtMethod(name));
-            AddMethodPair(new Pow2Method(name));
-            AddMethodPair(new PowMethod(name));
-            AddMethodPair(new MinMethod(name));
-            AddMethodPair(new MaxMethod(name));
-            AddMethodPair(new ClampMethod(name));
-            AddMethodPair(new RoundMethod(name));
-            AddMethodPair(new FloorMethod(name));
-            AddMethodPair(new CeilMethod(name));
-            AddMethodPair(new SinMethod(name));
-            AddMethodPair(new CosMethod(name));
-            AddMethodPair(new TanMethod(name));
-            AddMethodPair(new WrapMethod(name));
-            AddMethodPair(new PingPongMethod(name));
-            AddMethodPair(new SnapMethod(name));
-            AddMethodPair(new MapMethod(name));
-            AddMethodPair(new StepMethod(name));
-            StaticMethods.Add(new MathdMethod(true, new ReturnScalarQuantity(Name), "Lerp", new(new ScalarQuantityParameter(Name, "a"), new ScalarQuantityParameter(Name, "b"), new ScalarNumericParameter(Numerics.CoreType, "factor")), $"Return the result of linearly interpolating between two {Name.ToLower()} values, using some lerp factor between 0 and 1."));
+            AddMethodPair(new SignMethod(type));
+            AddMethodPair(new AbsMethod(type));
+            AddMethodPair(new TruncateMethod(type));
+            AddMethodPair(new FracMethod(type));
+            AddMethodPair(new DistMethod(type));
+            AddMethodPair(new SqrtMethod(type));
+            AddMethodPair(new Pow2Method(type));
+            AddMethodPair(new PowMethod(type));
+            AddMethodPair(new MinMethod(type));
+            AddMethodPair(new MaxMethod(type));
+            AddMethodPair(new ClampMethod(type));
+            AddMethodPair(new RoundMethod(type));
+            AddMethodPair(new FloorMethod(type));
+            AddMethodPair(new CeilMethod(type));
+            AddMethodPair(new SinMethod(type));
+            AddMethodPair(new CosMethod(type));
+            AddMethodPair(new TanMethod(type));
+            AddMethodPair(new WrapMethod(type));
+            AddMethodPair(new PingPongMethod(type));
+            AddMethodPair(new SnapMethod(type));
+            AddMethodPair(new MapMethod(type));
+            AddMethodPair(new StepMethod(type));
+            StaticMethods.Add(new MathdMethod(true, type, "Lerp", new(new ScalarQuantityParameter(type, "a"), new ScalarQuantityParameter(type, "b"), new ScalarNumericParameter(Numerics.Core, "factor")), $"Return the result of linearly interpolating between two {Name.ToLower()} values, using some lerp factor between 0 and 1."));
         }
 
         /* Protected methods. */
         /// <summary>
         /// Add a binary operator with some other quantity type.
         /// </summary>
-        protected void AddBinaryOperator(string returnType, string op, string otherType)
+        protected void AddBinaryOperator(Type returnType, string op, ScalarQuantityType otherType)
         {
-            ArithmeticOperators.Add(new BinaryArithmeticOperator(new ReturnScalarQuantity(returnType), op,
-                new ScalarQuantityParameter(Name, "a"),
-                new ScalarQuantityParameter(new ScalarQuantityType(otherType, Name), "b"))
+            ArithmeticOperators.Add(new BinaryArithmeticOperator(returnType, op,
+                new ScalarQuantityParameter(Type, "a"),
+                new ScalarQuantityParameter(otherType, "b"))
             );
         }
 
@@ -126,23 +129,23 @@
         /// </summary>
         private void AddBinaryOperator(string op)
         {
-            foreach (string numeric in Numerics.Scalars)
+            foreach (ScalarNumericType numeric in Numerics.Scalars)
             {
-                ArithmeticOperators.Add(new BinaryArithmeticOperator(new ReturnScalarQuantity(Name), op,
+                ArithmeticOperators.Add(new BinaryArithmeticOperator(Type, op,
                     new ScalarNumericParameter(numeric, "a"),
-                    new ScalarQuantityParameter(Name, "b")
+                    new ScalarQuantityParameter(Type, "b")
                 ));
             }
-            foreach (string numeric in Numerics.Scalars)
+            foreach (ScalarNumericType numeric in Numerics.Scalars)
             {
-                ArithmeticOperators.Add(new BinaryArithmeticOperator(new ReturnScalarQuantity(Name), op,
-                    new ScalarQuantityParameter(Name, "a"),
+                ArithmeticOperators.Add(new BinaryArithmeticOperator(Type, op,
+                    new ScalarQuantityParameter(Type, "a"),
                     new ScalarNumericParameter(numeric, "b")
                 ));
             }
-            ArithmeticOperators.Add(new BinaryArithmeticOperator(new ReturnScalarQuantity(Name), op,
-                new ScalarQuantityParameter(Name, "a"),
-                new ScalarQuantityParameter(Name, "b")
+            ArithmeticOperators.Add(new BinaryArithmeticOperator(Type, op,
+                new ScalarQuantityParameter(Type, "a"),
+                new ScalarQuantityParameter(Type, "b")
             ));
         }
 
@@ -151,8 +154,8 @@
         /// </summary>
         private void AddUnaryOperator(string op)
         {
-            ArithmeticOperators.Add(new UnaryArithmeticOperator(new ReturnScalarQuantity(Name), op,
-                new ScalarQuantityParameter(Name, "value")
+            ArithmeticOperators.Add(new UnaryArithmeticOperator(Type, op,
+                new ScalarQuantityParameter(Type, "value")
             ));
         }
 
@@ -161,23 +164,23 @@
         /// </summary>
         private void AddComparisonOperator(string op)
         {
-            foreach (string type in Numerics.Scalars)
+            foreach (ScalarNumericType numeric in Numerics.Scalars)
             {
                 ComparisonOperators.Add(new ComparisonOperator(op,
-                    new ScalarNumericParameter(type, "a"),
-                    new ScalarQuantityParameter(Name, "b")
+                    new ScalarNumericParameter(numeric, "a"),
+                    new ScalarQuantityParameter(Type, "b")
                 ));
             }
-            foreach (string type in Numerics.Scalars)
+            foreach (ScalarNumericType numeric in Numerics.Scalars)
             {
                 ComparisonOperators.Add(new ComparisonOperator(op,
-                    new ScalarQuantityParameter(Name, "a"),
-                    new ScalarNumericParameter(type, "b")
+                    new ScalarQuantityParameter(Type, "a"),
+                    new ScalarNumericParameter(numeric, "b")
                 ));
             }
             ComparisonOperators.Add(new ComparisonOperator(op,
-                new ScalarQuantityParameter(Name, "a"),
-                new ScalarQuantityParameter(Name, "b")
+                new ScalarQuantityParameter(Type, "a"),
+                new ScalarQuantityParameter(Type, "b")
             ));
         }
     }
