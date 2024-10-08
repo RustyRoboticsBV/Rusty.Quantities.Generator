@@ -35,7 +35,10 @@ namespace Generators
                 arguments += parameter.CastTo(Numerics.Core);
             }
 
-            return $"return {Numerics.Core.CastTo($"Mathd.{methodName}({arguments})", returnType, GetScope())};";
+            if (returnType is ScalarNumericType)
+                return $"return {$"Mathd.{methodName}({arguments})"};";
+            else
+                return $"return {Numerics.Core.CastTo($"Mathd.{methodName}({arguments})", returnType, GetScope())};";
         }
     }
 }
