@@ -9,5 +9,7 @@
         public static BoolType Bool => new();
         public static StringType String => new();
         public static ObjectType Object => new();
+
+        public static AxisType Axis => new();
     }
 }

@@ -24,6 +24,7 @@ namespace Generators
             Implementation = GetImplementation(IsStatic, ReturnType, Name, Parameters);
             return base.IdContents();
         }
+
         /* Private methods. */
         private string GetImplementation(bool isStatic, Type returnType, string methodName, ParameterList parameters)
         {
