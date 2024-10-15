@@ -18,7 +18,17 @@
             if (to is VectorNumericType vn)
                 return "VEC_NUM_TO_VEC_NUM";
             if (to is VectorQuantityType vq)
-                return "VEC_NUM_TO_VEC_Q";
+            {
+                if (scope == to.Name)
+                {
+                    string x = $"{ScalarType.CastTo($"{value}.X", Numerics.Core, scope)}";
+                    string y = $"{ScalarType.CastTo($"{value}.Y", Numerics.Core, scope)}";
+                    string z = $"{ScalarType.CastTo($"{value}.Z", Numerics.Core, scope)}";
+                    return $"new {vq.Name}({x}, {y}, {z})";
+                }
+                else
+                    return "VEC_Q_TO_VEC_NUM, NOT IN SCOPE ";
+            }
             if (to is StringType)
                 return "\"{x.ToString()}, {y.ToString()}, {z.ToString()}\"";
 

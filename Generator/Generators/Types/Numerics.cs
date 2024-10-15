@@ -28,7 +28,7 @@ namespace Generators
         public static VectorNumericType Vector3I => new("Vector3I", Int, 3);
         public static VectorNumericType Vector4I => new("Vector4I", Int, 4);
         public static VectorNumericType Quaternion => new("Quaternion", Float, 4);
-        public static VectorNumericType[] Vectors => new[] { Vector2, Vector3, Vector4, Vector2I, Vector3I, Vector4I, Quaternion };
+        public static VectorNumericType[] Vectors => new[] { Vector2, Vector3, Vector4, Vector2I, Vector3I, Vector4I, };
 
         /// <summary>
         /// The core scalar type that all generated structs are based on.

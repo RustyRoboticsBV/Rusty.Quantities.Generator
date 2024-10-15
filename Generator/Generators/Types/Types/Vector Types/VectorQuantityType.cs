@@ -10,7 +10,17 @@
         {
             // Vector numerics.
             if (to is VectorNumericType vn)
-                return $"new {Numerics.Vector3}((float){instanceName}.x, (float){instanceName}.y, (float){instanceName}.z)";
+            {
+                if (scope == Name)
+                {
+                    string x = $"{ScalarType.CastTo($"{instanceName}.x", vn.ScalarType, scope)}";
+                    string y = $"{ScalarType.CastTo($"{instanceName}.y", vn.ScalarType, scope)}";
+                    string z = $"{ScalarType.CastTo($"{instanceName}.z", vn.ScalarType, scope)}";
+                    return $"new {vn.Name}({x}, {y}, {z})";
+                }
+                else
+                    return "VEC_Q_TO_VEC_NUM, NOT IN SCOPE ";
+            }
 
             if (to is ScalarNumericType sn)
                 return "VEC_Q_TO_SCL_NUM";

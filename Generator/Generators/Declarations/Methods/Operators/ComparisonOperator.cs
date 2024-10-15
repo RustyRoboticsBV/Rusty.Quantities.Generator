@@ -16,7 +16,14 @@
         /* Private methods. */
         protected override string IdContents()
         {
-            Implementation = $"return {A.CastTo(Numerics.Core)} {OpName} {B.CastTo(Numerics.Core)};";
+            if (A is ScalarParameter && B is ScalarParameter)
+                Implementation = $"return {A.CastTo(Numerics.Core)} {OpName} {B.CastTo(Numerics.Core)};";
+            else if (A is VectorParameter vecA && B is VectorParameter vecB)
+            {
+                Implementation = $"return {vecA.CastXTo(Numerics.Core)} {OpName} {vecB.CastXTo(Numerics.Core)}"
+                    + $" && {vecA.CastYTo(Numerics.Core)} {OpName} {vecB.CastYTo(Numerics.Core)}"
+                    + $" && {vecA.CastZTo(Numerics.Core)} {OpName} {vecB.CastZTo(Numerics.Core)};";
+            }
             return base.IdContents();
         }
     }

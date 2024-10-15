@@ -23,10 +23,9 @@
             // Constructors.
             foreach (ScalarNumericType numeric in Numerics.Scalars)
             {
-                Constructors.Add(new Constructor(Name, new ScalarNumericParameter(numeric, "value"),
-                    $"this.value = {numeric.CastTo("value", Numerics.Core, GetScope())};"));
+                Constructors.Add(new ScalarConstructor(Name, new ScalarNumericParameter(numeric, "value")));
             }
-            Constructors.Add(new Constructor(Name, new ScalarQuantityParameter(type, "value"), "this.value = value.value;"));
+            Constructors.Add(new ScalarConstructor(Name, new ScalarQuantityParameter(type, "value")));
 
             // Casting operators.
             foreach (ScalarNumericType numeric in Numerics.Scalars)
@@ -105,7 +104,9 @@
         /// </summary>
         protected void AddBinaryOperator(Type returnType, string op, ScalarQuantityType otherType)
         {
-            ArithmeticOperators.Add(new BinaryArithmeticOperator(returnType, op,
+            ArithmeticOperators.Add(new BinaryArithmeticOperator(
+                returnType,
+                op,
                 new ScalarQuantityParameter(Type, "a"),
                 new ScalarQuantityParameter(otherType, "b"))
             );

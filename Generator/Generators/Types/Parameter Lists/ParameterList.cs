@@ -8,6 +8,7 @@
         /* Public properties. */
         public Variable[] Parameters { get; set; }
 
+        public int Count => Parameters.Length;
         public Variable this[int index] => Parameters[index];
 
         /* Constructors. */

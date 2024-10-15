@@ -16,7 +16,7 @@
         /* Public methods. */
         protected override string IdContents()
         {
-            Implementation = Parameters.Parameters[0].Return(ReturnType);
+            Implementation = Parameters[0].Return(ReturnType);
             return base.IdContents();
         }
     }

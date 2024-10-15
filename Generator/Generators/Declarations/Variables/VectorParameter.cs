@@ -12,23 +12,30 @@
         /// <summary>
         /// Generate code for converting the vector parameter's x component to some type.
         /// </summary>
-        public string CastXTo(Type to, string scope)
+        public virtual string CastXTo(Type to)
         {
-            return Type.ScalarType.CastTo(Name + ".x", to, scope);
+            return Type.ScalarType.CastTo(Name + ".X", to, GetScope());
         }
         /// <summary>
         /// Generate code for converting the vector parameter's y component to some type.
         /// </summary>
-        public string CastYTo(Type to, string scope)
+        public virtual string CastYTo(Type to)
         {
-            return Type.ScalarType.CastTo(Name + ".y", to, scope);
+            return Type.ScalarType.CastTo(Name + ".Y", to, GetScope());
         }
         /// <summary>
         /// Generate code for converting the vector parameter's z component to some type.
         /// </summary>
-        public string CastZTo(Type to, string scope)
+        public virtual string CastZTo(Type to)
         {
-            return Type.ScalarType.CastTo(Name + ".z", to, scope);
+            return Type.ScalarType.CastTo(Name + ".Z", to, GetScope());
+        }
+        /// <summary>
+        /// Generate code for converting the vector parameter's w component to some type.
+        /// </summary>
+        public virtual string CastWTo(Type to)
+        {
+            return Type.ScalarType.CastTo(Name + ".W", to, GetScope());
         }
     }
 }
