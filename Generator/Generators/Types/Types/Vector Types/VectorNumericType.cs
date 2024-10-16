@@ -35,5 +35,37 @@
             // Invalid types.
             throw new ArgumentOutOfRangeException($"{value} from {Name} to {to.Name}");
         }
+
+        public override string CastXTo(string vectorName, ScalarType type, string scope)
+        {
+            if (Size < 1)
+                return ScalarType.Zero;
+            else
+                return ScalarType.CastTo($"{vectorName}.X", type, scope);
+        }
+
+        public override string CastYTo(string vectorName, ScalarType type, string scope)
+        {
+            if (Size < 2)
+                return ScalarType.Zero;
+            else
+                return ScalarType.CastTo($"{vectorName}.Y", type, scope);
+        }
+
+        public override string CastZTo(string vectorName, ScalarType type, string scope)
+        {
+            if (Size < 3)
+                return ScalarType.Zero;
+            else
+                return ScalarType.CastTo($"{vectorName}.Z", type, scope);
+        }
+
+        public override string CastWTo(string vectorName, ScalarType type, string scope)
+        {
+            if (Size < 4)
+                return ScalarType.Zero;
+            else
+                return ScalarType.CastTo($"{vectorName}.W", type, scope);
+        }
     }
 }

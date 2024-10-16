@@ -15,30 +15,38 @@
             // Fields.
             Fields.Add(new Field(Numerics.Core, "x", null));
             Fields.Add(new Field(Numerics.Core, "y", null));
-            Fields.Add(new Field(Numerics.Core, "z", null));
+            if (Type.Size >= 3)
+                Fields.Add(new Field(Numerics.Core, "z", null));
 
             // Properties.
-            Properties.Add(new Property(true, type, "Zero", $"new {Name}({Numerics.Zero}, {Numerics.Zero}, {Numerics.Zero})", $"A {Name.ToLower()} object where all components have the value 0."));
-            Properties.Add(new Property(true, type, "One", $"new {Name}({Numerics.One}, {Numerics.One} ,{Numerics.One})", $"A {Name.ToLower()} object where all components have the value 1."));
-            Properties.Add(new Property(true, type, "Pi", $"{Numerics.Pi} * One", $"A {Name.ToLower()} object where all components have the value π."));
-            Properties.Add(new Property(true, type, "TwoPi", $"{Numerics.TwoPi} * One", $"A {Name.ToLower()} object where all components have the value 2π."));
-            Properties.Add(new Property(false, type.ScalarType, "X", $"x", $"The x component of this {Name.ToLower()} object."));
-            Properties.Add(new Property(false, type.ScalarType, "Y", $"y", $"The y component of this {Name.ToLower()} object."));
-            Properties.Add(new Property(false, type.ScalarType, "Z", $"z", $"The z component of this {Name.ToLower()} object."));
+            Properties.Add(new Property(true, type, "Zero", $"new {Name}({GetPropImpl($"{Numerics.Zero}")})", $"A {ScalarType.Name.ToLower()} vector where all components have the value 0."));
+            Properties.Add(new Property(true, type, "One", $"new {Name}({GetPropImpl($"{Numerics.One}")})", $"A {ScalarType.Name.ToLower()} vector where all components have the value 1."));
+            Properties.Add(new Property(true, type, "Pi", $"new {Name}({GetPropImpl($"{Numerics.Pi}")})", $"A {ScalarType.Name.ToLower()} vector where all components have the value π."));
+            Properties.Add(new Property(true, type, "TwoPi", $"new {Name}({GetPropImpl($"{Numerics.TwoPi}")})", $"A {ScalarType.Name.ToLower()} vector where all components have the value 2π."));
+            Properties.Add(new Property(false, type.ScalarType, "X", $"x", $"The x component of this {ScalarType.Name.ToLower()} vector."));
+            Properties.Add(new Property(false, type.ScalarType, "Y", $"y", $"The y component of this {ScalarType.Name.ToLower()} vector."));
+            if (Type.Size >= 3)
+                Properties.Add(new Property(false, type.ScalarType, "Z", $"z", $"The z component of this {ScalarType.Name.ToLower()} vector."));
+
+            if (type.Size >= 3)
+            {
+                Type type2D = Quantities.Get2D(Type);
+                Properties.Add(new Property(false, type2D, "XY", $"new {type2D.Name}(x, y)", $"The (x, y) {ScalarType.Name.ToLower()} vector."));
+                Properties.Add(new Property(false, type2D, "XZ", $"new {type2D.Name}(x, z)", $"The (x, z) {ScalarType.Name.ToLower()} vector."));
+                Properties.Add(new Property(false, type2D, "YZ", $"new {type2D.Name}(y, z)", $"The (y, z) {ScalarType.Name.ToLower()} vector."));
+            }
 
             // Constructors.
             foreach (ScalarNumericType numeric in Numerics.Scalars)
             {
-                Constructors.Add(new Vector3Constructor(Name, new ScalarNumericParameter(numeric, "x"),
-                    new ScalarNumericParameter(numeric, "y"), new ScalarNumericParameter(numeric, "z")));
+                Constructors.Add(new VectorConstructor(Name, numeric, Type.Size));
             }
-            Constructors.Add(new Vector3Constructor(Name, new ScalarQuantityParameter(type.ScalarType as ScalarQuantityType, "x")
-                , new ScalarQuantityParameter(type.ScalarType as ScalarQuantityType, "y"), new ScalarQuantityParameter(type.ScalarType as ScalarQuantityType, "z")));
+            Constructors.Add(new VectorConstructor(Name, ScalarType, Type.Size));
             foreach (VectorNumericType numeric in Numerics.Vectors)
             {
-                Constructors.Add(new Vector3Constructor(Name, new VectorNumericParameter(numeric, "value")));
+                Constructors.Add(new VectorConstructor(Name, new VectorNumericParameter(numeric, "value"), Type.Size));
             }
-            Constructors.Add(new Vector3Constructor(Name, new VectorQuantityParameter(type, "value")));
+            Constructors.Add(new VectorConstructor(Name, new VectorQuantityParameter(type, "other"), Type.Size));
 
             // Casting operators.
             CastingOperators.Add(new CastingOperator(true, type, new VectorNumericParameter(Numerics.Vector3, "value")));
@@ -85,6 +93,29 @@
                 ));
             }
 
+            if (Type.Size == 2)
+            {
+                ArithmeticOperators.Add(new BinaryArithmeticOperator(Type, op,
+                    new VectorNumericParameter(Numerics.Vector2, "a"),
+                    new VectorQuantityParameter(Type, "b")
+                ));
+                ArithmeticOperators.Add(new BinaryArithmeticOperator(Type, op,
+                    new VectorNumericParameter(Numerics.Vector2I, "a"),
+                    new VectorQuantityParameter(Type, "b")
+                ));
+            }
+            else if (Type.Size == 3)
+            {
+                ArithmeticOperators.Add(new BinaryArithmeticOperator(Type, op,
+                    new VectorNumericParameter(Numerics.Vector3, "a"),
+                    new VectorQuantityParameter(Type, "b")
+                ));
+                ArithmeticOperators.Add(new BinaryArithmeticOperator(Type, op,
+                    new VectorNumericParameter(Numerics.Vector3I, "a"),
+                    new VectorQuantityParameter(Type, "b")
+                ));
+            }
+
             if (allowScalarRight)
             {
                 foreach (ScalarNumericType numeric in Numerics.Scalars)
@@ -97,6 +128,29 @@
                 ArithmeticOperators.Add(new BinaryArithmeticOperator(Type, op,
                     new VectorQuantityParameter(Type, "a"),
                     new ScalarQuantityParameter(ScalarType, "b")
+                ));
+            }
+
+            if (Type.Size == 2)
+            {
+                ArithmeticOperators.Add(new BinaryArithmeticOperator(Type, op,
+                    new VectorQuantityParameter(Type, "a"),
+                    new VectorNumericParameter(Numerics.Vector2, "b")
+                ));
+                ArithmeticOperators.Add(new BinaryArithmeticOperator(Type, op,
+                    new VectorQuantityParameter(Type, "a"),
+                    new VectorNumericParameter(Numerics.Vector2I, "b")
+                ));
+            }
+            else if (Type.Size == 3)
+            {
+                ArithmeticOperators.Add(new BinaryArithmeticOperator(Type, op,
+                    new VectorQuantityParameter(Type, "a"),
+                    new VectorNumericParameter(Numerics.Vector3, "b")
+                ));
+                ArithmeticOperators.Add(new BinaryArithmeticOperator(Type, op,
+                    new VectorQuantityParameter(Type, "a"),
+                    new VectorNumericParameter(Numerics.Vector3I, "b")
                 ));
             }
 
@@ -116,6 +170,16 @@
             ComparisonOperators.Add(new ComparisonOperator(name, new VectorQuantityParameter(Type, "a"), new VectorNumericParameter(Numerics.Vector3, "b")));
             ComparisonOperators.Add(new ComparisonOperator(name, new VectorQuantityParameter(Type, "a"), new VectorNumericParameter(Numerics.Vector3I, "b")));
             ComparisonOperators.Add(new ComparisonOperator(name, new VectorQuantityParameter(Type, "a"), new VectorQuantityParameter(Type, "b")));
+        }
+
+        private string GetPropImpl(string field)
+        {
+            string code = field;
+            for (int i = 1; i < Type.Size; i++)
+            {
+                code += ", " + field;
+            }
+            return code;
         }
     }
 }

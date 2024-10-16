@@ -23,4 +23,5 @@ CSFile.Generate(new Distance(formulas));
 CSFile.Generate(new Speed(formulas));
 CSFile.Generate(new Acceleration(formulas));
 CSFile.Generate(new Angle());
-CSFile.Generate(new Speed3D(null));
+CSFile.Generate(new Speed2D(formulas));
+CSFile.Generate(new Speed3D(formulas));

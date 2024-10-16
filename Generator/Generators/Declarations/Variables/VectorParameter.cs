@@ -4,6 +4,7 @@
     {
         /* Public properties. */
         public new VectorType Type => base.Type as VectorType;
+        public int Size => Type.Size;
 
         /* Constructors. */
         public VectorParameter(VectorType type, string name) : base(type, name) { }
@@ -12,30 +13,30 @@
         /// <summary>
         /// Generate code for converting the vector parameter's x component to some type.
         /// </summary>
-        public virtual string CastXTo(Type to)
+        public string CastXTo(ScalarType to)
         {
-            return Type.ScalarType.CastTo(Name + ".X", to, GetScope());
+            return Type.CastXTo(Name, to, GetScope());
         }
         /// <summary>
         /// Generate code for converting the vector parameter's y component to some type.
         /// </summary>
-        public virtual string CastYTo(Type to)
+        public string CastYTo(ScalarType to)
         {
-            return Type.ScalarType.CastTo(Name + ".Y", to, GetScope());
+            return Type.CastYTo(Name, to, GetScope());
         }
         /// <summary>
         /// Generate code for converting the vector parameter's z component to some type.
         /// </summary>
-        public virtual string CastZTo(Type to)
+        public string CastZTo(ScalarType to)
         {
-            return Type.ScalarType.CastTo(Name + ".Z", to, GetScope());
+            return Type.CastZTo(Name, to, GetScope());
         }
         /// <summary>
         /// Generate code for converting the vector parameter's w component to some type.
         /// </summary>
-        public virtual string CastWTo(Type to)
+        public string CastWTo(ScalarType to)
         {
-            return Type.ScalarType.CastTo(Name + ".W", to, GetScope());
+            return Type.CastWTo(Name, to, GetScope());
         }
     }
 }

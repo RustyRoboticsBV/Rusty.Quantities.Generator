@@ -15,7 +15,7 @@
         public byte ByteCount { get; private set; }
 
         /* Constructors. */
-        public ScalarNumericType(string name, NumericCategory category, byte byteCount) : base(name)
+        public ScalarNumericType(string name, NumericCategory category, byte byteCount, string zero = "0") : base(name, zero)
         {
             Category = category;
             ByteCount = byteCount;
@@ -27,6 +27,9 @@
         /// </summary>
         public bool MustExplicitCastTo(ScalarNumericType other)
         {
+            if ((Category == NumericCategory.Integer || Category == NumericCategory.Unsigned) && other.Category == NumericCategory.Real)
+                return false;
+
             return Category == NumericCategory.Integer && other.Category == NumericCategory.Unsigned
                 || Category == NumericCategory.Unsigned && other.Category == NumericCategory.Integer && ByteCount == other.ByteCount
                 || Category == NumericCategory.Real && other.Category != NumericCategory.Real
@@ -47,36 +50,7 @@
 
             // Scalar quantities.
             else if (to is ScalarQuantityType sq)
-            {
-                if (MustExplicitCastTo(Numerics.Core))
-                    return $"new {sq}(({Numerics.Core}){instanceName})";
-                else
-                    return $"new {sq}({instanceName})";
-            }
-
-            // Vector numerics.
-            else if (to is VectorNumericType vn)
-            {
-                if (MustExplicitCastTo(vn.ScalarType))
-                {
-                    string elementCode = $"({vn.ScalarType}){instanceName}";
-                    return $"new {vn.Name}({elementCode}, {elementCode}, {elementCode})";
-                }
-                else
-                    return $"new {vn.Name}({instanceName}, {instanceName}, {instanceName})";
-            }
-
-            // Vector quantities.
-            else if (to is VectorQuantityType vq)
-            {
-                if (MustExplicitCastTo(Numerics.Core))
-                {
-                    string elementCode = $"({Numerics.Core}){instanceName}";
-                    return $"new {vq}({elementCode}, {elementCode}, {elementCode})";
-                }
-                else
-                    return $"new {vq}({instanceName}, {instanceName}, {instanceName})";
-            }
+                return $"new {sq}({instanceName})";
 
             // Strings.
             else if (to is StringType)

@@ -3,8 +3,7 @@
     public class ScalarConstructor : Constructor
     {
         /* Constructors. */
-        public ScalarConstructor(string name, ScalarNumericParameter value) : base(name, value, "") { }
-        public ScalarConstructor(string name, ScalarQuantityParameter value) : base(name, value, "") { }
+        public ScalarConstructor(string name, ScalarParameter value) : base(name, value, "") { }
 
         /* Protected methods. */
         protected override string IdContents()
@@ -16,7 +15,10 @@
         /* Private methods. */
         private string GetImpl()
         {
-            return $"this.value = {Parameters[0].CastTo(Numerics.Core)};";
+            if (Parameters[0].Name == "value")
+                return $"this.value = {Parameters[0].CastTo(Numerics.Core)};";
+            else
+                return $"value = {Parameters[0].CastTo(Numerics.Core)};";
         }
     }
 }

@@ -25,7 +25,7 @@
             {
                 Constructors.Add(new ScalarConstructor(Name, new ScalarNumericParameter(numeric, "value")));
             }
-            Constructors.Add(new ScalarConstructor(Name, new ScalarQuantityParameter(type, "value")));
+            Constructors.Add(new ScalarConstructor(Name, new ScalarQuantityParameter(type, "other")));
 
             // Casting operators.
             foreach (ScalarNumericType numeric in Numerics.Scalars)
