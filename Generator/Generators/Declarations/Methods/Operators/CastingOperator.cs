@@ -16,7 +16,38 @@
         /* Public methods. */
         protected override string IdContents()
         {
-            Implementation = Parameters[0].Return(ReturnType);
+            if (ReturnType is VectorType returnVector)
+            {
+                VectorParameter vector = Parameters[0] as VectorParameter;
+                ScalarType scalarType = returnVector is VectorNumericType ? returnVector.ScalarType : Numerics.Core;
+                if (returnVector.Size == 2)
+                {
+                    Implementation = $"return new {ReturnType}("
+                        + $"{vector.CastXTo(scalarType)}"
+                        + $", {vector.CastYTo(scalarType)}"
+                        + $");";
+                }
+                else if (returnVector.Size == 3)
+                {
+                    Implementation = $"return new {ReturnType}("
+                        + $"{vector.CastXTo(scalarType)}"
+                        + $", {vector.CastYTo(scalarType)}"
+                        + $", {vector.CastZTo(scalarType)}"
+                        + $");";
+                }
+                else if (returnVector.Size == 4)
+                {
+                    Implementation = $"return new {ReturnType}("
+                        + $"{vector.CastXTo(scalarType)}"
+                        + $", {vector.CastYTo(scalarType)}"
+                        + $", {vector.CastZTo(scalarType)}"
+                        + $", {vector.CastWTo(scalarType)}"
+                        + $");";
+                }
+            }
+            else
+                Implementation = Parameters[0].Return(ReturnType);
+
             return base.IdContents();
         }
     }

@@ -49,8 +49,18 @@
             Constructors.Add(new VectorConstructor(Name, new VectorQuantityParameter(type, "other"), Type.Size));
 
             // Casting operators.
-            CastingOperators.Add(new CastingOperator(true, type, new VectorNumericParameter(Numerics.Vector3, "value")));
-            CastingOperators.Add(new CastingOperator(true, Numerics.Vector3, new VectorQuantityParameter(type, "value")));
+            CastingOperators.Add(new CastingOperator(Numerics.Vector2.Size <= Type.Size, type, new VectorNumericParameter(Numerics.Vector2, "value")));
+            CastingOperators.Add(new CastingOperator(Numerics.Vector2I.Size <= Type.Size, type, new VectorNumericParameter(Numerics.Vector2I, "value")));
+            CastingOperators.Add(new CastingOperator(Numerics.Vector3.Size <= Type.Size, type, new VectorNumericParameter(Numerics.Vector3, "value")));
+            CastingOperators.Add(new CastingOperator(Numerics.Vector3I.Size <= Type.Size, type, new VectorNumericParameter(Numerics.Vector3I, "value")));
+            CastingOperators.Add(new CastingOperator(Numerics.Vector4.Size <= Type.Size, type, new VectorNumericParameter(Numerics.Vector4, "value")));
+            CastingOperators.Add(new CastingOperator(Numerics.Vector4I.Size <= Type.Size, type, new VectorNumericParameter(Numerics.Vector4I, "value")));
+            CastingOperators.Add(new CastingOperator(Type.Size <= Numerics.Vector2.Size, Numerics.Vector2, new VectorQuantityParameter(type, "value")));
+            CastingOperators.Add(new CastingOperator(Type.Size <= Numerics.Vector2I.Size, Numerics.Vector2I, new VectorQuantityParameter(type, "value")));
+            CastingOperators.Add(new CastingOperator(Type.Size <= Numerics.Vector3.Size, Numerics.Vector3, new VectorQuantityParameter(type, "value")));
+            CastingOperators.Add(new CastingOperator(Type.Size <= Numerics.Vector3I.Size, Numerics.Vector3I, new VectorQuantityParameter(type, "value")));
+            CastingOperators.Add(new CastingOperator(Type.Size <= Numerics.Vector4.Size, Numerics.Vector4, new VectorQuantityParameter(type, "value")));
+            CastingOperators.Add(new CastingOperator(Type.Size <= Numerics.Vector4I.Size, Numerics.Vector4I, new VectorQuantityParameter(type, "value")));
 
             // Arithmetic operators.
             AddBinaryOperator("+", false, false);
@@ -64,13 +74,26 @@
             AddComparisonOperator("!=");
 
             // Methods.
-            InstanceMethods.Add(new Method("public", "override readonly", Types.String, "ToString", null, "return $\"({x}, {y}, {z})\";"));
+            InstanceMethods.Add(new Method("public", "override readonly", Types.String, "ToString", null, ToStringImpl()));
             InstanceMethods.Add(new Method("public", "override readonly", Types.Bool, "Equals", new ObjectParameter(), $"return obj is {Name} {Name.ToLower()} && Equals({Name.ToLower()});"));
             InstanceMethods.Add(new Method("public", "readonly", Types.Bool, "Equals", new VectorQuantityParameter(type, "other"), $"return this == other;"));
-            InstanceMethods.Add(new Method("public", "override readonly", Numerics.Int, "GetHashCode", null, "return (x.GetHashCode() * 13 + y.GetHashCode()) * 13 + z.GetHashCode();"));
-            InstanceMethods.Add(new Method("public", "readonly", Numerics.Int, "CompareTo", new VectorQuantityParameter(type, "other"), $"int myHash = GetHashCode();\nint otherHash = other.GetHashCode();\nif (myHash > otherHash)\n{Indent("return 1;")}\nelse if (myHash < otherHash)\n{Indent("return -1;")}\nelse\n{Indent("return 0;")}"));
+            InstanceMethods.Add(new Method("public", "override readonly", Numerics.Int, "GetHashCode", null, GetHashCodeImpl()));
+            InstanceMethods.Add(new Method("public", "readonly", Numerics.Int, "CompareTo", new VectorQuantityParameter(type, "other"),
+                $"int myHash = GetHashCode();"
+                + "\nint otherHash = other.GetHashCode();"
+                + "\nif (myHash > otherHash)"
+                + $"\n{Indent("return 1;")}"
+                + "\nelse if (myHash < otherHash)"
+                + $"\n{Indent("return -1;")}"
+                + "\nelse"
+                + $"\n{Indent("return 0;")}"
+            ));
             InstanceMethods.Space();
         }
+
+        /* Protected methods. */
+        protected abstract string ToStringImpl();
+        protected abstract string GetHashCodeImpl();
 
         /* Private methods. */
         /// <summary>

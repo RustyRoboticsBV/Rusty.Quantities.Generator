@@ -19,7 +19,7 @@
 
         public static VectorQuantityType Distance3D => new("Distance2D", Distance, 3);
         public static VectorQuantityType Speed3D => new("Speed3D", Speed, 3);
-        public static VectorQuantityType Acceleration3D => new("Acceleration2D", Acceleration, 3);
+        public static VectorQuantityType Acceleration3D => new("Acceleration3D", Acceleration, 3);
         public static VectorQuantityType Rotation3D => new("Rotation3D", Angle, 3);
         public static VectorQuantityType Direction3D => new("Direction3D", Numerics.Core, 3);
 

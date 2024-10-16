@@ -39,7 +39,7 @@
         public override string CastXTo(string vectorName, ScalarType type, string scope)
         {
             if (Size < 1)
-                return Numerics.Zero;
+                return type.Zero;
             else
             {
                 if (scope == Name)
@@ -52,7 +52,7 @@
         public override string CastYTo(string vectorName, ScalarType type, string scope)
         {
             if (Size < 2)
-                return Numerics.Zero;
+                return type.Zero;
             else
             {
                 if (scope == Name)
@@ -65,7 +65,7 @@
         public override string CastZTo(string vectorName, ScalarType type, string scope)
         {
             if (Size < 3)
-                return Numerics.Zero;
+                return type.Zero;
             else
             {
                 if (scope == Name)
@@ -78,7 +78,7 @@
         public override string CastWTo(string vectorName, ScalarType type, string scope)
         {
             if (Size < 4)
-                return Numerics.Zero;
+                return type.Zero;
             else
             {
                 if (scope == Name)

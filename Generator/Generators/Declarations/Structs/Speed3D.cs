@@ -3,12 +3,9 @@
     /// <summary>
     /// A 3D speed quantity struct generator.
     /// </summary>
-    public sealed class Speed3D : VectorQuantityStruct
+    public sealed class Speed3D : Vector3QuantityStruct
     {
         /* Constructors. */
-        public Speed3D(FormulaSet[] formulas) : base(Quantities.Speed3D, "Represents a 3D speed vector.")
-        {
-
-        }
+        public Speed3D(FormulaSet[] formulas) : base(Quantities.Speed3D, "Represents a 3D speed vector.") { }
     }
 }
