@@ -34,10 +34,10 @@ namespace Rusty.Quantities.Generator
                 Title = "Public properties.",
                 Members = new IStructMember[]
                 {
-                    GetProperty("Zero", Types.Convert("0.0", "double", Name), $"A {Name} object with the value 0."),
-                    GetProperty("One", Types.Convert("1.0", "double", Name), $"A {Name} object with the value 1."),
-                    GetProperty("Pi", Types.Convert("Math.PI", "double", Name), $"A {Name} object with the value π."),
-                    GetProperty("TwoPi", Types.Convert("2.0 * Math.PI", "double", Name), $"A {Name} object with the value 2π."),
+                    GetProperty("Zero", Types.Convert("0.0", "double", Name), $"A {LowercaseName} object with the value 0."),
+                    GetProperty("One", Types.Convert("1.0", "double", Name), $"A {LowercaseName} object with the value 1."),
+                    GetProperty("Pi", Types.Convert("Math.PI", "double", Name), $"A {LowercaseName} object with the value π."),
+                    GetProperty("TwoPi", Types.Convert("2.0 * Math.PI", "double", Name), $"A {LowercaseName} object with the value 2π."),
                     new Empty()
                 }
             };
@@ -134,8 +134,11 @@ namespace Rusty.Quantities.Generator
 
         public Constructor GetConstructor(string type)
         {
-            string implementation = "";
+            string summary = $"Create a new {LowercaseName} quantity from {Types.Adjectives[type]} {type} object.";
+            if (type == Name)
+                summary = $"Create a new {LowercaseName} quantity from another {LowercaseName} object.";
 
+            string implementation = "";
             if (type == "string")
                 implementation = $"if (double.TryParse(value, out double result))\n    this.value = result;";
             else
@@ -152,7 +155,7 @@ namespace Rusty.Quantities.Generator
 
             return new Constructor()
             {
-                Summary = $"Create a new {LowercaseName} quantity from {Types.Adjectives[type]} {type} object.",
+                Summary = summary,
                 TypeName = Name,
                 Parameters = new Parameter(type, "value"),
                 Implementation = implementation
@@ -192,7 +195,7 @@ namespace Rusty.Quantities.Generator
         {
             return new Method()
             {
-                Summary = $"Check if this {Name} object is equal to another object.",
+                Summary = $"Check if this {LowercaseName} quantity is equal to another object.",
                 Modifiers = MethodModifierID.Override,
                 ReturnType = "bool",
                 Name = "Equals",
@@ -205,7 +208,7 @@ namespace Rusty.Quantities.Generator
         {
             return new Method()
             {
-                Summary = $"Check if this {Name} object is equal to another {Name} object.",
+                Summary = $"Check if this {LowercaseName} quantity is equal to another one.",
                 ReturnType = "bool",
                 Name = "Equals",
                 Parameters = new Parameter(Name, "value"),
@@ -213,11 +216,11 @@ namespace Rusty.Quantities.Generator
             };
         }
 
-        public Method GetHashCode()
+        public new Method GetHashCode()
         {
             return new Method()
             {
-                Summary = $"Get a hash code for this object.",
+                Summary = $"Get a hash code for this {LowercaseName} quantity.",
                 Modifiers = MethodModifierID.Override,
                 ReturnType = "int",
                 Name = "GetHashCode",
@@ -237,7 +240,8 @@ namespace Rusty.Quantities.Generator
 
             return new Method()
             {
-                Summary = $"Compare two {Name} objects.",
+                Summary = $"Compare this {LowercaseName} quantity to another one. Returns -1 if it is smaller, 0 if it is "
+                    + "equal, and 1 if it is larger.",
                 Modifiers = MethodModifierID.Readonly,
                 Name = "CompareTo",
                 ReturnType = "int",
