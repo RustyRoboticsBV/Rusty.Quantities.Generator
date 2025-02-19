@@ -1,4 +1,6 @@
-﻿namespace Generators
+﻿using System;
+
+namespace Generators
 {
     /// <summary>
     /// A set of physics formulas that use the same parameters. Each individual formula should use a different target parameter,

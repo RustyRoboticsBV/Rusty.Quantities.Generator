@@ -1,4 +1,6 @@
-﻿namespace Generators
+﻿using System.Collections.Generic;
+
+namespace Generators
 {
     public class FormulaMethod : Method
     {

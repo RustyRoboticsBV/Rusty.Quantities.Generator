@@ -1,4 +1,6 @@
-﻿//#define PRINT_OUTPUT
+﻿using System.IO;
+
+//#define PRINT_OUTPUT
 namespace Generators
 {
     /// <summary>

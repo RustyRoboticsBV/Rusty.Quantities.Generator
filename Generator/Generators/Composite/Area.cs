@@ -1,4 +1,6 @@
-﻿namespace Generators
+﻿using System.Collections.Generic;
+
+namespace Generators
 {
     /// <summary>
     /// An area of generators, where the resulting code places the result of each generator on a new line.

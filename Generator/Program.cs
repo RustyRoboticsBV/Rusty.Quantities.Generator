@@ -1,4 +1,4 @@
-﻿using Generators;
+﻿/*using Generators;
 
 // Define parameters.
 FormulaParameter time = new FormulaParameter('t', "time", Quantities.Time);
@@ -28,4 +28,4 @@ CSFile.Generate(new Distance3D(formulas));
 CSFile.Generate(new Speed2D(formulas));
 CSFile.Generate(new Speed3D(formulas));
 CSFile.Generate(new Acceleration2D(formulas));
-CSFile.Generate(new Acceleration3D(formulas));
+CSFile.Generate(new Acceleration3D(formulas));*/

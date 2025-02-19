@@ -1,4 +1,4 @@
-﻿using Rusty.Quantities;
+﻿/*using Rusty.Quantities;
 
 Time time = 2;
 Speed constSpeed = 4;
@@ -55,4 +55,4 @@ Console.WriteLine("v (ust): " + Speed.CalcEndSpeedFromUST(startSpeed, distance, 
 Console.WriteLine("v (uat): " + Speed.CalcEndSpeedFromUAT(startSpeed, acceleration, time));
 Console.WriteLine("v (uas): " + Speed.CalcEndSpeedFromUAS(startSpeed, acceleration, distance));
 Console.WriteLine("v (ast): " + Speed.CalcEndSpeedFromAST(acceleration, distance, time));
-Console.WriteLine("");
+Console.WriteLine("");*/

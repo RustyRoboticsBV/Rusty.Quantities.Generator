@@ -1,4 +1,6 @@
-﻿namespace Generators
+﻿using System;
+
+namespace Generators
 {
     /// <summary>
     /// The category of numeric types: signed integer, unsigned integer, floating-point and the special decimal type.

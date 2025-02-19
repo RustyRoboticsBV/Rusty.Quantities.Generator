@@ -1,4 +1,6 @@
-﻿namespace Generators
+﻿using System.Collections.Generic;
+
+namespace Generators
 {
     /// <summary>
     /// Represents a single physics formula within a formula set.

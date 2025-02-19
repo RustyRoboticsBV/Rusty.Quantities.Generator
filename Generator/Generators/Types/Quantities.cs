@@ -1,4 +1,6 @@
-﻿namespace Generators
+﻿using System;
+
+namespace Generators
 {
     /// <summary>
     /// Contains some global constants related to quantity types.

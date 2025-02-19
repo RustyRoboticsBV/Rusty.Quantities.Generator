@@ -1,4 +1,6 @@
-﻿namespace Generators
+﻿using System;
+
+namespace Generators
 {
     /// <summary>
     /// Represents a scalar quantity struct type.
