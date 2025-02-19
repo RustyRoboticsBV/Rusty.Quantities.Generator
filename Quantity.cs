@@ -146,6 +146,7 @@ namespace Rusty.Quantities.Generator
                     Equals2(), Empty.Get,
                     GetHashCode(), Empty.Get,
                     CompareMethod(), Empty.Get,
+
                     Abs(true), Empty.Get,
                     Abs(false), Empty.Get,
                     Sign(true), Empty.Get,
@@ -153,7 +154,39 @@ namespace Rusty.Quantities.Generator
                     Truncate(true), Empty.Get,
                     Truncate(false), Empty.Get,
                     Frac(true), Empty.Get,
-                    Frac(false)
+                    Frac(false), Empty.Get,
+                    Dist(true), Empty.Get,
+                    Dist(false), Empty.Get,
+
+                    Pow(true), Empty.Get,
+                    Pow(false), Empty.Get,
+                    Sqrt(true), Empty.Get,
+                    Sqrt(false), Empty.Get,
+
+                    Min(true), Empty.Get,
+                    Min(false), Empty.Get,
+                    Max(true), Empty.Get,
+                    Max(false), Empty.Get,
+                    Clamp(true), Empty.Get,
+                    Clamp(false), Empty.Get,
+
+                    Round(true), Empty.Get,
+                    Round(false), Empty.Get,
+                    Floor(true), Empty.Get,
+                    Floor(false), Empty.Get,
+                    Ceil(true), Empty.Get,
+                    Ceil(false), Empty.Get,
+
+                    Sin(true), Empty.Get,
+                    Sin(false), Empty.Get,
+                    Cos(true), Empty.Get,
+                    Cos(false), Empty.Get,
+                    Tan(true), Empty.Get,
+                    Tan(false), Empty.Get,
+
+                    Step(true), Empty.Get,
+                    Step(false), Empty.Get,
+                    Lerp()
                 }
             };
             Members.Elements.Add(methodSection);
@@ -202,6 +235,7 @@ namespace Rusty.Quantities.Generator
                 Implementation = $"this.value = {Types.Convert("value", type, "double")};"
             };
         }
+
 
         public CastingOperator CastToOperator(string type)
         {
@@ -403,7 +437,7 @@ namespace Rusty.Quantities.Generator
 
             return new Method()
             {
-                Summary = $"Get the mathematical sign of {(@static ? Types.Adjectives[Name] : "this")} {LowercaseName} quantity.",
+                Summary = $"Return the mathematical sign of {(@static ? Types.Adjectives[Name] : "this")} {LowercaseName} quantity.",
                 Modifiers = @static ? MethodModifierID.Static : MethodModifierID.Readonly,
                 ReturnType = "int",
                 Name = "Sign",
@@ -424,7 +458,7 @@ namespace Rusty.Quantities.Generator
 
             return new Method()
             {
-                Summary = $"Get the absolute value of {(@static ? Types.Adjectives[Name] : "this")} {LowercaseName} quantity.",
+                Summary = $"Return the absolute value of {(@static ? Types.Adjectives[Name] : "this")} {LowercaseName} quantity.",
                 Modifiers = @static ? MethodModifierID.Static : MethodModifierID.Readonly,
                 ReturnType = Name,
                 Name = "Abs",
@@ -445,7 +479,7 @@ namespace Rusty.Quantities.Generator
 
             return new Method()
             {
-                Summary = $"Get the integral part of {(@static ? Types.Adjectives[Name] : "this")} {LowercaseName} quantity.",
+                Summary = $"Return the integral part of {(@static ? Types.Adjectives[Name] : "this")} {LowercaseName} quantity.",
                 Modifiers = @static ? MethodModifierID.Static : MethodModifierID.Readonly,
                 ReturnType = Name,
                 Name = "Truncate",
@@ -466,10 +500,352 @@ namespace Rusty.Quantities.Generator
 
             return new Method()
             {
-                Summary = $"Get the fractional part of {(@static ? Types.Adjectives[Name] : "this")} {LowercaseName} quantity.",
+                Summary = $"Return the fractional part of {(@static ? Types.Adjectives[Name] : "this")} {LowercaseName} quantity.",
                 Modifiers = @static ? MethodModifierID.Static : MethodModifierID.Readonly,
                 ReturnType = Name,
                 Name = "Frac",
+                Parameters = parameters,
+                Implementation = implementation
+            };
+        }
+
+        public Method Dist(bool @static)
+        {
+            string summary = $"Return the distance between this {LowercaseName} quantity and another one.";
+            if (@static)
+                summary = $"Return the distance between two {LowercaseName} quantities.";
+
+            ParameterList parameters = new Parameter(Name, "other");
+            if (@static)
+            {
+                parameters.Elements.Insert(0, new Parameter(Name, "a"));
+                parameters.Elements[1].Name = "b";
+            }
+
+            string implementation = $"return new {Name}(this > other ? this - other : other - this);";
+            if (@static)
+                implementation = "return a.Dist(b);";
+
+            return new Method()
+            {
+                Summary = summary,
+                Modifiers = @static ? MethodModifierID.Static : MethodModifierID.Readonly,
+                ReturnType = Name,
+                Name = "Dist",
+                Parameters = parameters,
+                Implementation = implementation
+            };
+        }
+
+
+        public Method Pow(bool @static)
+        {
+            ParameterList parameters = new Parameter(Name, "exponent");
+            if (@static)
+                parameters.Elements.Insert(0, new Parameter(Name, "value"));
+
+            string implementation = "return Math.Pow(value, exponent);";
+            if (@static)
+                implementation = "return value.Pow(exponent);";
+
+            return new Method()
+            {
+                Summary = $"Return the result of raising {(@static ? Types.Adjectives[Name] : "this")} {LowercaseName} quantity to some exponent.",
+                Modifiers = @static ? MethodModifierID.Static : MethodModifierID.Readonly,
+                ReturnType = Name,
+                Name = "Pow",
+                Parameters = parameters,
+                Implementation = implementation
+            };
+        }
+
+        public Method Sqrt(bool @static)
+        {
+            ParameterList parameters = new();
+            if (@static)
+                parameters = new Parameter(Name, "value");
+
+            string implementation = "return Math.Sqrt(value);";
+            if (@static)
+                implementation = "return value.Sqrt();";
+
+            return new Method()
+            {
+                Summary = $"Return the square root of {(@static ? Types.Adjectives[Name] : "this")} {LowercaseName} quantity.",
+                Modifiers = @static ? MethodModifierID.Static : MethodModifierID.Readonly,
+                ReturnType = Name,
+                Name = "Sqrt",
+                Parameters = parameters,
+                Implementation = implementation
+            };
+        }
+
+
+        public Method Min(bool @static)
+        {
+            string summary = $"Compare this {LowercaseName} quantity to another one and return the smallest one.";
+            if (@static)
+                summary = $"Return the smallest of two {LowercaseName} quantities.";
+
+            ParameterList parameters = new Parameter(Name, "other");
+            if (@static)
+            {
+                parameters.Elements.Insert(0, new Parameter(Name, "a"));
+                parameters.Elements[1].Name = "b";
+            }
+
+            string implementation = "return Math.Min(value, other.value);";
+            if (@static)
+                implementation = "return a.Min(b);";
+
+            return new Method()
+            {
+                Summary = summary,
+                Modifiers = @static ? MethodModifierID.Static : MethodModifierID.Readonly,
+                ReturnType = Name,
+                Name = "Min",
+                Parameters = parameters,
+                Implementation = implementation
+            };
+        }
+
+        public Method Max(bool @static)
+        {
+            string summary = $"Compare this {LowercaseName} quantity to another one and return the largest one.";
+            if (@static)
+                summary = $"Return the largest of two {LowercaseName} quantities.";
+
+            ParameterList parameters = new Parameter(Name, "other");
+            if (@static)
+            {
+                parameters.Elements.Insert(0, new Parameter(Name, "a"));
+                parameters.Elements[1].Name = "b";
+            }
+
+            string implementation = "return Math.Max(value, other.value);";
+            if (@static)
+                implementation = "return a.Max(b);";
+
+            return new Method()
+            {
+                Summary = summary,
+                Modifiers = @static ? MethodModifierID.Static : MethodModifierID.Readonly,
+                ReturnType = Name,
+                Name = "Max",
+                Parameters = parameters,
+                Implementation = implementation
+            };
+        }
+
+        public Method Clamp(bool @static)
+        {
+            string summary = $"Force this {LowercaseName} quantity into some numerical range.";
+            if (@static)
+                summary = $"Force a {LowercaseName} quantity into some numerical range.";
+
+            ParameterList parameters = new();
+            parameters.Elements.Add(new Parameter(Name, "min"));
+            parameters.Elements.Add(new Parameter(Name, "max"));
+            if (@static)
+                parameters.Elements.Insert(0, new Parameter(Name, "value"));
+
+            string implementation =
+                "if (value < min)" +
+                "\n    return min;" +
+                "\nelse if (value > max)" +
+                "\n    return max;" +
+                "\nelse" +
+                "\n    return value;";
+            if (@static)
+                implementation = "return value.Clamp(min, max);";
+
+            return new Method()
+            {
+                Summary = summary,
+                Modifiers = @static ? MethodModifierID.Static : MethodModifierID.Readonly,
+                ReturnType = Name,
+                Name = "Clamp",
+                Parameters = parameters,
+                Implementation = implementation
+            };
+        }
+
+
+        public Method Round(bool @static)
+        {
+            ParameterList parameters = new();
+            if (@static)
+                parameters = new Parameter(Name, "value");
+
+            string implementation = "return Math.Round(value);";
+            if (@static)
+                implementation = "return value.Round();";
+
+            return new Method()
+            {
+                Summary = $"Round {(@static ? Types.Adjectives[Name] : "this")} {LowercaseName} quantity and return the result.",
+                Modifiers = @static ? MethodModifierID.Static : MethodModifierID.Readonly,
+                ReturnType = Name,
+                Name = "Round",
+                Parameters = parameters,
+                Implementation = implementation
+            };
+        }
+
+        public Method Floor(bool @static)
+        {
+            ParameterList parameters = new();
+            if (@static)
+                parameters = new Parameter(Name, "value");
+
+            string implementation = "return Math.Floor(value);";
+            if (@static)
+                implementation = "return value.Floor();";
+
+            return new Method()
+            {
+                Summary = $"Round {(@static ? Types.Adjectives[Name] : "this")} {LowercaseName} quantity down to the nearest integer and return the result.",
+                Modifiers = @static ? MethodModifierID.Static : MethodModifierID.Readonly,
+                ReturnType = Name,
+                Name = "Floor",
+                Parameters = parameters,
+                Implementation = implementation
+            };
+        }
+
+        public Method Ceil(bool @static)
+        {
+            ParameterList parameters = new();
+            if (@static)
+                parameters = new Parameter(Name, "value");
+
+            string implementation = "return Math.Ceiling(value);";
+            if (@static)
+                implementation = "return value.Ceil();";
+
+            return new Method()
+            {
+                Summary = $"Round {(@static ? Types.Adjectives[Name] : "this")} {LowercaseName} quantity up to the nearest integer and return the result.",
+                Modifiers = @static ? MethodModifierID.Static : MethodModifierID.Readonly,
+                ReturnType = Name,
+                Name = "Ceil",
+                Parameters = parameters,
+                Implementation = implementation
+            };
+        }
+
+
+        public Method Sin(bool @static)
+        {
+            ParameterList parameters = new();
+            if (@static)
+                parameters.Elements.Add(new Parameter(Name, "value"));
+
+            string implementation = "return Math.Sin(value);";
+            if (@static)
+                implementation = "return value.Sin();";
+
+            return new Method()
+            {
+                Summary = $"Return the sine of {(@static ? Types.Adjectives[Name] : "this")} {LowercaseName} quantity.",
+                Modifiers = @static ? MethodModifierID.Static : MethodModifierID.Readonly,
+                ReturnType = Name,
+                Name = "Sin",
+                Parameters = parameters,
+                Implementation = implementation
+            };
+        }
+
+        public Method Cos(bool @static)
+        {
+            ParameterList parameters = new();
+            if (@static)
+                parameters.Elements.Add(new Parameter(Name, "value"));
+
+            string implementation = "return Math.Cos(value);";
+            if (@static)
+                implementation = "return value.Cos();";
+
+            return new Method()
+            {
+                Summary = $"Return the cosine of {(@static ? Types.Adjectives[Name] : "this")} {LowercaseName} quantity.",
+                Modifiers = @static ? MethodModifierID.Static : MethodModifierID.Readonly,
+                ReturnType = Name,
+                Name = "Cos",
+                Parameters = parameters,
+                Implementation = implementation
+            };
+        }
+
+        public Method Tan(bool @static)
+        {
+            ParameterList parameters = new();
+            if (@static)
+                parameters.Elements.Add(new Parameter(Name, "value"));
+
+            string implementation = "return Math.Tan(value);";
+            if (@static)
+                implementation = "return value.Tan();";
+
+            return new Method()
+            {
+                Summary = $"Return the tangent of {(@static ? Types.Adjectives[Name] : "this")} {LowercaseName} quantity.",
+                Modifiers = @static ? MethodModifierID.Static : MethodModifierID.Readonly,
+                ReturnType = Name,
+                Name = "Tan",
+                Parameters = parameters,
+                Implementation = implementation
+            };
+        }
+
+
+        public Method Step(bool @static)
+        {
+            ParameterList parameters = new();
+            parameters.Elements.Add(new Parameter(Name, "target"));
+            parameters.Elements.Add(new Parameter(Name, "stepSize"));
+            if (@static)
+            {
+                parameters.Elements.Insert(0, new Parameter(Name, "from"));
+                parameters.Elements[1].Name = "to";
+            }
+
+            string implementation =
+                "if (this < target)" +
+                "\n    return Min(this + stepSize.Abs(), target);" +
+                "\nelse if (this > target)" +
+                "\n    return Max(this - stepSize.Abs(), target);" +
+                "\nelse" +
+                "\n    return target;";
+            if (@static)
+                implementation = "return from.Step(to, stepSize);";
+
+            return new Method()
+            {
+                Summary = $"Return the result of stepping {(@static ? Types.Adjectives[Name] : "this")} {LowercaseName} quantity towards a target value, using some step size.",
+                Modifiers = @static ? MethodModifierID.Static : MethodModifierID.Readonly,
+                ReturnType = Name,
+                Name = "Step",
+                Parameters = parameters,
+                Implementation = implementation
+            };
+        }
+
+        public Method Lerp()
+        {
+            ParameterList parameters = new();
+            parameters.Elements.Add(new Parameter(Name, "a"));
+            parameters.Elements.Add(new Parameter(Name, "b"));
+            parameters.Elements.Add(new Parameter("double", "factor"));
+
+            string implementation = "return a + (b - a) * Math.Min(Math.Max(factor, 0.0), 1.0);";
+
+            return new Method()
+            {
+                Summary = $"Return the result of linearly-interpolating between two {LowercaseName} quantities, using some interpolation factor between 0 and 1.",
+                Modifiers = MethodModifierID.Static,
+                ReturnType = Name,
+                Name = "Lerp",
                 Parameters = parameters,
                 Implementation = implementation
             };
