@@ -1,5 +1,5 @@
 ﻿using Rusty.Quantities.Generator;
-using CSharpGenerator;
+using Rusty.CSharpGenerator;
 
 Quantity speed = new Quantity("Speed", "A speed quantity.");
 Namespace speedNamespace = new()

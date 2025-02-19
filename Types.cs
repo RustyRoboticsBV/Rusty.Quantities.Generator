@@ -69,7 +69,7 @@ namespace Rusty.Quantities.Generator
 
         public static HashSet<string> ScalarTypes => new HashSet<string>
         {
-            "Time", "Distance", "Speed", "Acceleration"
+            "Time", "Distance", "Speed", "Acceleration", "Angle"
         };
 
         public static HashSet<string> Vector2Types => new HashSet<string>
@@ -126,6 +126,10 @@ namespace Rusty.Quantities.Generator
             { "decimal", "0m" },
             { "char", "'0'" },
             { "string", "\"0\"" },
+            { "Vector2", "Vector2.Zero" },
+            { "Vector3", "Vector3.Zero" },
+            { "Quaternion", "Quaternion.FromEuler(Vector3.Zero)" },
+            { "Angle", "Angle.Zero" },
             { "Time", "Time.Zero" },
             { "Distance", "Distance.Zero" },
             { "Speed", "Speed.Zero" },
@@ -155,6 +159,10 @@ namespace Rusty.Quantities.Generator
             { "char", "'1'" },
             { "string", "\"1\"" },
             { "Time", "Time.One" },
+            { "Vector2", "Vector2.Zero" },
+            { "Vector3", "Vector3.One" },
+            { "Quaternion", "Quaternion.FromEuler(Vector3.One)" },
+            { "Angle", "Angle.One" },
             { "Distance", "Distance.One" },
             { "Speed", "Speed.One" },
             { "Acceleration", "Acceleration.One" },
@@ -193,8 +201,11 @@ namespace Rusty.Quantities.Generator
                 || size2 == 16 && size1 != 16 && FloatTypes.Contains(type1);
         }
 
-        public static string Convert(string value, string fromType, string toType)
+        public static string Convert(string value, string fromType, string toType, string scope = "")
         {
+            if (scope == "")
+                scope = fromType;
+
             if (fromType == toType)
                 return value;
 
@@ -247,6 +258,9 @@ namespace Rusty.Quantities.Generator
 
             if (ScalarTypes.Contains(fromType))
             {
+                if (scope != fromType)
+                    return Convert($"(double){value}", "double", toType, scope);
+
                 if (PrimitiveTypes.Contains(toType))
                     return Convert($"{value}.value", "double", toType);
 

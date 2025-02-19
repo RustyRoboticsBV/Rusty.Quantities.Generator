@@ -1,5 +1,4 @@
-﻿using CSharpGenerator;
-using System.Collections.Generic;
+﻿using Rusty.CSharpGenerator;
 
 namespace Rusty.Quantities.Generator
 {
@@ -25,7 +24,7 @@ namespace Rusty.Quantities.Generator
                 Title = "Fields.",
                 Members = new IStructMember[]
                 {
-                    GetField(), Empty.Get
+                    Field("value"), Empty.Get
                 }
             };
             Members.Elements.Add(fieldSection);
@@ -35,10 +34,10 @@ namespace Rusty.Quantities.Generator
                 Title = "Public properties.",
                 Members = new IStructMember[]
                 {
-                    GetProperty("Zero", Types.Convert("0.0", "double", Name), $"A {LowercaseName} object with the value 0."),
-                    GetProperty("One", Types.Convert("1.0", "double", Name), $"A {LowercaseName} object with the value 1."),
-                    GetProperty("Pi", Types.Convert("Math.PI", "double", Name), $"A {LowercaseName} object with the value π."),
-                    GetProperty("TwoPi", Types.Convert("2.0 * Math.PI", "double", Name), $"A {LowercaseName} object with the value 2π."),
+                    Property("Zero", Types.Convert("0.0", "double", Name), $"A {LowercaseName} object with the value 0."),
+                    Property("One", Types.Convert("1.0", "double", Name), $"A {LowercaseName} object with the value 1."),
+                    Property("Pi", Types.Convert("Math.PI", "double", Name), $"A {LowercaseName} object with the value π."),
+                    Property("TwoPi", Types.Convert("2.0 * Math.PI", "double", Name), $"A {LowercaseName} object with the value 2π."),
                     Empty.Get
                 }
             };
@@ -49,21 +48,21 @@ namespace Rusty.Quantities.Generator
                 Title = "Constructors.",
                 Members = new IStructMember[]
                 {
-                    GetConstructor(name), Empty.Get,
-                    GetConstructor("bool"), Empty.Get,
-                    GetConstructor("sbyte"), Empty.Get,
-                    GetConstructor("byte"), Empty.Get,
-                    GetConstructor("short"), Empty.Get,
-                    GetConstructor("ushort"), Empty.Get,
-                    GetConstructor("int"), Empty.Get,
-                    GetConstructor("uint"), Empty.Get,
-                    GetConstructor("long"), Empty.Get,
-                    GetConstructor("ulong"), Empty.Get,
-                    GetConstructor("float"), Empty.Get,
-                    GetConstructor("double"), Empty.Get,
-                    GetConstructor("decimal"), Empty.Get,
-                    GetConstructor("char"), Empty.Get,
-                    GetConstructor("string"), Empty.Get
+                    Constructor(name), Empty.Get,
+                    Constructor("bool"), Empty.Get,
+                    Constructor("sbyte"), Empty.Get,
+                    Constructor("byte"), Empty.Get,
+                    Constructor("short"), Empty.Get,
+                    Constructor("ushort"), Empty.Get,
+                    Constructor("int"), Empty.Get,
+                    Constructor("uint"), Empty.Get,
+                    Constructor("long"), Empty.Get,
+                    Constructor("ulong"), Empty.Get,
+                    Constructor("float"), Empty.Get,
+                    Constructor("double"), Empty.Get,
+                    Constructor("decimal"), Empty.Get,
+                    Constructor("char"), Empty.Get,
+                    Constructor("string"), Empty.Get
                 }
             };
             Members.Elements.Add(constructorSection);
@@ -73,34 +72,34 @@ namespace Rusty.Quantities.Generator
                 Title = "Casting operators.",
                 Members = new IStructMember[]
                 {
-                    GetCastTo("bool"), Empty.Get,
-                    GetCastTo("sbyte"), Empty.Get,
-                    GetCastTo("byte"), Empty.Get,
-                    GetCastTo("short"), Empty.Get,
-                    GetCastTo("ushort"), Empty.Get,
-                    GetCastTo("int"), Empty.Get,
-                    GetCastTo("uint"), Empty.Get,
-                    GetCastTo("long"), Empty.Get,
-                    GetCastTo("ulong"), Empty.Get,
-                    GetCastTo("float"), Empty.Get,
-                    GetCastTo("double"), Empty.Get,
-                    GetCastTo("decimal"), Empty.Get,
-                    GetCastTo("char"), Empty.Get,
-                    GetCastTo("string"), Empty.Get,
-                    GetCastFrom("bool"), Empty.Get,
-                    GetCastFrom("sbyte"), Empty.Get,
-                    GetCastFrom("byte"), Empty.Get,
-                    GetCastFrom("short"), Empty.Get,
-                    GetCastFrom("ushort"), Empty.Get,
-                    GetCastFrom("int"), Empty.Get,
-                    GetCastFrom("uint"), Empty.Get,
-                    GetCastFrom("long"), Empty.Get,
-                    GetCastFrom("ulong"), Empty.Get,
-                    GetCastFrom("float"), Empty.Get,
-                    GetCastFrom("double"), Empty.Get,
-                    GetCastFrom("decimal"), Empty.Get,
-                    GetCastFrom("char"), Empty.Get,
-                    GetCastFrom("string"), Empty.Get
+                    CastToOperator("bool"), Empty.Get,
+                    CastToOperator("sbyte"), Empty.Get,
+                    CastToOperator("byte"), Empty.Get,
+                    CastToOperator("short"), Empty.Get,
+                    CastToOperator("ushort"), Empty.Get,
+                    CastToOperator("int"), Empty.Get,
+                    CastToOperator("uint"), Empty.Get,
+                    CastToOperator("long"), Empty.Get,
+                    CastToOperator("ulong"), Empty.Get,
+                    CastToOperator("float"), Empty.Get,
+                    CastToOperator("double"), Empty.Get,
+                    CastToOperator("decimal"), Empty.Get,
+                    CastToOperator("char"), Empty.Get,
+                    CastToOperator("string"), Empty.Get,
+                    CastFromOperator("bool"), Empty.Get,
+                    CastFromOperator("sbyte"), Empty.Get,
+                    CastFromOperator("byte"), Empty.Get,
+                    CastFromOperator("short"), Empty.Get,
+                    CastFromOperator("ushort"), Empty.Get,
+                    CastFromOperator("int"), Empty.Get,
+                    CastFromOperator("uint"), Empty.Get,
+                    CastFromOperator("long"), Empty.Get,
+                    CastFromOperator("ulong"), Empty.Get,
+                    CastFromOperator("float"), Empty.Get,
+                    CastFromOperator("double"), Empty.Get,
+                    CastFromOperator("decimal"), Empty.Get,
+                    CastFromOperator("char"), Empty.Get,
+                    CastFromOperator("string"), Empty.Get
                 }
             };
             Members.Elements.Add(castSection);
@@ -110,41 +109,58 @@ namespace Rusty.Quantities.Generator
                 Title = "Casting operators.",
                 Members = new IStructMember[]
                 {
-                    GetComparison(ComparisonOperatorID.Equal), Empty.Get,
-                    GetComparison(ComparisonOperatorID.NotEqual), Empty.Get,
-                    GetComparison(ComparisonOperatorID.Less), Empty.Get,
-                    GetComparison(ComparisonOperatorID.Greater), Empty.Get,
-                    GetComparison(ComparisonOperatorID.LessOrEqual), Empty.Get,
-                    GetComparison(ComparisonOperatorID.GreaterOrEqual), Empty.Get
+                    ComparisonOperator(ComparisonOperatorID.Equal), Empty.Get,
+                    ComparisonOperator(ComparisonOperatorID.NotEqual), Empty.Get,
+                    ComparisonOperator(ComparisonOperatorID.Less), Empty.Get,
+                    ComparisonOperator(ComparisonOperatorID.Greater), Empty.Get,
+                    ComparisonOperator(ComparisonOperatorID.LessOrEqual), Empty.Get,
+                    ComparisonOperator(ComparisonOperatorID.GreaterOrEqual), Empty.Get
                 }
             };
             Members.Elements.Add(compareSection);
+
+            StructSection mathOperators = new()
+            {
+                Title = "Math operators.",
+                Members = new IStructMember[]
+                {
+                    BinaryMathOperator(BinaryMathOperatorID.Add), Empty.Get,
+                    BinaryMathOperator(BinaryMathOperatorID.Subtract), Empty.Get,
+                    BinaryMathOperator(BinaryMathOperatorID.Multiply), Empty.Get,
+                    BinaryMathOperator(BinaryMathOperatorID.Divide), Empty.Get,
+                    BinaryMathOperator(BinaryMathOperatorID.Modulo), Empty.Get,
+                    UnaryMinusOperator(), Empty.Get,
+                    IncrementOperator(), Empty.Get,
+                    DecrementOperator(), Empty.Get,
+                }
+            };
+            Members.Elements.Add(mathOperators);
 
             StructSection methodSection = new()
             {
                 Title = "Public methods.",
                 Members = new IStructMember[]
                 {
-                    GetToString(), Empty.Get,
-                    GetEquals(), Empty.Get,
-                    GetEquals2(), Empty.Get,
+                    ToString(), Empty.Get,
+                    Equals(), Empty.Get,
+                    Equals2(), Empty.Get,
                     GetHashCode(), Empty.Get,
-                    GetCompare(), Empty.Get,
-                    GetAbs(true), Empty.Get,
-                    GetAbs(false), Empty.Get,
-                    GetSign(true), Empty.Get,
-                    GetSign(false), Empty.Get,
-                    GetTruncate(true), Empty.Get,
-                    GetTruncate(false), Empty.Get,
-                    GetFrac(true), Empty.Get,
-                    GetFrac(false)
+                    CompareMethod(), Empty.Get,
+                    Abs(true), Empty.Get,
+                    Abs(false), Empty.Get,
+                    Sign(true), Empty.Get,
+                    Sign(false), Empty.Get,
+                    Truncate(true), Empty.Get,
+                    Truncate(false), Empty.Get,
+                    Frac(true), Empty.Get,
+                    Frac(false)
                 }
             };
             Members.Elements.Add(methodSection);
         }
 
         /* Public methods. */
-        public Field GetField()
+        public Field Field(string name)
         {
             return new Field()
             {
@@ -154,11 +170,11 @@ namespace Rusty.Quantities.Generator
 #endif
                 Modifier = FieldModifierID.Readonly,
                 Type = "double",
-                Name = "value"
+                Name = name
             };
         }
 
-        public Property GetProperty(string name, string value, string summary)
+        public Property Property(string name, string value, string summary)
         {
             return new Property()
             {
@@ -171,7 +187,8 @@ namespace Rusty.Quantities.Generator
             };
         }
 
-        public Constructor GetConstructor(string type)
+
+        public Constructor Constructor(string type)
         {
             string summary = $"Create a new {LowercaseName} quantity from {Types.Adjectives[type]} {type} object.";
             if (type == Name)
@@ -186,7 +203,7 @@ namespace Rusty.Quantities.Generator
             };
         }
 
-        public CastingOperator GetCastTo(string type)
+        public CastingOperator CastToOperator(string type)
         {
             return new CastingOperator()
             {
@@ -198,7 +215,7 @@ namespace Rusty.Quantities.Generator
             };
         }
 
-        public CastingOperator GetCastFrom(string type)
+        public CastingOperator CastFromOperator(string type)
         {
             return new CastingOperator()
             {
@@ -210,35 +227,98 @@ namespace Rusty.Quantities.Generator
             };
         }
 
-        public ComparisonOperator GetComparison(ComparisonOperatorID @operator)
+        public ComparisonOperator ComparisonOperator(ComparisonOperatorID id)
         {
             string adj = Types.Adjectives[Name];
             string summary = $"Check if {adj} {LowercaseName} quantity is numerically equal to another one.";
-            if (@operator == ComparisonOperatorID.NotEqual)
+            if (id == ComparisonOperatorID.NotEqual)
                 summary = summary.Replace("numerically equal", "NOT numerically equal");
-            else if (@operator == ComparisonOperatorID.Less)
+            else if (id == ComparisonOperatorID.Less)
                 summary = summary.Replace("equal to", "smaller than");
-            else if (@operator == ComparisonOperatorID.Greater)
+            else if (id == ComparisonOperatorID.Greater)
                 summary = summary.Replace("equal to", "greater than");
-            else if (@operator == ComparisonOperatorID.LessOrEqual)
+            else if (id == ComparisonOperatorID.LessOrEqual)
                 summary = summary.Replace("equal to", "smaller than or equal to");
-            else if (@operator == ComparisonOperatorID.GreaterOrEqual)
+            else if (id == ComparisonOperatorID.GreaterOrEqual)
                 summary = summary.Replace("equal to", "greater than or equal than");
 
-            ComparisonOperatorSymbol symbol = @operator;
+            ComparisonOperatorSymbol symbol = id;
 
             return new ComparisonOperator()
             {
                 Summary = summary,
                 ReturnType = "bool",
-                Operator = @operator,
+                Operator = id,
                 Operand1 = new Parameter(Name, "a"),
                 Operand2 = new Parameter(Name, "b"),
                 Implementation = $"return {Types.Convert("a", Name, "double")} {symbol.Generate()} {Types.Convert("b", Name, "double")};"
             };
         }
 
-        public Method GetToString()
+        public BinaryMathOperator BinaryMathOperator(BinaryMathOperatorID id)
+        {
+            string adj = Types.Adjectives[Name];
+            string summary = $"Return the result of adding two {LowercaseName} quantities.";
+            if (id == BinaryMathOperatorID.Subtract)
+                summary = $"Return the result of subtracting {adj} {LowercaseName} quantity from another.";
+            if (id == BinaryMathOperatorID.Multiply)
+                summary = summary.Replace("adding", "multiplying");
+            if (id == BinaryMathOperatorID.Divide)
+                summary = $"Return the result of dividing {adj} {LowercaseName} quantity by another.";
+            if (id == BinaryMathOperatorID.Modulo)
+                summary = $"Return the remainder of dividing {adj} {LowercaseName} quantity by another.";
+
+            BinaryMathOperatorSymbol symbol = id;
+
+            return new BinaryMathOperator()
+            {
+                Summary = summary,
+                ReturnType = Name,
+                Operator = id,
+                Operand1 = new Parameter(Name, "a"),
+                Operand2 = new Parameter(Name, "b"),
+                Implementation = $"return new {Name}({Types.Convert("a", Name, "double")} {symbol.Generate()} {Types.Convert("b", Name, "double")});"
+            };
+        }
+
+        public UnaryMathOperator UnaryMinusOperator()
+        {
+            return new UnaryMathOperator()
+            {
+                Summary = $"Return this {LowercaseName} quantity made negative.",
+                ReturnType = Name,
+                Operator = UnaryMathOperatorID.Negative,
+                Operand = new Parameter(Name, "value"),
+                Implementation = $"return new {Name}(-{Types.Convert("value", Name, "double")});"
+            };
+        }
+
+        public UnaryMathOperator IncrementOperator()
+        {
+            return new UnaryMathOperator()
+            {
+                Summary = $"Return this {LowercaseName} quantity incremented with 1.",
+                ReturnType = Name,
+                Operator = UnaryMathOperatorID.Increment,
+                Operand = new Parameter(Name, "value"),
+                Implementation = $"return new {Name}({Types.Convert("value", Name, "double")} + 1.0);"
+            };
+        }
+
+        public UnaryMathOperator DecrementOperator()
+        {
+            return new UnaryMathOperator()
+            {
+                Summary = $"Return this {LowercaseName} quantity decremented with 1.",
+                ReturnType = Name,
+                Operator = UnaryMathOperatorID.Decrement,
+                Operand = new Parameter(Name, "value"),
+                Implementation = $"return new {Name}({Types.Convert("value", Name, "double")} - 1.0);"
+            };
+        }
+
+
+        public new Method ToString()
         {
             return new Method()
             {
@@ -250,7 +330,7 @@ namespace Rusty.Quantities.Generator
             };
         }
 
-        public Method GetEquals()
+        public Method Equals()
         {
             return new Method()
             {
@@ -263,7 +343,7 @@ namespace Rusty.Quantities.Generator
             };
         }
 
-        public Method GetEquals2()
+        public Method Equals2()
         {
             return new Method()
             {
@@ -288,7 +368,7 @@ namespace Rusty.Quantities.Generator
             };
         }
 
-        public Method GetCompare()
+        public Method CompareMethod()
         {
             string implementation =
                 $"if (this > other)" +
@@ -310,7 +390,8 @@ namespace Rusty.Quantities.Generator
             };
         }
 
-        public Method GetSign(bool @static)
+
+        public Method Sign(bool @static)
         {
             ParameterList parameters = new();
             if (@static)
@@ -331,7 +412,7 @@ namespace Rusty.Quantities.Generator
             };
         }
 
-        public Method GetAbs(bool @static)
+        public Method Abs(bool @static)
         {
             ParameterList parameters = new();
             if (@static)
@@ -352,7 +433,7 @@ namespace Rusty.Quantities.Generator
             };
         }
 
-        public Method GetTruncate(bool @static)
+        public Method Truncate(bool @static)
         {
             ParameterList parameters = new();
             if (@static)
@@ -373,7 +454,7 @@ namespace Rusty.Quantities.Generator
             };
         }
 
-        public Method GetFrac(bool @static)
+        public Method Frac(bool @static)
         {
             ParameterList parameters = new();
             if (@static)

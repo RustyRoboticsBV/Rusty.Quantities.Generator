@@ -1,6 +1,4 @@
-﻿using CSharpGenerator;
-
-namespace Generators
+﻿namespace Generators
 {
     /// <summary>
     /// A map method.
