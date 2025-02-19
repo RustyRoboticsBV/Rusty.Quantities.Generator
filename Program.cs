@@ -1,5 +1,4 @@
-﻿using System;
-using Rusty.Quantities.Generator;
+﻿using Rusty.Quantities.Generator;
 using CSharpGenerator;
 
 Quantity speed = new Quantity("Speed", "A speed quantity.");
@@ -14,4 +13,4 @@ File speedFile = new()
     Usings = "System",
     Members = speedNamespace
 };
-Console.WriteLine(speedFile.Generate());
+speedFile.WriteToDisk();
