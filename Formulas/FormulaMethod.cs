@@ -34,6 +34,8 @@ namespace Rusty.Quantities.Generator
                     implementation += Types.Convert(parameter.CamelCase, parameter.Type, "double", scope);
                 }
 
+                else if (equation.Body.Substring(i).StartsWith("1/2"))
+                    implementation += "0.5";
                 else if (equation.Body.Substring(i).StartsWith('+'))
                     implementation += " + ";
                 else if (equation.Body.Substring(i).StartsWith('-'))
