@@ -66,7 +66,8 @@ namespace Rusty.Quantities.Generator
                     Constructor("double"), Empty.Get,
                     Constructor("decimal"), Empty.Get,
                     Constructor("char"), Empty.Get,
-                    Constructor("string"), Empty.Get
+                    Constructor("string"), Empty.Get,
+                    ObjConstructor(), Empty.Get
                 }
             };
             Members.Elements.Add(constructorSection);
@@ -267,6 +268,51 @@ namespace Rusty.Quantities.Generator
                 TypeName = Name,
                 Parameters = new Parameter(type, "value"),
                 Implementation = $"this.value = {Types.Convert("value", type, "double")};"
+            };
+        }
+
+        public string GetObjCase(string type, string name)
+        {
+            if (type == "IScalarQuantity")
+            {
+                return $"\n    case {type} {name}:"
+                     + $"\n        this = new {Name}({name});"
+                      + "\n        break;";
+            }
+
+            return $"\n    case {type} {name}:"
+                 + $"\n        this = {name};"
+                  + "\n        break;";
+        }
+
+        public Constructor ObjConstructor()
+        {
+            string implementation =
+                "switch (value)"
+                + "\n{"
+                + GetObjCase("IScalarQuantity", "q")
+                + GetObjCase("bool", "b")
+                + GetObjCase("sbyte", "i8")
+                + GetObjCase("short", "i16")
+                + GetObjCase("int", "i32")
+                + GetObjCase("long", "i64")
+                + GetObjCase("byte", "u8")
+                + GetObjCase("ushort", "u16")
+                + GetObjCase("uint", "u32")
+                + GetObjCase("ulong", "u64")
+                + GetObjCase("float", "f32")
+                + GetObjCase("double", "f64")
+                + GetObjCase("decimal", "f128")
+                + GetObjCase("char", "c")
+                + GetObjCase("string", "s")
+                + "\n}";
+
+            return new Constructor()
+            {
+                Summary = $"Create a new {LowercaseName} quantity from a generic object. Results in the value 0 if the object cannot be converted.",
+                TypeName = Name,
+                Parameters = new Parameter("object", "value"),
+                Implementation = implementation
             };
         }
 
