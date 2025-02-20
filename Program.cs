@@ -1,6 +1,34 @@
 ﻿using Rusty.Quantities.Generator;
 using Rusty.CSharpGenerator;
 
+// Interface.
+Interface scalar = new()
+{
+    Summary = "A scalar quantity type, based on the double type.",
+    Name = "IScalarQuantity",
+    Members = new IInterfaceMember[]
+    {
+        new Property()
+        {
+            Summary = $"The internal value of this quantity.",
+            Type = "double",
+            Name = "Value",
+            Setter = null
+        }
+    }
+};
+Namespace scalarNamespace = new()
+{
+    Name = "Rusty.Quantities",
+    Members = scalar
+};
+File scalarFile = new()
+{
+    Name = "IScalarQuantity.cs",
+    Members = scalarNamespace
+};
+scalarFile.WriteToDisk();
+
 // Axis.
 Enum axis = new()
 {

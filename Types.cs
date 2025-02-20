@@ -98,6 +98,7 @@ namespace Rusty.Quantities.Generator
             { "decimal", "a" },
             { "char", "a" },
             { "string", "a" },
+            { "IScalarQuantity", "a" },
             { "Time", "a" },
             { "Distance", "a" },
             { "Speed", "a" },
@@ -203,6 +204,9 @@ namespace Rusty.Quantities.Generator
 
         public static string Convert(string value, string fromType, string toType, string scope = "")
         {
+            if (fromType == "IScalarQuantity")
+                return Convert($"{value}.Value", "double", toType, scope);
+
             if (scope == "")
                 scope = fromType;
 
@@ -267,16 +271,16 @@ namespace Rusty.Quantities.Generator
                     return Convert($"(double){value}", "double", toType, scope);
 
                 if (PrimitiveTypes.Contains(toType))
-                    return Convert($"{value}.value", "double", toType);
+                    return Convert($"{value}.value", "double", toType, scope);
 
                 if (ScalarTypes.Contains(toType))
-                    return $"new {toType}({Convert($"{value}.value", fromType, "double")})";
+                    return $"new {toType}({Convert($"{value}.value", fromType, "double", scope)})";
 
                 if (Vector2Types.Contains(toType))
-                    return $"new {toType}({Convert($"{value}.value", fromType, "double")}, 0.0)";
+                    return $"new {toType}({Convert($"{value}.value", fromType, "double", scope)}, 0.0)";
 
                 if (Vector3Types.Contains(toType))
-                    return $"new {toType}({Convert($"{value}.value", fromType, "double")}, 0.0, 0.0)";
+                    return $"new {toType}({Convert($"{value}.value", fromType, "double", scope)}, 0.0, 0.0)";
             }
 
             return value;

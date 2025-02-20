@@ -61,9 +61,6 @@ namespace Rusty.Quantities.Generator
                     implementation += equation.Body[i];
             }
 
-            System.Console.WriteLine(equation.Body);
-            System.Console.WriteLine(implementation);
-
             Summary = $"Calculate {equation.Result.Lowercase} from {summaryArguments}.";
             Modifiers = MethodModifierID.Static;
             ReturnType = equation.Result.Type;

@@ -18,7 +18,7 @@ namespace Rusty.Quantities.Generator
             Attributes = "Serializable";
             Modifier = StructModifierID.Readonly;
             Name = name;
-            Inheritance = $"IEquatable<{Name}>, IComparable<{Name}>";
+            Inheritance = $"IScalarQuantity, IEquatable<{Name}>, IComparable<{Name}>";
 
             StructSection fieldSection = new()
             {
@@ -35,10 +35,12 @@ namespace Rusty.Quantities.Generator
                 Title = "Public properties.",
                 Members = new IStructMember[]
                 {
-                    Property("Zero", Types.Convert("0.0", "double", Name), $"A {LowercaseName} object with the value 0."),
-                    Property("One", Types.Convert("1.0", "double", Name), $"A {LowercaseName} object with the value 1."),
-                    Property("Pi", Types.Convert("Math.PI", "double", Name), $"A {LowercaseName} object with the value π."),
-                    Property("TwoPi", Types.Convert("2.0 * Math.PI", "double", Name), $"A {LowercaseName} object with the value 2π."),
+                    StaticProperty("Zero", Types.Convert("0.0", "double", Name), $"A {LowercaseName} object with the value 0."),
+                    StaticProperty("One", Types.Convert("1.0", "double", Name), $"A {LowercaseName} object with the value 1."),
+                    StaticProperty("Pi", Types.Convert("Math.PI", "double", Name), $"A {LowercaseName} object with the value π."),
+                    StaticProperty("TwoPi", Types.Convert("2.0 * Math.PI", "double", Name), $"A {LowercaseName} object with the value 2π."),
+                    Empty.Get,
+                    ValueProperty(),
                     Empty.Get
                 }
             };
@@ -50,6 +52,7 @@ namespace Rusty.Quantities.Generator
                 Members = new IStructMember[]
                 {
                     Constructor(name), Empty.Get,
+                    Constructor("IScalarQuantity"), Empty.Get,
                     Constructor("bool"), Empty.Get,
                     Constructor("sbyte"), Empty.Get,
                     Constructor("byte"), Empty.Get,
@@ -221,7 +224,7 @@ namespace Rusty.Quantities.Generator
             };
         }
 
-        public Property Property(string name, string value, string summary)
+        public Property StaticProperty(string name, string value, string summary)
         {
             return new Property()
             {
@@ -234,10 +237,27 @@ namespace Rusty.Quantities.Generator
             };
         }
 
+        public Property ValueProperty()
+        {
+            return new Property()
+            {
+                Summary = $"The internal value of this {LowercaseName} quantity.",
+                Modifier = PropertyModifierID.Readonly,
+                Type = "double",
+                Name = "Value",
+                Getter = "value",
+                Setter = null
+            };
+        }
+
 
         public Constructor Constructor(string type)
         {
-            string summary = $"Create a new {LowercaseName} quantity from {Types.Adjectives[type]} {type} object.";
+            string typeName = type;
+            if (typeName == "IScalarQuantity")
+                typeName = "scalar quantity";
+
+            string summary = $"Create a new {LowercaseName} quantity from {Types.Adjectives[type]} {typeName} object.";
             if (type == Name)
                 summary = $"Create a new {LowercaseName} quantity from another {LowercaseName} object.";
 
