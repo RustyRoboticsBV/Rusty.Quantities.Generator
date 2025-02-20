@@ -221,7 +221,12 @@ namespace Rusty.Quantities.Generator
             if (fromType == "char")
             {
                 if (PrimitiveTypes.Contains(toType))
-                    return $"{toType}({value} - '0')";
+                {
+                    if (MustCast("char", toType))
+                        return $"({toType})({value} - '0')";
+                    else
+                        return $"{value} - '0'";
+                }
             }
 
             if (toType == "string" && fromType != "string")
@@ -230,7 +235,7 @@ namespace Rusty.Quantities.Generator
             if (fromType == "string")
             {
                 if (PrimitiveTypes.Contains(toType))
-                    return $"({toType}.TryParse({value}, out {toType} result)) ? result : {Zero[toType]}";
+                    return $"{toType}.TryParse({value}, out {toType} result) ? result : {Zero[toType]}";
             }
 
             if (PrimitiveTypes.Contains(fromType))
