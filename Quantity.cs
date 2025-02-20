@@ -1,4 +1,5 @@
 ﻿using Rusty.CSharpGenerator;
+using System.Collections.Generic;
 
 namespace Rusty.Quantities.Generator
 {
@@ -131,7 +132,7 @@ namespace Rusty.Quantities.Generator
                     BinaryMathOperator(BinaryMathOperatorID.Modulo), Empty.Get,
                     UnaryMinusOperator(), Empty.Get,
                     IncrementOperator(), Empty.Get,
-                    DecrementOperator(), Empty.Get,
+                    DecrementOperator(), Empty.Get
                 }
             };
             Members.Elements.Add(mathOperators);
@@ -186,10 +187,23 @@ namespace Rusty.Quantities.Generator
 
                     Step(true), Empty.Get,
                     Step(false), Empty.Get,
-                    Lerp()
+                    Lerp(), Empty.Get
                 }
             };
+            Method[] formulaMethods = GetFormulaMethods();
+            foreach (Method method in formulaMethods)
+            {
+                methodSection.Members.Elements.Add(method);
+                methodSection.Members.Elements.Add(Empty.Get);
+            }
             Members.Elements.Add(methodSection);
+
+            StructSection privateMethods = new()
+            {
+                Title = "Private methods.",
+                Members = Pow2()
+            };
+            Members.Elements.Add(privateMethods);
         }
 
         /* Public methods. */
@@ -580,6 +594,19 @@ namespace Rusty.Quantities.Generator
             };
         }
 
+        public Method Pow2()
+        {
+            return new Method()
+            {
+                Access = AccessID.Private,
+                Modifiers = MethodModifierID.Static,
+                ReturnType = Name,
+                Name = "Pow2",
+                Parameters = new Parameter("double", "value"),
+                Implementation = "return value * value;"
+            };
+        }
+
 
         public Method Min(bool @static)
         {
@@ -849,6 +876,21 @@ namespace Rusty.Quantities.Generator
                 Parameters = parameters,
                 Implementation = implementation
             };
+        }
+
+
+        public Method[] GetFormulaMethods()
+        {
+            List<Method> result = new();
+            foreach (Formula formula in Formulas.All)
+            {
+                foreach (Equation equation in formula.Variants)
+                {
+                    if (equation.Result.Type == Name)
+                        result.Add(new FormulaMethod(equation, Name));
+                }
+            }
+            return result.ToArray();
         }
     }
 }
