@@ -1,6 +1,10 @@
 ﻿using Rusty.Quantities.Generator;
 using Rusty.CSharpGenerator;
 
+//Character character = new();
+//System.Console.WriteLine((string)character.CalcJumpStartSpeed(5, -9.81));
+//System.Console.WriteLine((double)character.CalcAccelerationDistance(0, 10, 5));
+
 // Interface.
 Interface scalar = new()
 {

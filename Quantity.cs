@@ -273,6 +273,13 @@ namespace Rusty.Quantities.Generator
 
         public string GetObjCase(string type, string name)
         {
+            if (type == "default")
+            {
+                return $"\n    default:"
+                     + $"\n        this = new {Name}(0.0);"
+                      + "\n        break;";
+            }
+
             if (type == "IScalarQuantity")
             {
                 return $"\n    case {type} {name}:"
@@ -305,6 +312,8 @@ namespace Rusty.Quantities.Generator
                 + GetObjCase("decimal", "f128")
                 + GetObjCase("char", "c")
                 + GetObjCase("string", "s")
+                + GetObjCase("default", "")
+
                 + "\n}";
 
             return new Constructor()
