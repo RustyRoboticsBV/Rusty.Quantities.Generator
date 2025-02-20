@@ -61,10 +61,14 @@ namespace Rusty.Quantities.Generator
                     implementation += equation.Body[i];
             }
 
+            string name = equation.Result.PascalCase.Replace("Constant", "Const");
+            if (name == scope)
+                name = "";
+
             Summary = $"Calculate {equation.Result.Lowercase} from {summaryArguments}.";
             Modifiers = MethodModifierID.Static;
             ReturnType = equation.Result.Type;
-            Name = $"{equation.Result.PascalCase}From{symbolArguments}";
+            Name = $"{name}From{symbolArguments}";
             Parameters = parameters.ToArray();
             Implementation = $"return {implementation};";
         }

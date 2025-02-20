@@ -11,24 +11,35 @@ namespace Rusty.Quantities.Generator
         public Equation(string equation)
         {
             string[] substrs = equation.Split('=');
+
+            // Store result parameter.
             Result = FormulaParameters.Parameters[substrs[0][0]];
 
+            // Store body.
             Body = substrs[1];
-            List<FormulaParameter> arguments = new();
-            string found = "";
+
+            // Collect parameter symbols.
+            string symbols = new string(' ', FormulaParameters.Order.Length);
             for (int i = 0; i < Body.Length; i++)
             {
                 char symbol = Body[i];
                 if (FormulaParameters.Parameters.ContainsKey(symbol))
                 {
-                    if (!found.Contains(symbol))
+                    if (!symbols.Contains(symbol))
                     {
-                        arguments.Add(FormulaParameters.Parameters[Body[i]]);
-                        found = found + symbol;
+                        int index = FormulaParameters.Order.IndexOf(symbol);
+                        symbols = symbols.Substring(0, index) + symbol + symbols.Substring(index + 1);
                     }
                 }
             }
-            Arguments = arguments.ToArray();
+            symbols = symbols.Replace(" ", "");
+
+            // Convert found symbols to argument list.
+            Arguments = new FormulaParameter[symbols.Length];
+            for (int i = 0; i < symbols.Length; i++)
+            {
+                Arguments[i] = FormulaParameters.Parameters[symbols[i]];
+            }
         }
     }
 }
