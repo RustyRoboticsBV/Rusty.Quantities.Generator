@@ -54,7 +54,7 @@ File axisFile = new()
 axisFile.WriteToDisk();
 
 // Time.
-Quantity time = new Quantity("Time", "A time quantity.");
+Quantity time = new Time();
 Namespace timeNamespace = new()
 {
     Name = "Rusty.Quantities",
@@ -69,7 +69,7 @@ File timeFile = new()
 timeFile.WriteToDisk();
 
 // Distance.
-Quantity distance = new Quantity("Distance", "A distance quantity.");
+Quantity distance = new Distance();
 Namespace distanceNamespace = new()
 {
     Name = "Rusty.Quantities",
@@ -84,7 +84,7 @@ File distanceFile = new()
 distanceFile.WriteToDisk();
 
 // Speed.
-Quantity speed = new Quantity("Speed", "A speed quantity.");
+Speed speed = new();
 Namespace speedNamespace = new()
 {
     Name = "Rusty.Quantities",
@@ -100,7 +100,7 @@ speedFile.WriteToDisk();
 
 
 // Acceleration.
-Quantity acceleration = new Quantity("Acceleration", "An acceleration quantity.");
+Quantity acceleration = new Acceleration();
 Namespace accelerationNamespace = new()
 {
     Name = "Rusty.Quantities",

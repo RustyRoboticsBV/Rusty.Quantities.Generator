@@ -11,6 +11,10 @@ namespace Rusty.Quantities.Generator
         /* Public properties. */
         public string LowercaseName => Name.ToLower();
 
+        public StructSection CastOperators { get; private set; }
+        public StructSection MathOperators { get; private set; }
+        public StructSection Methods { get; private set; }
+
         /* Constructors. */
         public Quantity(string name, string summary) : base()
         {
@@ -72,7 +76,7 @@ namespace Rusty.Quantities.Generator
             };
             Members.Elements.Add(constructorSection);
 
-            StructSection castSection = new()
+            CastOperators = new()
             {
                 Title = "Casting operators.",
                 Members = new IStructMember[]
@@ -107,7 +111,7 @@ namespace Rusty.Quantities.Generator
                     CastFromOperator("string"), Empty.Get
                 }
             };
-            Members.Elements.Add(castSection);
+            Members.Elements.Add(CastOperators);
 
             StructSection compareSection = new()
             {
@@ -124,7 +128,7 @@ namespace Rusty.Quantities.Generator
             };
             Members.Elements.Add(compareSection);
 
-            StructSection mathOperators = new()
+            MathOperators = new()
             {
                 Title = "Math operators.",
                 Members = new IStructMember[]
@@ -139,9 +143,9 @@ namespace Rusty.Quantities.Generator
                     DecrementOperator(), Empty.Get
                 }
             };
-            Members.Elements.Add(mathOperators);
+            Members.Elements.Add(MathOperators);
 
-            StructSection methodSection = new()
+            Methods = new()
             {
                 Title = "Public methods.",
                 Members = new IStructMember[]
@@ -197,10 +201,10 @@ namespace Rusty.Quantities.Generator
             Method[] formulaMethods = GetFormulaMethods();
             foreach (Method method in formulaMethods)
             {
-                methodSection.Members.Elements.Add(method);
-                methodSection.Members.Elements.Add(Empty.Get);
+                Methods.Members.Elements.Add(method);
+                Methods.Members.Elements.Add(Empty.Get);
             }
-            Members.Elements.Add(methodSection);
+            Members.Elements.Add(Methods);
 
             StructSection privateMethods = new()
             {
